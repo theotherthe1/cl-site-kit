@@ -342,14 +342,11 @@ body:has(.hp-hero):has(#search.srchCtr:focus-within) .wrapper.masthead {
     filter: brightness(0);
 }
 
-/* Newsletter copy - Templeton Jones voice (content strings frozen in 06) */
+/* Newsletter heading tracking. The COPY is no longer overridden here: 06 reads
+   --copy-newsletterTitle / --copy-newsletterBody from 01-CC-Brand.css, so this
+   client's words live in the reskin surface with every other string. */
 #modular-footer-wrapper > div.modular-footer-socials::before {
-    content: "Stay in touch";
     letter-spacing: 0.12em;
-}
-
-.modular-footer-newsletter---container:before {
-    content: "New arrivals from the brands we love, seasonal edits and stories from Shrewsbury, Abersoch and Newport.";
 }
 
 /* Ghost newsletter input: quiet hairline, not the button border 06 wires */

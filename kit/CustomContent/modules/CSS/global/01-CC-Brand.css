@@ -114,3 +114,55 @@
     --navSolid-icons: var(--brand-focus);
 }
 
+
+/* ===========================================================================
+   COPY
+   ---------------------------------------------------------------------------
+   Every word the CSS puts on the page. Read that twice: these are strings the
+   STYLESHEET writes, not content the client edits in the back office.
+
+   They exist because the platform emits the element and we cannot re-template
+   it — there is no markup to put words into, so a ::before is the only way in.
+   That is fine; what is not fine is those words hiding inside a framework file.
+   Before this block existed, 06-CC-Footer.css shipped a previous client's
+   newsletter blurb about "the latest bikes", and only a matching override
+   buried in 99 stopped it reaching production. Now every string is here, in
+   the one file a build already edits, where a wrong one is impossible to miss.
+
+   Each consumer reads var(--copy-x, "<neutral default>"), so a token you leave
+   unset degrades to something bland and correct rather than blank.
+
+   TWO tokens intentionally default to nothing rather than to words:
+     --copy-signature       defaults to `none`, which removes the pseudo-element
+                            outright. It is a decorative flourish; a client who
+                            sets nothing gets no signature line at all.
+     --copy-statementEyebrow  defaults to "" — an EMPTY STRING, not `none`. The
+                            same ::before also draws the statement stripe's
+                            opening hairline via border-top, so `none` would
+                            delete the rule and take the hairline with it.
+
+   Anything a client should be able to edit themselves belongs in a banner
+   collection or an FAF repeater in the back office, NOT here.
+   =========================================================================== */
+:root {
+
+    /* Footer newsletter — platform-emitted (#modular-footer-wrapper), read by 06 */
+    --copy-newsletterTitle: "Stay in touch";
+    --copy-newsletterBody: "New arrivals from the brands we love, seasonal edits and stories from Shrewsbury, Abersoch and Newport.";
+
+    /* Homepage stripes — no CMS field exists for either of these */
+    --copy-statementEyebrow: "About Us";
+    --copy-signature: "Shrewsbury \00A0\00B7\00A0 Abersoch \00A0\00B7\00A0 Newport";
+
+    /* PDP (detail) — platform-emitted product page furniture */
+    --copy-otherColours: "Other Colours Available";
+    --copy-rrp: "RRP ";
+
+    /* PLP (faf) — platform-emitted listing furniture and stock states */
+    --copy-addToCart: "Add To Cart";
+    --copy-stockNotification: "Stock Notification";
+    --copy-specialOrder: "Special Order";
+    --copy-comingSoon: "Coming Soon";
+    --copy-search: "Search";
+}
+

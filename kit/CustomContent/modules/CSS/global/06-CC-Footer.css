@@ -192,7 +192,7 @@ div#modular-footer-wrapper .fixed {
 }
 
 #modular-footer-wrapper > div.modular-footer-socials::before {
-    content: "Join Our Newsletter";
+    content: var(--copy-newsletterTitle, "Join Our Newsletter");
     font-family: var(--font-bold);
     display: block;
     margin-bottom: 0.5em;
@@ -471,7 +471,7 @@ div#modular-footer-wrapper .fixed {
 
 /* Newsletter description text */
 .modular-footer-newsletter---container:before {
-    content: "Get training tips, competitions, nutritional advice, the latest bikes, product info and more.";
+    content: var(--copy-newsletterBody, "Sign up for news and offers.");
     display: block;
     margin-bottom: 1rem;
     opacity: .8;

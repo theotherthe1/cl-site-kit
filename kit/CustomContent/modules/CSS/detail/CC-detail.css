@@ -93,7 +93,7 @@
 /* Color picker header text */
 #firstdetails .productColourPicker.colourPicker::before,
 #firstdetails .productColourPicker .colourPicker::before {
-    content: "Other Colours Available";
+    content: var(--copy-otherColours, "Other Colours Available");
     color: var(--detail-textColor);
     font-size: var(--detail-textSize);
     display: block;
@@ -165,7 +165,7 @@ span#productPrice {
 }
 
 .standardPrice:before {
-    content: "RRP "
+    content: var(--copy-rrp, "RRP ");
 }
 
 /* ==================== CTA Button Styles ==================== */
@@ -510,7 +510,7 @@ div#detailMivThumb {
 }
 
 .productColourPicker:before {
-    content: "Other Colours Available: ";
+    content: var(--copy-otherColours, "Other Colours Available") ": ";
     font-size: var(--detail-textSize);
     margin-top: 0 !important;
 }

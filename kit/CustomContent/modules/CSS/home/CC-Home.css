@@ -1037,7 +1037,7 @@
    band-opening FULL-WIDTH HAIRLINE it carries as border-top (align-self
    stretch spans the flex column; var(--border) so the rule actually renders) */
 .hp-about__body::before {
-    content: "About Us";
+    content: var(--copy-statementEyebrow, "");
     align-self: stretch;
     border-top: 1px solid var(--border);
     padding-top: var(--text-block-wrap);
@@ -1138,7 +1138,7 @@
 /* the SIGNATURE — the three towns sign the page off, tiny and letterspaced,
    echoing the wordmark lockup that opens it. No competitor ships these towns. */
 .hp-stay-inspired > .cc-collection .cc-banner__body::after {
-    content: "Shrewsbury \00A0\00B7\00A0 Abersoch \00A0\00B7\00A0 Newport";
+    content: var(--copy-signature, none);
     font-family: var(--font-body);
     font-size: var(--fontSize-xs);
     letter-spacing: 0.22em;

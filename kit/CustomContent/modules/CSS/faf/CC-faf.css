@@ -225,7 +225,7 @@ a.col-1.frItemName {
 /* Different stock status variations */
 /* In stock items */
 .stockStatus-True.stockStatus-True:before {
-    content: "Add To Cart" !important;
+    content: var(--copy-addToCart, "Add To Cart") !important;
     background: var(--faf-addToCart-background) !important;
     border: var(--faf-addToCart-border) !important;
     color: var(--faf-addToCart-color) !important;
@@ -234,7 +234,7 @@ a.col-1.frItemName {
 
 /* Out of stock items */
 .stockStatus-false.stockStatus-false:before {
-    content: "Stock Notification";
+    content: var(--copy-stockNotification, "Stock Notification");
     background: var(--status-out-of-stock) !important;
     border: 1px solid var(--status-out-of-stock-dark) !important;
     color: var(--text-inverse) !important;
@@ -243,7 +243,7 @@ a.col-1.frItemName {
 /* Special order items */
 .stockStatus-SpecialOrder.stockStatus-SpecialOrder:before,
 .stockStatus-PreOrder.stockStatus-PreOrder:before {
-    content: "Special Order";
+    content: var(--copy-specialOrder, "Special Order");
     background: var(--status-special-order) !important;
     border: 1px solid var(--status-special-order-dark) !important;
     color: var(--text-inverse) !important;
@@ -251,7 +251,7 @@ a.col-1.frItemName {
 
 /* Coming soon items */
 .stockStatus-ComingSoon.stockStatus-ComingSoon:before {
-    content: "Coming Soon";
+    content: var(--copy-comingSoon, "Coming Soon");
     background: var(--status-coming-soon) !important;
     border: 1px solid var(--status-coming-soon-dark) !important;
     color: var(--text-inverse) !important;
@@ -845,7 +845,7 @@ span.standardPrice-betterSearch{
 }    
 
     .FAFFiltersReorder .FacetSearch > div:before{
-        content: "Search";
+        content: var(--copy-search, "Search");
         font-family: var(--font-bold);
     }
     
