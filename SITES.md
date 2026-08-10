@@ -13,7 +13,7 @@ site's own file is the truth and this table is stale.
 
 | Site | Path | Kit commit | Last pushed | Notes |
 |---|---|---|---|---|
-| Templeton Jones | `\\dev-ecom-sofs\Websites\TEMP.dev.citruslime.com\SiteSpecific\CustomContent` | `ea32883` | 2026-08-10 | The site the kit was extracted from. Opts in to the transparent nav. Banner images and FAF repeater 1 are unpopulated, so image-dependent QA is still outstanding. One framework file behind HEAD. |
+| Templeton Jones | `\\dev-ecom-sofs\Websites\TEMP.dev.citruslime.com\SiteSpecific\CustomContent` | `a3a91e0` | 2026-08-10 | The site the kit was extracted from, and the only one on it so far. Opts in to the transparent nav, so it is the worked example of that switch. Two blocks in its `99` are deliberately not promoted (single-row nav, search pill). Banner `ImagePath` values point at files that are not in `/images/`, and FAF repeater 1 is empty, so `hp-product-rail` does not render and every image-dependent QA check is still outstanding. Lint passes; browser QA not yet done. |
 
 ## Adding a site
 
