@@ -247,7 +247,7 @@
     grid-template-columns: minmax(15rem, 1fr) 3.2fr;
     gap: clamp(1.5rem, 3vw, 3rem);
     align-items: start;
-    padding-inline: clamp(1.25rem, 2.8vw, 3rem); /* content gutter */
+    padding-inline: var(--gutter); /* content gutter */
     padding-bottom: 3.25rem; /* reserves the arrow row at the rail's foot */
     position: relative;      /* arrows anchor to the whole band */
 }
@@ -420,12 +420,12 @@
 }
 
 .hp-new-in .splide__arrow--prev {
-    left: clamp(1.25rem, 2.8vw, 3rem);
+    left: var(--gutter);
     right: auto;
 }
 
 .hp-new-in .splide__arrow--next {
-    left: calc(clamp(1.25rem, 2.8vw, 3rem) + 2.75rem);
+    left: calc(var(--gutter) + 2.75rem);
     right: auto;
 }
 
@@ -598,7 +598,7 @@
     text-align: left;
     max-width: none;
     margin: 0;
-    padding: 0 clamp(1.25rem, 2.8vw, 3rem);
+    padding: 0 var(--gutter);
 }
 
 .hp-brands .CC-HomepageTitles .cc-collection .cc-banner {
@@ -696,7 +696,7 @@
 /* the logo drift — greyscale at rest, brand colour breathes back on hover.
    Content-height strip (logo row): NO fixed splide height chain here. */
 .hp-brands > .cc-collection {
-    padding: clamp(2.5rem, 4vw, 3.5rem) clamp(1.25rem, 2.8vw, 3rem) 0;
+    padding: clamp(2.5rem, 4vw, 3.5rem) var(--gutter) 0;
 }
 
 .hp-brands .splide__slide {
@@ -912,7 +912,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-    padding-inline: clamp(1.25rem, 2.8vw, 3rem);
+    padding-inline: var(--gutter);
 }
 
 .hp-usp > .cc-collection .cc-banner {
@@ -1026,7 +1026,7 @@
 }
 
 .hp-about__body {
-    padding-inline: clamp(1.25rem, 2.8vw, 3rem);
+    padding-inline: var(--gutter);
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -1086,7 +1086,7 @@
     position: static;
     inset: auto;
     background: none;
-    padding: 0 clamp(1.25rem, 2.8vw, 3rem);
+    padding: 0 var(--gutter);
     gap: 1.1rem;
     align-items: center;
     text-align: center;

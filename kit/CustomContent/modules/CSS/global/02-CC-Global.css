@@ -106,20 +106,41 @@ body {
     /* Motion */
     --global-transition: 0.3s ease;
 
-    /* Font scale -- fluid clamp, except sm/md which are pinned so they render
-       at a flat 14px / 16px on every viewport (rem, so user zoom still scales
-       them; 1rem = 16px at the default root size).
-       The clamp minimum is what small viewports get, so the floors on xs and
-       lg..3xl are set for mobile legibility; each ramp reaches its max around
-       1440px. */
-    --fontSize-xs: 0.825rem;
+    /* Font scale
+       -----------------------------------------------------------------------
+       The small end (xs..md) is PINNED: flat sizes on every viewport, because
+       body copy, labels and inputs want a constant reading size, not one that
+       shrinks with the window. They stay in rem so user zoom still scales them
+       (1rem = 16px at the default root size).
+
+       The display end (mdl..3xl) is FLUID. Each ramp hits its floor at a 375px
+       viewport and its ceiling at 1440px, and every ceiling is the size this
+       scale used to be pinned at — so nothing changes at 1440px and wider, and
+       below that headings come down to something a phone can hold instead of
+       staying at a flat 48px.
+
+       The middles are written `rem + vw`, never bare `vw`. A bare-vw middle
+       ignores the user's font size and breaks browser zoom; the rem term keeps
+       zoom working.
+
+       mdl is a new step. The scale used to jump straight from 1rem to 2rem with
+       nothing in between, so any sub-heading either shouted or sat at body size
+       and bands invented their own one-off values to cope. */
+    --fontSize-xs:   0.825rem;
     --fontSize-sm:   0.875rem;
     --fontSize-base: 0.925rem;
     --fontSize-md:   1rem;
-    --fontSize-lg: 2rem;
-    --fontSize-xl: 2.25rem;
-    --fontSize-2xl: 2.5rem;
-    --fontSize-3xl: 3rem;
+    --fontSize-mdl:  clamp(1.15rem, 1.027rem + 0.526vw, 1.5rem);
+    --fontSize-lg:   clamp(1.5rem,  1.324rem + 0.751vw, 2rem);
+    --fontSize-xl:   clamp(1.65rem, 1.439rem + 0.901vw, 2.25rem);
+    --fontSize-2xl:  clamp(1.8rem,  1.554rem + 1.052vw, 2.5rem);
+    --fontSize-3xl:  clamp(2rem,    1.648rem + 1.502vw, 3rem);
+
+    /* Content gutter -- the inline padding every full-bleed stripe holds its
+       text off the viewport edge with. This exact clamp was repeated verbatim
+       in eight places in CC-Home.css; it is one token now so the stripes cannot
+       drift apart. */
+    --gutter: clamp(1.25rem, 2.8vw, 3rem);
 
 
 
