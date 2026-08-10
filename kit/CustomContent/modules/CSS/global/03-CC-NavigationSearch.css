@@ -1,4 +1,4 @@
-/* ==================== Navigation Variables - Templeton Jones ==================== */
+/* ==================== Navigation Variables ==================== */
 :root {
     /* Navigation Typography */
     --nav-fontSize: var(--fontSize-sm);
@@ -19,6 +19,50 @@
     --navIcons: var(--text-inverse);
     --navLinks: oklch(from var(--text-inverse) l c h / 0.85);
     --navLinks-hover: var(--text-inverse);
+
+    /* Bar chrome switches -- each of these was a rule-level override in a
+       client layer before. Retune in 01-CC-Brand.css; do not re-add rules.
+
+         --navBorderBottom       the accent seam under the bar. Set to 0 where
+                                 the bar (or a full-bleed hero beneath it)
+                                 provides its own edge.
+         --navItemsLetterSpacing tracking on the top-level nav links.
+         --navItemsTextTransform case of those links. Leave `none` to let the
+                                 CMS author's own capitalisation stand.
+         --navUnderline-display  the underline-draw hover device on nav links.
+                                 `none` disables it; hover feedback then comes
+                                 from the --navLinks -> --navLinks-hover shift.
+         --ctaStrip-display      the platform CTA strip above the bar
+                                 (TopSubBanner.ascx). `none` hides it. It is
+                                 applied to the strip's WRAPPER, not to
+                                 .ctaContainer: the wrapper is what paints
+                                 --ctaBackground, and hiding it takes the
+                                 container inside it with it. One token, and
+                                 .ctaContainer keeps its own flex layout for
+                                 whenever the strip IS shown. */
+    --navBorderBottom: 2px solid var(--brand-link-light);
+    --navItemsLetterSpacing: normal;
+    --navItemsTextTransform: none;
+    --navUnderline-display: block;
+    --ctaStrip-display: block;
+
+    /* Masked brand assets -- see the Brand Assets section at the foot of this
+       file. These are PATHS, deliberately defaulted rather than left unset: a
+       reskin replaces the FILES at these paths, exactly as it does with the
+       fonts. Override a URL here only if a client's asset layout differs.
+
+       They must not be left to fall back, because the failure mode is silent
+       and bad: an unset var() in mask-image computes to `none`, while the
+       companion `content: ""` has already blanked the platform icon-font
+       glyph -- so the icons would disappear rather than degrade.
+
+       (`generalLyout` is misspelled. It is the established folder name on
+       every existing site and is baked into asset URLs; left as found.) */
+    --navIconSize: 22px;
+    --logo: url('/layout/generalLyout/logo.svg');
+    --icon-bag: url('/layout/generalLyout/icons/bag.svg');
+    --icon-account: url('/layout/generalLyout/icons/account.svg');
+    --icon-search: url('/layout/generalLyout/icons/search.svg');
 
     /* Sale Link Styles */
     --sale-color: var(--text-inverse);
@@ -85,9 +129,10 @@
 }
 
 /* ==================== Navigation Solid State ====================
-   HOMEPAGE ONLY. There the bar floats transparent over the hero (99), and it
-   has to become solid whenever transparency would break it. Two ways in, one
-   look - white bar, --brand-focus contents:
+   Applies wherever body.cl-nav-over-hero is set - in practice the homepage.
+   There the bar floats transparent over the hero (Transparent-over-hero, at
+   the foot of this file), and it has to become solid whenever transparency
+   would break it. Two ways in, one look - white bar, --brand-focus contents:
 
      the bar is SCROLLED   past 20px (.is-scrolled, homepage-nav.js)
      a PANEL is open       dropdown / mobile hamburger / account / search
@@ -99,15 +144,16 @@
    Implemented by re-pointing the four nav colour tokens rather than writing
    a parallel set of rules: every rule below already reads --navBackground /
    --navLinks / --navLinks-hover / --navIcons, so the whole bar follows - text,
-   icons and the masked wordmark (99 paints it with --navLinks-hover) - with no
-   new selectors and no specificity fight. The knobs are --navSolid-* in
-   01-CC-Brand: ONE set for both triggers, so the two can never disagree.
+   icons and the masked wordmark (Brand Assets paints it with --navLinks-hover)
+   - with no new selectors and no specificity fight. The knobs are --navSolid-*
+   in 01-CC-Brand: ONE set for both triggers, so the two can never disagree.
 
-   Backgrounds are the exception and cannot be done by token: 99's
+   Backgrounds are the exception and cannot be done by token:
    `body.cl-nav-over-hero .wrapper.masthead { background: transparent !important }`
    is a literal at (0,3,1) and has to be beaten declaration-to-declaration.
-   Scrolled is handled below; the panel-open cases are in 99 beside the rule
-   they override. Keep those trigger lists in step with this one.
+   Scrolled is handled below; the panel-open cases sit beside that transparent
+   rule in Transparent-over-hero at the foot of this file. Keep those trigger
+   lists in step with this one - all three now live in THIS file.
 
    On the triggers themselves:
      open-slide-menu  mobile hamburger panel. Stamped in two places by the
@@ -165,7 +211,7 @@ body.cl-nav-over-hero:has(#search.srchCtr:focus-within) {
 /* Background & Borders */
 .wrapper.masthead {
     background: var(--navBackground) !important;
-    border-bottom: 2px solid var(--brand-link-light);
+    border-bottom: var(--navBorderBottom);
     /* One 400ms curve for every way this bar changes surface - the open state
        and the scroll state are the same physical bar and must move alike.
        NB the desktop block below re-declares `transition` for height; this
@@ -196,6 +242,8 @@ body.cl-nav-over-hero:has(#search.srchCtr:focus-within) {
     color: var(--navLinks);
     padding: 0;
     font-size: var(--nav-fontSize);
+    letter-spacing: var(--navItemsLetterSpacing);
+    text-transform: var(--navItemsTextTransform);
 }
 
 .wrapper.masthead .NodeLevel0 > a:hover,
@@ -441,7 +489,7 @@ body.cl-nav-over-hero:has(#search.srchCtr:focus-within) {
     }
 
     .wrapper.masthead .NodeLevel0 > a::before {
-        display: block;
+        display: var(--navUnderline-display);
         content: '';
         position: absolute;
         width: 100%;
@@ -638,6 +686,7 @@ body {
 .ctaContainer {display: flex;justify-content: flex-start;top: 0; background: transparent;}
 
 .wrapper:has(.ctaContainer) {
+    display: var(--ctaStrip-display);
     background: var(--ctaBackground);
 }
 
@@ -878,4 +927,150 @@ body.cl-nav-over-hero .wrapper.masthead.is-scrolled {
 
 .menu-icons-header > [data-link="basket"] {
     order: 3;
+}
+
+
+/* ===========================================================================
+   BRAND ASSETS -- wordmark and nav icons as CSS MASKS
+   ---------------------------------------------------------------------------
+   Promoted out of the client layer: this is mechanism every client needs and
+   only the asset FILES differ. The technique is a mask filled with
+   currentColor, so an asset inherits whatever ink the bar is painting and
+   follows a reskin, a scroll state and a transparent-over-hero state with no
+   second copy of the file and no edit here.
+
+   To reskin: replace the files under /layout/generalLyout/. The URLs are
+   tokens (--logo, --icon-bag, --icon-account, --icon-search) declared at the
+   top of this file, so a client with a different asset layout can repoint
+   them from 01-CC-Brand.css instead.
+   =========================================================================== */
+
+/* --- Wordmark ---
+   The platform <img> is left in flow so the container keeps exactly the box it
+   already had (sized in the Logo section above); only the PAINT changes. */
+.logoContainer {
+    -webkit-mask: var(--logo) left center / contain no-repeat;
+            mask: var(--logo) left center / contain no-repeat;
+    background-color: currentColor;
+}
+
+/* .logoContainer has no colour of its own -- the masthead only paints
+   --navLinks onto the nav anchors -- so give it the nav's full-strength ink.
+   This is the ONE knob: change `color` here and the wordmark follows, over a
+   hero photo and a solid bar alike. */
+.wrapper.masthead .logoContainer {
+    color: var(--navLinks-hover);
+}
+
+/* --- Nav icons (bag / account / search) ---
+   The platform emits these as icon-font glyphs in .menu-icons-header, each
+   toggle tagged with a data-link:
+
+     <div class="icon-head"        data-link="login"><div id="loggedInPip"></div></div>
+     <div class="icon-bag"         data-link="basket"><div class="basketPip">0</div></div>
+     <div class="icon-menu mobile" data-link="navi"></div>
+     <div class="icon-search"      data-link="search"></div>
+
+   Keyed on data-link rather than the icon-font class names: the data-link
+   states the toggle's JOB, so a platform icon-font rename cannot silently
+   blank an icon.
+
+   The mask sits on ::before, not on the toggle. Two reasons: it replaces the
+   glyph in place, so no `visibility: hidden` dance is needed; and a mask on
+   the toggle itself would clip the pips nested inside it -- .basketPip (08)
+   and #loggedInPip.
+
+   The hamburger (data-link="navi") is deliberately NOT in this list. Blanking
+   a glyph without supplying a mask renders it invisible, and there is no
+   hamburger asset. That is also why these rules enumerate three toggles
+   instead of reusing the *[class*="icon-"] wildcard above.
+
+   Search needs both selectors: the .menu-icons-header toggle is hidden
+   elsewhere in this file, and the visible glyph is the
+   <span class="icon-search"> inside #search. Everything is scoped to the
+   masthead / #search, so the PDP's .cc-lookup-service-lookupbutton.icon-search
+   keeps the platform glyph. */
+.wrapper.masthead [data-link="basket"]::before,
+.wrapper.masthead [data-link="login"]::before,
+.wrapper.masthead [data-link="search"]::before,
+#search.srchCtr .icon-search::before {
+    content: "";
+    display: inline-block;
+    width: var(--navIconSize);
+    height: var(--navIconSize);
+    vertical-align: middle;
+    /* currentColor, NOT a --navSolid-* token: the toggle already gets
+       `color: var(--navIcons)` from the Nav Icon rules above, and the Solid
+       State block re-points --navIcons per state. Naming a state token here
+       would pin the icons to ONE state and break transparent-over-hero. */
+    background-color: currentColor;
+    -webkit-mask-position: center;
+            mask-position: center;
+    -webkit-mask-repeat: no-repeat;
+            mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+            mask-size: contain;
+}
+
+.wrapper.masthead [data-link="basket"]::before {
+    -webkit-mask-image: var(--icon-bag);
+            mask-image: var(--icon-bag);
+}
+
+.wrapper.masthead [data-link="login"]::before {
+    -webkit-mask-image: var(--icon-account);
+            mask-image: var(--icon-account);
+}
+
+.wrapper.masthead [data-link="search"]::before,
+#search.srchCtr .icon-search::before {
+    -webkit-mask-image: var(--icon-search);
+            mask-image: var(--icon-search);
+}
+
+
+/* ===========================================================================
+   TRANSPARENT-OVER-HERO -- the remainder of the mode
+   ---------------------------------------------------------------------------
+   Promoted out of the client layer so the whole mode lives in one file. The
+   Solid State block at the top of this file re-points the token set; the
+   Scrolled Surface block above paints the scrolled fill. These are the last
+   two pieces: the at-rest transparency, and the panel-open cases that have to
+   beat it declaration-to-declaration.
+
+   Gated on body.cl-nav-over-hero, set in the page markup. Interior pages
+   never carry it and keep the solid bar in every state.
+
+   ORDER MATTERS AND IS PRESERVED. This block sat in 99 (which loads after
+   03-08) as one contiguous run. It is appended at the very END of 03, so its
+   position relative to every rule in this file is unchanged, and its internal
+   order is unchanged. The .active rule must stay ABOVE the panel-open list:
+   the two tie at (0,4,1) and the panel-open cases win on order alone.
+   =========================================================================== */
+
+/* The hero slides under the fixed bar, so the body offset comes off. */
+body.cl-nav-over-hero {
+    padding-top: 0 !important;
+}
+
+body.cl-nav-over-hero .wrapper.masthead {
+    background: transparent !important;
+}
+
+body.cl-nav-over-hero .wrapper.masthead.active {
+    background: var(--navBackground) !important;
+}
+
+/* The transparent rule above is a literal `transparent !important`, not a
+   token, so the Solid State block cannot reach it by re-pointing
+   --navBackground -- it has to be beaten declaration-to-declaration. This is
+   the case that state exists for: an open menu hanging off an invisible bar is
+   the bug. The trigger list mirrors Solid State's exactly; keep the two in
+   step. Each selector clears the transparent rule's (0,3,1) by one class. */
+body.cl-nav-over-hero.open-slide-menu .wrapper.masthead,
+body.cl-nav-over-hero:has(.open-slide-menu) .wrapper.masthead,
+body.cl-nav-over-hero:has(.wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active) .wrapper.masthead,
+body.cl-nav-over-hero:has(.wrapper.masthead .tbcntOpen) .wrapper.masthead,
+body.cl-nav-over-hero:has(#search.srchCtr:focus-within) .wrapper.masthead {
+    background: var(--navSolid-background) !important;
 }

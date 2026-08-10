@@ -1,176 +1,93 @@
-/* ==================== 99-CC-Custom.css - Templeton Jones ====================
-   Per-client chrome layer. Loads LAST - wins over every 0x platform file.
-   REWRITE FROM SCRATCH for each new client: stale rules here override the
-   next skin. Platform files 03-08 carry only variable retunes; every
-   rule-level customisation for THIS client lives below.
+/* ==================== 99-CC-Custom.css ====================================
+   THE CLIENT CHROME LAYER. Loads last, wins over every framework file.
+   REWRITE THIS FILE FROM SCRATCH FOR EACH NEW CLIENT - stale rules here will
+   override the next skin, and unlike a stray colour a stray rule cannot be
+   found by searching for a token.
 
-   Templeton Jones language: quiet English country outfitter. One white
-   canvas, ink type, hairline rules, ghost 1px-outline chrome, transparent
-   nav over the hero (solid ink elsewhere), dash carousel pagination. */
+   WHAT BELONGS HERE
+   Rule-level treatments that are this client's TASTE and nothing else: the
+   specific way their dropdowns are framed, the shape of their search control,
+   the devices that make their footer theirs.
+
+   WHAT NO LONGER BELONGS HERE - and must not come back
+   Mechanism every client needs, and choices between known options. Those are
+   in the framework now, driven from 01-CC-Brand.css:
+
+     the masked wordmark and nav icons ......... 03, Brand Assets
+     transparent-over-hero nav ................. 03, Transparent-over-hero
+     nav bar seam / link case / link tracking .. 03, --navBorderBottom,
+                                                 --navItems*
+     nav underline hover device ................ 03, --navUnderline-display
+     platform CTA strip visibility ............. 03, --ctaStrip-display
+     carousel pagination shape and arrow feel .. 05, --splidePagination*,
+                                                 --splideArrowHover*
+     every word the CSS writes ................. 01, --copy-*
+     the page canvas ........................... 02
+
+   Before adding a rule here, ask whether a token could express it. If one
+   could, add the token to the owning framework file instead. The test that
+   keeps this file honest: could the NEXT client want the opposite of this
+   rule and get it by editing 01 alone? If yes, it is a switch, not chrome.
+
+   Tokens declared here use the --skin-* prefix, never the client's initials.
+   A --tj-* vocabulary is how one client's assumptions survive into the next
+   build unnoticed.
+
+   ---------------------------------------------------------------------------
+   THIS CLIENT: Templeton Jones - a quiet English country outfitter. One white
+   canvas, ink type, hairline rules, ghost 1px-outline chrome, a transparent
+   nav over the hero and solid ink elsewhere, dash carousel pagination.
+   =========================================================================== */
 
 :root {
-    --tj-hairline: 1px solid oklch(from var(--text) l c h / 0.2);
-    --tj-hairline-inverse: 1px solid oklch(from var(--text-inverse) l c h / 0.4);
-    --tj-dropdownShadow: var(--shadow-md);
-    --tj-navIconSize: 22px;
+    --skin-hairline: 1px solid oklch(from var(--text) l c h / 0.2);
+    --skin-hairlineInverse: 1px solid oklch(from var(--text-inverse) l c h / 0.4);
+    --skin-dropdownShadow: var(--shadow-md);
+
+    /* The house tracking for typed small caps. Applied to the footer column
+       headings, the newsletter heading, its submit and every banner CTA, so
+       the device reads as one decision rather than four coincidences. */
+    --skin-trackingCaps: 0.12em;
+
+    /* Height of the single-row bar below. Local to this file on purpose: the
+       framework's own height chain (02's body offset, 03's 75px/115px desktop
+       heights) is NOT tokenised, so this value only governs the override block
+       and must be kept consistent with it by hand. Tokenising that whole chain
+       is a worthwhile job but a separate one - it spans three files and two
+       media queries, and is exactly the kind of change that looks right and
+       renders wrong. */
+    --skin-navHeight: 73px;
 }
 
-/* ==================== Page canvas ==================== */
-
-/* The single continuous white canvas (contract) - painted explicitly so
-   nothing else leaks through between full-bleed bands */
-body {
-    background: var(--background);
-}
 
 /* ==================== Nav (03 overrides) ==================== */
 
-/* Platform CTA strip (CommonControls/TopSubBanner.ascx -> .wrapper > .grid.fixed
-   > .container.ctaContainer, legacy a.Banner/.bannerTitle markup, bannerid 3)
-   renders four banner titles as a dark strip above the nav. TJ mockup has no
-   such strip. Also hide its .wrapper: 03's .wrapper:has(.ctaContainer) paints
-   --ctaBackground and :has() still matches a display:none child. Platform
-   chrome, not a .cc-banner__* CMS field. */
-.ctaContainer,
-.wrapper:has(.ctaContainer) {
-    display: none;
-}
+/* --- Single-row nav: wordmark left, links centre, icons right in ONE bar.
+   The platform default stacks the links into a second row. Desktop only -
+   mobile keeps the platform hamburger pattern.
 
-/* No accent seam under the bar - the ink bar (or the hero photo on the
-   homepage) provides its own edge */
-.wrapper.masthead {
-    border-bottom: 0;
-}
-
-/* Letterspaced small caps feel - case is typed by the CMS user, the
-   tracking is ours (house rule: no text-transform) */
-.wrapper.masthead .NodeLevel0 > a {
-    letter-spacing: 0.1em;
-    font-size: var(--navItemsFontSize);
-    text-transform: var(--navItemsTextTransform);
-}
-
-/* Kill the underline-draw nav hover - house rule: no underline devices.
-   Hover feedback comes from --navLinks -> --navLinks-hover contrast. */
-@media screen and (min-width: 1024px) {
-    .wrapper.masthead .NodeLevel0 > a::before {
-        display: none;
-    }
-}
-
-/* Wordmark: the SVG logo is painted as a MASK on .logoContainer and filled
-   with currentColor, so it takes the container's own colour and scales to the
-   container's own box (250px desktop / 130px mobile, per CC-NavigationSearch)
-   rather than carrying a size or colour of its own.
-   The platform <img> is kept in flow but hidden, so the container's box is
-   exactly what it is today - only the paint changes. */
-.logoContainer {
-    -webkit-mask: url('/layout/generalLyout/logo.svg') left center / contain no-repeat;
-            mask: url('/layout/generalLyout/logo.svg') left center / contain no-repeat;
-    background-color: currentColor;
-}
-
-.logoContainer img,
-.logoContainer .logo {
- /* visibility: hidden; */
-}
-
-/* .logoContainer has no colour of its own - the masthead only paints
-   --navLinks onto the nav anchors - so give the container the nav's
-   full-strength ink. This is the ONE knob: change `color` here and the
-   wordmark follows, over the hero photo and the solid bar alike. */
-.wrapper.masthead .logoContainer {
-    color: var(--navLinks-hover);
-}
-
-/* --- Nav icons (bag / account / search): the platform emits these as
-   icon-font glyphs in .menu-icons-header (inside .navIcons), each toggle
-   tagged with a data-link:
-
-     <div class="icon-head"   data-link="login"><div id="loggedInPip"></div></div>
-     <div class="icon-bag"    data-link="basket"><div class="basketPip">0</div></div>
-     <div class="icon-menu mobile" data-link="navi"></div>
-     <div class="icon-search" data-link="search"></div>
-
-   Swap in the TJ line SVGs the same way the wordmark is done: mask +
-   currentColor, so they keep inheriting --navIcons (03 paints it onto
-   .navIcons *[class*="icon-"]) and follow a reskin with no asset edit.
-   Keyed on data-link rather than the icon-font class names - the data-link
-   states the toggle's job, so a platform icon-font rename cannot silently
-   blank an icon.
-
-   The mask sits on ::before, not on the toggle, for two reasons: it replaces
-   the glyph in place (so no `visibility: hidden` dance is needed), and a mask
-   on the toggle itself would clip the pips nested inside it - .basketPip (08)
-   and #loggedInPip.
-
-   The hamburger (data-link="navi") is deliberately left on the icon font - it
-   was not part of this swap, and blanking a glyph without supplying a mask
-   would render it invisible. That is also why these rules enumerate the three
-   toggles instead of reusing 03's *[class*="icon-"] wildcard.
-
-   Search needs both selectors: the .menu-icons-header toggle is hidden by 03,
-   and the visible glyph is the <span class="icon-search"> inside #search.
-   Everything is scoped to the masthead / #search, so the detail page's
-   .cc-lookup-service-lookupbutton.icon-search keeps the platform glyph. */
-.wrapper.masthead [data-link="basket"]::before,
-.wrapper.masthead [data-link="login"]::before,
-.wrapper.masthead [data-link="search"]::before,
-#search.srchCtr .icon-search::before {
-    content: "";
-    display: inline-block;
-    width: var(--tj-navIconSize);
-    height: var(--tj-navIconSize);
-    vertical-align: middle;
-    /* currentColor, NOT a --navSolid-* token: the toggle these sit on already
-       gets `color: var(--navIcons)` from 03, and the Solid State block
-       re-points --navIcons per state. Naming a state token here would pin the
-       icons to ONE state and break the transparent-over-hero case. */
-    background-color: currentColor;
-    -webkit-mask-position: center;
-            mask-position: center;
-    -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-    -webkit-mask-size: contain;
-            mask-size: contain;
-}
-
-.wrapper.masthead [data-link="basket"]::before {
-    -webkit-mask-image: url('/layout/generalLyout/icons/bag.svg');
-            mask-image: url('/layout/generalLyout/icons/bag.svg');
-}
-
-.wrapper.masthead [data-link="login"]::before {
-    -webkit-mask-image: url('/layout/generalLyout/icons/account.svg');
-            mask-image: url('/layout/generalLyout/icons/account.svg');
-}
-
-.wrapper.masthead [data-link="search"]::before,
-#search.srchCtr .icon-search::before {
-    -webkit-mask-image: url('/layout/generalLyout/icons/search.svg');
-            mask-image: url('/layout/generalLyout/icons/search.svg');
-}
-
-/* --- Single-row nav (mockup 00-nav band: wordmark left, links centre,
-   icons right in ONE 73px row; platform default stacks links in a second
-   row). Desktop only - mobile keeps the platform hamburger pattern. --- */
+   Stays client chrome rather than becoming a framework switch, deliberately.
+   It is not expressible as a value: besides the height it re-points #navi,
+   re-centres the link row, reverses 03's scroll-state fade and runs a
+   pointer-events dance. A --navRows token could not carry any of that. If a
+   second client wants the same bar, promote the whole block then - with a
+   name - rather than half-tokenising it now. --- */
 @media screen and (min-width: 1024px) {
     .wrapper.masthead,
     .wrapper.masthead.active {
-        height: 73px;
+        height: var(--skin-navHeight);
     }
 
     body {
-        padding-top: 73px !important;
+        padding-top: var(--skin-navHeight) !important;
     }
 
-    /* Links row rides in the same 73px band; pointer-events dance keeps
-       the full-width fixed layer from blocking logo/icon clicks */
+    /* Links row rides in the same band; the pointer-events dance keeps the
+       full-width fixed layer from blocking logo/icon clicks */
     #navi {
         top: 0;
         height: auto;
         align-items: center;
-        /* padding-inline: clamp(230px, 20vw, 300px); */
         pointer-events: none;
     }
 
@@ -182,41 +99,41 @@ body {
         justify-content: center;
     }
 
-    /* Dropdowns open at the bottom edge of the 73px bar (was 115px) */
+    /* Dropdowns open at the bottom edge of the bar (platform default: 115px) */
     .wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active {
-        top: 73px;
+        top: var(--skin-navHeight);
     }
 
     .wrapper.masthead .loginCtr.tbcnt.tbcntOpen {
-        top: 73px;
+        top: var(--skin-navHeight);
     }
 
-    /* 03's scroll state fades the links row out (two-row shrink device);
+    /* 03's scroll state fades the links row out (a two-row shrink device);
        with a single row the links must stay visible and in place */
     .wrapper.masthead.active .CSSFacetNavModules {
         opacity: 1;
     }
 
     .wrapper.masthead.active .NodeLevel0 > .CSSFacetNavModules.active {
-        top: 73px !important;
+        top: var(--skin-navHeight) !important;
     }
 
-    /* Sticky FAF filter tracks the shorter bar (was 109px) */
+    /* Sticky PLP filter tracks the shorter bar (platform default: 109px) */
     .sticky.sticknow .FAFoptionsContainer {
-        top: 73px !important;
+        top: var(--skin-navHeight) !important;
     }
 }
 
-/* --- Search: collapsed hairline pill in the icon zone (mockup shows a
-   search icon, not an exposed bar). CSS-only expand on hover/focus keeps
-   search functional with no JS dependency. Desktop only. --- */
+/* --- Search: a collapsed hairline pill in the icon zone rather than an
+   exposed bar. CSS-only expand on hover/focus, so search stays functional
+   with no JS dependency. Desktop only. --- */
 @media screen and (min-width: 1024px) {
     #search.srchCtr {
         position: fixed;
         top: 0;
         left: auto;
         right: 140px;
-        height: 73px;
+        height: var(--skin-navHeight);
         align-items: center;
         padding: 0;
         max-width: none;
@@ -230,7 +147,7 @@ body {
     .srchCtr.tbcnt .searchBoxForm,
     .srchCtr.tbcnt .searchBoxForm:focus {
         width: 44px;
-        border: var(--tj-hairline-inverse);
+        border: var(--skin-hairlineInverse);
         border-radius: 999px;
         transition: width 0.3s ease;
     }
@@ -241,100 +158,39 @@ body {
     }
 }
 
-/* --- Transparent over the hero (wireframe GLOBAL DECISIONS): homepage
-   only, scoped via .cl-nav-over-hero; the hero slides under the fixed bar.
-   Scroll state (.active, platform JS) restores the solid ink bar. --- */
-body.cl-nav-over-hero {
-    padding-top: 0 !important;
-}
 
-body.cl-nav-over-hero .wrapper.masthead {
-    background: transparent !important;
-}
-
-body.cl-nav-over-hero .wrapper.masthead.active {
-    background: var(--navBackground) !important;
-}
-
-/* NB the scrolled fill is NOT here - 03's Navigation Solid State carries it,
-   scoped `body.cl-nav-over-hero .wrapper.masthead.is-scrolled`, which reaches
-   (0,4,1) and so beats the transparent rule above on specificity despite 03
-   loading first. Contents come from the same block's token re-pointing. A
-   duplicate here would just be a second place to forget. */
-
-/* The transparent rule above is a literal `transparent !important`, not a
-   token, so 03's Navigation Open State cannot reach it by re-pointing
-   --navBackground - it has to be beaten declaration-to-declaration. This is
-   the case the open state exists for: on the homepage the bar floats over
-   the hero photo, and an open menu hanging off an invisible bar is the bug.
-   Trigger list mirrors 03's exactly; keep the two in step. Each selector
-   clears the transparent rule's (0,3,1) by one class. */
-body.cl-nav-over-hero.open-slide-menu .wrapper.masthead,
-body.cl-nav-over-hero:has(.open-slide-menu) .wrapper.masthead,
-body.cl-nav-over-hero:has(.wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active) .wrapper.masthead,
-body.cl-nav-over-hero:has(.wrapper.masthead .tbcntOpen) .wrapper.masthead,
-body.cl-nav-over-hero:has(#search.srchCtr:focus-within) .wrapper.masthead {
-    background: var(--navSolid-background) !important;
-}
-
-/* --- Dropdown surfaces: ink canvas seamless with the bar, floating on a
+/* --- Dropdown surfaces: an ink canvas seamless with the bar, floating on a
    soft shadow; area panels are white cards framed by a hairline --- */
 .wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active {
     border: 0;
     border-radius: 0;
-    box-shadow: var(--tj-dropdownShadow);
+    box-shadow: var(--skin-dropdownShadow);
 }
 
 .wrapper.masthead .NodeLevel1 {
-    border: var(--tj-hairline);
+    border: var(--skin-hairline);
     border-radius: 0;
 }
 
 .wrapper.masthead .loginCtr.tbcnt.tbcntOpen {
-    border: var(--tj-hairline);
+    border: var(--skin-hairline);
     border-top: none;
     border-radius: 0;
-    box-shadow: var(--tj-dropdownShadow);
+    box-shadow: var(--skin-dropdownShadow);
 }
 
-/* ==================== Splide chrome (05 overrides) ==================== */
-
-/* Dash pagination - the mockup's thin dashes (hero bottom-right; the
-   horizontal position per section is CC-Home's job) */
-[data-splide-opts] .splide__pagination__page {
-    width: 1.5rem;
-    height: 2px;
-    border-radius: 0;
-}
-
-[data-splide-opts] .splide__pagination__page.is-active {
-    width: 2.5rem;
-}
-
-/* Quiet arrows: no fill, no scale bounce (motion personality: no bounce
-   anywhere) - hover feedback is a gentle dim of the line arrow */
-[data-splide-opts] .splide__arrow:hover {
-    background: transparent;
-    color: var(--splideArrowColor);
-    opacity: 0.55;
-    transform: translateY(-50%);
-}
-
-.CC-SplideArrowsTop .splide__arrow:hover {
-    transform: none;
-}
 
 /* ==================== Footer (06 overrides) ==================== */
 
-/* Full-width hairline seam where the white footer meets the white page -
-   the brand's rule vocabulary, rule-20-legal as a border-top divider */
+/* Full-width hairline seam where the white footer meets the white page - the
+   brand's rule vocabulary, used here as a border-top divider */
 #modular-footer-wrapper {
-    border-top: var(--tj-hairline);
+    border-top: var(--skin-hairline);
 }
 
 /* Letterspaced small column headings over the platform hairline rule */
 #modular-footer-wrapper .modular-footer-retaillinks .modular-footer-retaillinks-container .modular-footer-retaillinks-container-inner h4 {
-    letter-spacing: 0.12em;
+    letter-spacing: var(--skin-trackingCaps);
 }
 
 /* Footer wordmark: ink silhouette on the white band (nav copy is white) */
@@ -342,24 +198,24 @@ body.cl-nav-over-hero:has(#search.srchCtr:focus-within) .wrapper.masthead {
     filter: brightness(0);
 }
 
-/* Newsletter heading tracking. The COPY is no longer overridden here: 06 reads
+/* Newsletter heading tracking. The COPY is not overridden here: 06 reads
    --copy-newsletterTitle / --copy-newsletterBody from 01-CC-Brand.css, so this
    client's words live in the reskin surface with every other string. */
 #modular-footer-wrapper > div.modular-footer-socials::before {
-    letter-spacing: 0.12em;
+    letter-spacing: var(--skin-trackingCaps);
 }
 
-/* Ghost newsletter input: quiet hairline, not the button border 06 wires */
+/* Ghost newsletter input: a quiet hairline, not the button border 06 wires */
 #modular-footer-wrapper .modular-footer-socials .modular-footer-newsletter .modular-footer-newsletter---container > .modular-footer-newsletter---container-inner input {
-    border: var(--tj-hairline) !important;
+    border: var(--skin-hairline) !important;
 }
 
-/* Ghost CTAs read as typed letterspaced caps - track the footer submit
-   and every banner/title CTA the same way (device carry-through) */
+/* Ghost CTAs read as typed letterspaced caps - the footer submit and every
+   banner/title CTA track the same way, so the device carries through */
 #modular-footer-wrapper .modular-footer-socials .modular-footer-newsletter .modular-footer-newsletter---container > .modular-footer-newsletter---container-inner #newsletter-footer-submit {
-    letter-spacing: 0.12em;
+    letter-spacing: var(--skin-trackingCaps);
 }
 
 .cc-banner .cc-banner__cta {
-    letter-spacing: 0.12em;
+    letter-spacing: var(--skin-trackingCaps);
 }

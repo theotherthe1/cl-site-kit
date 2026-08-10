@@ -1,4 +1,4 @@
-/* CC-SplideBanners.css - Templeton Jones */
+/* CC-SplideBanners.css */
 
 /* Splide Tokens */
 :root {
@@ -6,7 +6,21 @@
     --splideArrowBg: transparent;
     --splideArrowColor: var(--text);
     --splideArrowHoverBg: transparent;
+
+    /* Arrow hover personality. Set --splideArrowHoverScale to 1 for a house
+       style with no bounce; the arrow then only changes colour/opacity. */
+    --splideArrowHoverColor: var(--text-inverse);
+    --splideArrowHoverOpacity: 1;
+    --splideArrowHoverScale: 1.1;
+
+    /* Pagination marker SHAPE. The defaults are dots: a square-ish 8px marker
+       that widens when active. Set width/height/radius to get dashes
+       (e.g. 1.5rem x 2px, radius 0) or bars, without touching a rule. */
     --splidePaginationSize: 8px;
+    --splidePaginationWidth: var(--splidePaginationSize);
+    --splidePaginationHeight: var(--splidePaginationSize);
+    --splidePaginationRadius: 1px;
+    --splidePaginationWidthActive: 1.5rem;
     --splidePaginationBg: oklch(from var(--brand-dark) l c h / 0.3);
     --splidePaginationActiveBg: var(--brand-dark);
 }
@@ -65,8 +79,9 @@
 
 [data-splide-opts] .splide__arrow:hover {
     background: var(--splideArrowHoverBg);
-    color: var(--text-inverse);
-    transform: translateY(-50%) scale(1.1);
+    color: var(--splideArrowHoverColor);
+    opacity: var(--splideArrowHoverOpacity);
+    transform: translateY(-50%) scale(var(--splideArrowHoverScale));
 }
 
 [data-splide-opts] .splide__arrow svg {
@@ -89,7 +104,7 @@
     transform: none;
 }
 .CC-SplideArrowsTop .splide__arrow:hover {
-    transform: scale(1.1);
+    transform: scale(var(--splideArrowHoverScale));
 }
 
 .CC-SplideArrowsTop .splide__arrows {
@@ -117,9 +132,9 @@
 }
 
 [data-splide-opts] .splide__pagination__page {
-    width: var(--splidePaginationSize);
-    height: var(--splidePaginationSize);
-    border-radius: 1px;
+    width: var(--splidePaginationWidth);
+    height: var(--splidePaginationHeight);
+    border-radius: var(--splidePaginationRadius);
     background: var(--splidePaginationBg);
     transition: background 0.2s ease, width 0.2s ease;
     cursor: pointer;
@@ -132,7 +147,7 @@
 }
 
 [data-splide-opts] .splide__pagination__page.is-active {
-    width: 1.5rem;
+    width: var(--splidePaginationWidthActive);
     background: var(--splidePaginationActiveBg);
 }
 

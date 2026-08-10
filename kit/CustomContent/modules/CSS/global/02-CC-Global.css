@@ -247,7 +247,11 @@ body {
     font-style: normal;
     font-size: var(--fontSize-base);
     color: var(--text);
-    background: #fff;
+    /* The page canvas, painted explicitly so nothing leaks through between
+       full-bleed stripes. Was a hardcoded #fff here with a client layer
+       overriding it to the token - the token is the whole point, so it belongs
+       here. A client with a warm or dark canvas now only sets --background. */
+    background: var(--background);
 }
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {

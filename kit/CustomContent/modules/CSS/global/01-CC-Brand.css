@@ -78,8 +78,8 @@
     --global-addToCart-borderHover: none;
     --global-addToCart-colorHover: var(--text-on-accent);
 
-    --navItemsFontSize: var(--fontSize-xs);
-    --navItemsTextTransform: uppercase;
+    /* nav link type, seam, underline device and the rest of the bar's chrome
+       are switches now - see the SWITCHES block at the foot of this file. */
 
     /* ---- Nav bar: SOLID state (HOMEPAGE ONLY) ----------------------------
        On the homepage the bar floats transparent over the hero. It turns
@@ -164,5 +164,55 @@
     --copy-specialOrder: "Special Order";
     --copy-comingSoon: "Coming Soon";
     --copy-search: "Search";
+}
+
+
+/* ===========================================================================
+   SWITCHES
+   ---------------------------------------------------------------------------
+   Choices between known options. Every one of these was a rule-level override
+   in the client layer before; each is now a value, so the opposite choice is
+   one line here rather than a block of CSS somewhere else.
+
+   Only DIFFERENCES from the framework default need to appear. The defaults
+   live with the component that owns them - 03 for the bar, 05 for carousels -
+   and each is documented there. Deleting a line here returns that decision to
+   the framework default; it does not break anything.
+   =========================================================================== */
+:root {
+
+    /* --- Nav bar (defaults in 03) ---------------------------------------- */
+
+    /* No accent seam: the ink bar, or the hero photo on the homepage,
+       provides its own edge. Framework default is a 2px brand-light rule. */
+    --navBorderBottom: 0;
+
+    /* Small, letterspaced, uppercase nav links. Framework default is
+       --fontSize-sm at normal tracking with the CMS author's own case. */
+    --nav-fontSize: var(--fontSize-xs);
+    --navItemsLetterSpacing: 0.1em;
+    --navItemsTextTransform: uppercase;
+
+    /* House rule: no underline devices anywhere. Hover feedback comes from the
+       --navLinks -> --navLinks-hover contrast instead. */
+    --navUnderline-display: none;
+
+    /* This client's design has no CTA strip above the bar. */
+    --ctaStrip-display: none;
+
+    /* --- Carousels (defaults in 05) -------------------------------------- */
+
+    /* Thin dashes rather than dots, widening when active. */
+    --splidePaginationWidth: 1.5rem;
+    --splidePaginationHeight: 2px;
+    --splidePaginationRadius: 0;
+    --splidePaginationWidthActive: 2.5rem;
+
+    /* Quiet arrows: no fill and NO BOUNCE - scale 1 is the house motion rule.
+       Hover feedback is a gentle dim of the line arrow, so the hover colour is
+       the same as the rest state. */
+    --splideArrowHoverColor: var(--splideArrowColor);
+    --splideArrowHoverOpacity: 0.55;
+    --splideArrowHoverScale: 1;
 }
 

@@ -1,4 +1,4 @@
-/* CC-Footer.css - Templeton Jones */
+/* CC-Footer.css */
 
 /* Footer Variables */
 :root {
@@ -111,7 +111,11 @@ div#modular-footer-wrapper .fixed {
 
 #modular-footer-wrapper .modular-footer-retaillinks .modular-footer-retaillinks-container {
     height: auto;
-    max-width: var(--maxWidth);
+    /* was var(--maxWidth) - a token declared nowhere, so this max-width was
+       invalid and silently computed to `none`. The token is --footer-maxWidth
+       (declared at the top of this file, 100%). Practical effect of the fix is
+       nil, because width: 100% below already constrains this to the same box. */
+    max-width: var(--footer-maxWidth);
     padding: 0rem 0rem 2rem 0rem;
     width: 100%;
     margin: 0;
