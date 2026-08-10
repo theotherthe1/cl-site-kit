@@ -92,7 +92,7 @@
      the bar is SCROLLED   past 20px (.is-scrolled, homepage-nav.js)
      a PANEL is open       dropdown / mobile hamburger / account / search
 
-   Scoped with :has(.hp-hero) so it cannot reach interior pages, which keep
+   Scoped with .cl-nav-over-hero so it cannot reach interior pages, which keep
    the plain solid bar (--navBackground) in every state. Do not drop that
    scope without re-reading requirement 4.
 
@@ -104,7 +104,7 @@
    01-CC-Brand: ONE set for both triggers, so the two can never disagree.
 
    Backgrounds are the exception and cannot be done by token: 99's
-   `body:has(.hp-hero) .wrapper.masthead { background: transparent !important }`
+   `body.cl-nav-over-hero .wrapper.masthead { background: transparent !important }`
    is a literal at (0,3,1) and has to be beaten declaration-to-declaration.
    Scrolled is handled below; the panel-open cases are in 99 beside the rule
    they override. Keep those trigger lists in step with this one.
@@ -131,12 +131,12 @@
 
    The mini-basket is deliberately NOT a trigger. */
 
-body:has(.hp-hero):has(.wrapper.masthead.is-scrolled),
-body:has(.hp-hero).open-slide-menu,
-body:has(.hp-hero):has(.open-slide-menu),
-body:has(.hp-hero):has(.wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active),
-body:has(.hp-hero):has(.wrapper.masthead .tbcntOpen),
-body:has(.hp-hero):has(#search.srchCtr:focus-within) {
+body.cl-nav-over-hero:has(.wrapper.masthead.is-scrolled),
+body.cl-nav-over-hero.open-slide-menu,
+body.cl-nav-over-hero:has(.open-slide-menu),
+body.cl-nav-over-hero:has(.wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active),
+body.cl-nav-over-hero:has(.wrapper.masthead .tbcntOpen),
+body.cl-nav-over-hero:has(#search.srchCtr:focus-within) {
     --navBackground: var(--navSolid-background);
     --navLinks: var(--navSolid-links);
     --navLinks-hover: var(--navSolid-linksHover);
@@ -812,9 +812,9 @@ div[id*="CTA_bannerCollectionPanel"] a{
    whole bar rather than just the inner .navIcons strip. Bump the ?v
    querystring in default.aspx if you touch that script.
 
-   The :has(.hp-hero) scope does double duty: it enforces requirement 4
+   The .cl-nav-over-hero scope does double duty: it enforces requirement 4
    (interior pages never do this) AND lifts the selector to (0,4,1), which
-   clears 99's `body:has(.hp-hero) .wrapper.masthead { transparent !important }`
+   clears 99's `body.cl-nav-over-hero .wrapper.masthead { transparent !important }`
    at (0,3,1). Specificity beats source order, so this wins even though 99
    loads later - no duplicate override needed there.
 
@@ -827,7 +827,7 @@ div[id*="CTA_bannerCollectionPanel"] a{
 
    blur/shadow left as literals for now, by decision - they are surface
    texture rather than brand colour. */
-body:has(.hp-hero) .wrapper.masthead.is-scrolled {
+body.cl-nav-over-hero .wrapper.masthead.is-scrolled {
     background: var(--navSolid-background) !important;
     backdrop-filter: blur(12px);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);

@@ -242,22 +242,22 @@ body {
 }
 
 /* --- Transparent over the hero (wireframe GLOBAL DECISIONS): homepage
-   only, scoped via :has(.hp-hero); the hero slides under the fixed bar.
+   only, scoped via .cl-nav-over-hero; the hero slides under the fixed bar.
    Scroll state (.active, platform JS) restores the solid ink bar. --- */
-body:has(.hp-hero) {
+body.cl-nav-over-hero {
     padding-top: 0 !important;
 }
 
-body:has(.hp-hero) .wrapper.masthead {
+body.cl-nav-over-hero .wrapper.masthead {
     background: transparent !important;
 }
 
-body:has(.hp-hero) .wrapper.masthead.active {
+body.cl-nav-over-hero .wrapper.masthead.active {
     background: var(--navBackground) !important;
 }
 
 /* NB the scrolled fill is NOT here - 03's Navigation Solid State carries it,
-   scoped `body:has(.hp-hero) .wrapper.masthead.is-scrolled`, which reaches
+   scoped `body.cl-nav-over-hero .wrapper.masthead.is-scrolled`, which reaches
    (0,4,1) and so beats the transparent rule above on specificity despite 03
    loading first. Contents come from the same block's token re-pointing. A
    duplicate here would just be a second place to forget. */
@@ -269,11 +269,11 @@ body:has(.hp-hero) .wrapper.masthead.active {
    the hero photo, and an open menu hanging off an invisible bar is the bug.
    Trigger list mirrors 03's exactly; keep the two in step. Each selector
    clears the transparent rule's (0,3,1) by one class. */
-body:has(.hp-hero).open-slide-menu .wrapper.masthead,
-body:has(.hp-hero):has(.open-slide-menu) .wrapper.masthead,
-body:has(.hp-hero):has(.wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active) .wrapper.masthead,
-body:has(.hp-hero):has(.wrapper.masthead .tbcntOpen) .wrapper.masthead,
-body:has(.hp-hero):has(#search.srchCtr:focus-within) .wrapper.masthead {
+body.cl-nav-over-hero.open-slide-menu .wrapper.masthead,
+body.cl-nav-over-hero:has(.open-slide-menu) .wrapper.masthead,
+body.cl-nav-over-hero:has(.wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active) .wrapper.masthead,
+body.cl-nav-over-hero:has(.wrapper.masthead .tbcntOpen) .wrapper.masthead,
+body.cl-nav-over-hero:has(#search.srchCtr:focus-within) .wrapper.masthead {
     background: var(--navSolid-background) !important;
 }
 
