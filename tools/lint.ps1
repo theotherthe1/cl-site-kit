@@ -96,7 +96,6 @@ function Get-CodeLines($file) {
 }
 $css   = $scanned | Where-Object { $_.Ext -eq '.css' }
 $mark  = $scanned | Where-Object { $_.Ext -in '.aspx', '.ascx' }
-$brand = $css | Where-Object { $_.Rel -like '*01-CC-Brand.css' }
 $skin  = $css | Where-Object { $_.Rel -like '*99-CC-Custom.css' }
 $fw    = $css | Where-Object { $_.Rel -notlike '*01-CC-Brand.css' -and $_.Rel -notlike '*99-CC-Custom.css' -and $_.Rel -notlike '*CC-Home.css' }
 
@@ -239,9 +238,17 @@ if ($badPrefix -eq 0) { Write-Host "  ok    skin-layer tokens all use --skin-*" 
 # 8. previous client's name in framework files
 if ($PreviousClient) {
     $leak = 0
-    foreach ($f in $fw + $mark) {
+    # .js is included deliberately: a previous client's name in a script file is
+    # just as much a leak, and this exact gap hid one in modules/JS/splide-config.js
+    # while lint reported the tree clean.
+    $js = $scanned | Where-Object { $_.Ext -eq '.js' }
+    foreach ($f in $fw + $mark + $js) {
         $i = 0
-        foreach ($l in Get-CodeLines $f.Full) {
+        # RAW lines, not comment-stripped. A client name in a comment is exactly
+        # the leak worth catching - it is how "Ardent Bicycles" survived in
+        # modules/JS/splide-config.js while lint reported the tree clean. Reading
+        # stripped lines here made this check silently useless.
+        foreach ($l in Get-Content $f.Full) {
             $i++
             if ($l -match [regex]::Escape($PreviousClient)) { Fail 'leak' "$($f.Rel):$i framework file names '$PreviousClient'"; $leak++ }
         }

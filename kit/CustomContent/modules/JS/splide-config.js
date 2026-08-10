@@ -1,8 +1,18 @@
 /* ===================================================================
-   splide-config.js - Ardent Bicycles / homepage overrides
-   Runs after SplideBannerManager (via setTimeout) to reinit the brands
-   carousel with a perPage capped to actual slide count, preventing
-   Splide showing all slides when perPage exceeds the available items.
+   splide-config.js - DEAD CODE. Nothing references this file.
+
+   Do not confuse it with assets/splide/js/splide-config.js, which IS the
+   real Splide manager, is loaded site-wide from TopSubBanner.ascx, and
+   must not be touched.
+
+   The code below is a third copy of the scroll-reveal IntersectionObserver.
+   The one that actually runs is inline in default.aspx. The original header
+   here claimed to reinitialise a brands carousel with a perPage capped to
+   the slide count, which this code has never done, and it named the client
+   the file was first written for.
+
+   Kept only because this tree ports its rough edges rather than pruning
+   them. Safe to delete. See MANIFEST.md.
    =================================================================== */
 
 document.addEventListener('DOMContentLoaded', function () {

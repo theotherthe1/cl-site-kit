@@ -13,7 +13,10 @@ kit/CustomContent/        the tree you copy into a new site
 stripes/                  parts bin: 8 pickable homepage stripes + mandatory _shared
 examples/templeton-jones/ a finished skin, for reference
 docs/                     START-HERE first; then CONTRACT, BUILD, ADDING-A-STRIPE, QA-CHECKLIST
-tools/lint.ps1            the only automated check that exists here
+tools/lint.ps1            checks a built tree for the mistakes this codebase makes
+tools/update-site.ps1     pushes framework fixes into an already-built site
+CLAUDE.md                 operating manual, loaded automatically by Claude Code
+SITES.md                  which site is on which kit commit
 ```
 
 ## Start here
@@ -26,6 +29,8 @@ tools/lint.ps1            the only automated check that exists here
 | pick homepage stripes | `stripes/README.md` |
 | add a new stripe shape | `docs/ADDING-A-STRIPE.md` |
 | check a build before shipping | `tools/lint.ps1`, then `docs/QA-CHECKLIST.md` |
+| improve the kit, or push a fix to built sites | `docs/EVOLVING-THE-KIT.md` |
+| know which site is on which version | `SITES.md` |
 
 ## What a build actually edits
 

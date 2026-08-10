@@ -35,6 +35,7 @@ FRAMEWORK  controls/FafCustomRepeaterSplide.ascx
 FRAMEWORK  CommonControls/TopSubBanner.ascx
 FRAMEWORK  assets/splide/**
 FRAMEWORK  modules/JS/homepage-nav.js
+FRAMEWORK  modules/JS/splide-config.js
 
 CLIENT     modules/CSS/global/01-CC-Brand.css
 CLIENT     modules/CSS/global/99-CC-Custom.css
@@ -56,6 +57,19 @@ VERBATIM   google*.html
 `default.aspx` (a CLIENT file) with a `?v` cache-bust. If you change the JS, bump
 the `?v` in the page or browsers serve stale code. There is no build step to do
 this for you.
+
+**`modules/JS/splide-config.js` is dead code, declared FRAMEWORK so that it is
+classified rather than unclassified.** Nothing references it. Its original header
+claimed to reinitialise a brands carousel with a capped `perPage`, which the code
+has never done: it is a third copy of the scroll-reveal observer, and the one that
+actually runs is inline in `default.aspx`. It also named the client it was written
+for, which would have put a previous client's name inside a FRAMEWORK file and
+broken the invariant the whole update model rests on. The header is corrected; the
+file is kept only because this tree ports its rough edges rather than pruning them.
+
+Deleting it is still the better answer and costs nothing. It is easily confused
+with the LIVE `assets/splide/js/splide-config.js`, which is the real Splide
+manager, is loaded site-wide from `TopSubBanner.ascx`, and must not be touched.
 
 **`font/**` and `layout/**` are CLIENT** - they are the client's typefaces,
 wordmark and icons. The kit ships a working set so a fresh xcopy renders rather
