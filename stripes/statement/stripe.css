@@ -1,0 +1,46 @@
+/* ==== 7. hp-statement — band-opening full-width hairline, "About Us" eyebrow
+        beneath it, then the serif declaration over a wide left-aligned
+        measure (band 07): "Made for the countryside, chosen for wherever
+        the day takes you." ==== */
+
+.hp-statement {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-statement__body {
+    padding-inline: var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+}
+
+/* the eyebrow device — the mockup's "About Us" label, sitting beneath the
+   band-opening FULL-WIDTH HAIRLINE it carries as border-top (align-self
+   stretch spans the flex column; var(--border) so the rule actually renders) */
+.hp-statement__body::before {
+    content: var(--copy-statementEyebrow, "");
+    align-self: stretch;
+    border-top: 1px solid var(--border);
+    padding-top: var(--text-block-wrap);
+    font-family: var(--font-body);
+    font-size: var(--fontSize-sm);
+    color: var(--text);
+}
+
+.hp-statement__body p {
+    font-family: var(--font-display);
+    font-size: var(--fontSize-2xl);
+    line-height: 1.2;
+    color: var(--text);
+    /* max-width: 72ch; */   /* the render's ~1100px measure, left-aligned */
+    margin: 0;
+    text-wrap: pretty;
+}
+
+@media (max-width: 640px) {
+    .hp-statement__body p {
+        font-size: var(--fontSize-lg);
+        line-height: 1.55;
+    }
+}

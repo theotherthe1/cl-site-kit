@@ -1,0 +1,227 @@
+/* ==== 2. hp-product-rail — the grid-break: asymmetric text rail (1fr) + product
+        carousel (3.2fr); hairline rules the rail top; arrows live bottom-left
+        of the rail, never over the cards (band 02) ==== */
+
+.hp-product-rail {
+    padding-block: var(--section-padding-sm);
+}
+
+/* the rail grid. This is FafCustomRepeaterSplide's own Panel — the band holds
+   nothing else, so the control's two children ARE the two columns:
+   .faf-header (the text rail) and .faf-splide-container (the cards).
+   Kept as a direct-child selector: the control nests no second
+   .faf-product-carousel now, and this must not start matching one if it ever
+   does again. */
+.hp-product-rail > .faf-product-carousel {
+    display: grid;
+    grid-template-columns: minmax(15rem, 1fr) 3.2fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+    padding-inline: var(--gutter); /* content gutter */
+    padding-bottom: 3.25rem; /* reserves the arrow row at the rail's foot */
+    position: relative;      /* arrows anchor to the whole band */
+}
+
+/* graceful empty state — the platform hides the Panel entirely when repeater 1
+   binds nothing, but a bound-yet-cardless render would still reserve the arrow
+   row, so stand it down (no dead space beneath the rail) */
+.hp-product-rail > .faf-product-carousel:not(:has(.faf-product-card)) {
+    padding-bottom: 0;
+}
+
+/* the rail — the control's own header, bound from repeater 1 (repeaterTitle /
+   repeaterDesc / the Shop All link's detailLink). Hairline motif rules its top
+   edge, exactly as band 02 draws it.
+   NOTE the control does NOT wrap title+desc in a .text-wrap the way the banner
+   controls do, so all three children sit in one flex column: the gap here is
+   the tight title↔desc value and the CTA pushes itself off with margin-top,
+   which reproduces band 02's two-tier spacing. */
+.hp-product-rail .faf-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--text-wrap);
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin: 0;
+}
+
+.hp-product-rail .faf-title {
+    font-family: var(--font-display);
+    font-size: var(--fontSize-2xl);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    margin: 0;
+}
+
+.hp-product-rail .faf-description {
+    font-family: var(--font-body);
+    font-size: var(--fontSize-md);
+    line-height: 1.55;
+    color: var(--text-secondary);
+    max-width: 26ch;
+    margin: 0;
+}
+
+.hp-product-rail .faf-product-btn-container {
+    margin: calc(var(--text-block-wrap) - var(--text-wrap)) 0 0;
+}
+
+/* PRIMARY CTA — the same ghost, ink recolour for the white band */
+.hp-product-rail .faf-view-more {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid var(--brand-dark);
+    border-radius: var(--global-radius);
+    color: var(--text);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    text-decoration: none;
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-product-rail .faf-view-more:hover {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    box-shadow: none;
+    color: var(--text-inverse);
+}
+
+/* product cards — image on a light tile, name + price beneath (band 02).
+   FAF carousels are content-height: the image aspect sizes the card. */
+.hp-product-rail .faf-product-card {
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.hp-product-rail .faf-product-image-link {
+    display: block;
+    background: var(--background-sunken); /* the grey tile */
+    overflow: hidden;
+}
+
+/* .faf-product-image is a background-image div; the inline style shorthand
+   resets size/repeat, so these two need !important to land */
+.hp-product-rail .faf-product-image {
+    aspect-ratio: 1 / 1;
+    background-size: contain !important;   /* products float on the tile, uncropped */
+    background-repeat: no-repeat !important;
+    transition: transform 0.6s ease;
+}
+
+.hp-product-rail .faf-product-card:hover .faf-product-image {
+    transform: scale(1.03); /* gentle — the luxury register, no bounce */
+}
+
+.hp-product-rail .faf-product-info {
+    padding: 1rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: flex-start;
+}
+
+.hp-product-rail .faf-product-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--fontSize-sm);
+}
+
+.hp-product-rail .faf-product-name {
+    order: -1; /* band 02: name first, price beneath */
+    font-family: var(--font-body);
+    font-size: var(--fontSize-sm);
+    line-height: 1.45;
+    color: var(--text);
+    transition: var(--global-transition);
+}
+
+.hp-product-rail .faf-product-link:hover .faf-product-name {
+    color: var(--brand-link);
+}
+
+/* quiet quick-buy — present and usable, deferential to the editorial card */
+.hp-product-rail .faf-quick-buy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--global-radius);
+    color: var(--text);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    cursor: pointer;
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-product-rail .faf-quick-buy-btn:hover {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    box-shadow: none;
+    color: var(--text-inverse);
+}
+
+/* chrome reconciliation — the mockup's arrows sit bottom-left IN the rail
+   column: re-anchor them to the whole band (static splide, relative band) */
+.hp-product-rail .faf-splide-container,
+.hp-product-rail .faf-splide {
+    position: static;
+}
+
+.hp-product-rail .splide__arrow {
+    top: auto;
+    bottom: 0;
+    transform: none;
+}
+
+.hp-product-rail .splide__arrow--prev {
+    left: var(--gutter);
+    right: auto;
+}
+
+.hp-product-rail .splide__arrow--next {
+    left: calc(var(--gutter) + 2.75rem);
+    right: auto;
+}
+
+/* card carousel: pagination flows BELOW the track, dark dashes on white */
+.hp-product-rail .splide__pagination {
+    position: static;
+    transform: none;
+    margin-top: 1.5rem;
+    justify-content: center;
+    width: auto;
+}
+
+.hp-product-rail .splide__pagination__page {
+    background: var(--black-10);
+}
+
+.hp-product-rail .splide__pagination__page.is-active {
+    background: var(--brand-dark);
+}
+
+@media (max-width: 1024px) {
+    .hp-product-rail > .faf-product-carousel {
+        grid-template-columns: 1fr; /* rail stacks above the cards */
+    }
+
+    .hp-product-rail .faf-description {
+        max-width: 44ch;
+    }
+}

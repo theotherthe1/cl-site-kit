@@ -1,0 +1,175 @@
+/* ==== 4. hp-logo-strip — header anatomy per band 04: band-opening full-width
+        hairline, eyebrow label beneath it top-left, serif H2 left +
+        VIEW ALL right on the same row, greyscale logo drift below ==== */
+
+.hp-logo-strip {
+    padding-block: var(--section-padding-sm);
+}
+
+/* heading: left-aligned editorial override of the CC-HomepageTitles baseline.
+   Top spacing owned by the section; zero bottom (gap owned by the strip).
+   Selectors carry .cc-collection so they outrank the baseline's
+   .CC-HomepageTitles .cc-collection rules on every property (the baseline's
+   text-align:center was leaking through — the centred-desc bug). */
+.hp-logo-strip .CC-HomepageTitles {
+    align-items: flex-start;
+    text-align: left;
+    max-width: none;
+    margin: 0;
+    padding: 0 var(--gutter);
+}
+
+.hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner {
+    align-items: stretch;
+    text-align: left;
+}
+
+.hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__body {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    justify-items: start;
+    gap: 1.5rem 2rem;
+    width: 100%;
+    text-align: left;
+}
+
+/* band 04's header body is a GRID that places desc, title and CTA on named
+   rows/columns individually. The .text-wrap wrapper would swallow desc+title
+   into a single grid item and collapse that anatomy, so here it dissolves and
+   lets its children participate in the grid directly. */
+.hp-logo-strip .CC-HomepageTitles .cc-collection .text-wrap {
+    display: contents;
+}
+
+/* the eyebrow — row 1, spanning the band, sitting beneath the band-opening
+   FULL-WIDTH HAIRLINE it carries as border-top (bands/04: the rule runs
+   above the "Brands" label; var(--border) so it actually renders) */
+.hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__desc {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: stretch;
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--text);
+    opacity: 1;
+    text-align: left;
+}
+
+.hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__title {
+    grid-column: 1;
+    grid-row: 2;
+    font-family: var(--font-display);
+    font-size: var(--fontSize-2xl);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+    max-width: none;
+}
+
+/* QUIET CTA — the arrow-link (band 04's VIEW ALL, sans the banned underline) */
+.hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__cta {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    margin: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    color: var(--text);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    transition: var(--global-transition);
+}
+
+.hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__cta::after {
+    content: "\2192";
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--brand-link);
+}
+
+.hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner:hover .cc-banner__cta::after {
+    transform: translateX(0.35em);
+}
+
+/* the logo drift — greyscale at rest, brand colour breathes back on hover.
+   Content-height strip (logo row): NO fixed splide height chain here. */
+.hp-logo-strip > .cc-collection {
+    padding: clamp(2.5rem, 4vw, 3.5rem) var(--gutter) 0;
+}
+
+.hp-logo-strip .splide__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hp-logo-strip .cc-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0;
+}
+
+.hp-logo-strip .cc-brand__img {
+    max-height: 1.875rem;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.55;
+    transition: var(--global-transition);
+}
+
+.hp-logo-strip .cc-brand:hover .cc-brand__img {
+    filter: grayscale(0);
+    opacity: 1;
+}
+
+/* chrome: logo-strip pagination flows below, dark dashes on white;
+   arrows inherit the quiet ink baseline and stay at the strip's edges */
+.hp-logo-strip .splide__pagination {
+    position: static;
+    transform: none;
+    margin-top: 1.75rem;
+    justify-content: center;
+    width: auto;
+}
+
+.hp-logo-strip .splide__pagination__page {
+    background: var(--black-10);
+}
+
+.hp-logo-strip .splide__pagination__page.is-active {
+    background: var(--brand-dark);
+}
+
+@media (max-width: 640px) {
+    .hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__body {
+        grid-template-columns: 1fr;
+    }
+
+    .hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__cta {
+        grid-column: 1;
+        grid-row: 3;
+        justify-self: start;
+    }
+}

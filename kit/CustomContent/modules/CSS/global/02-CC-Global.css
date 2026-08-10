@@ -94,9 +94,10 @@ body {
     --global-gap:     1rem;
     --global-margin:  1rem;
 
-    /* Section rhythm -- the vertical tier every homepage band pads with.
-       lg is the standard band gap; sm is the tightened variant used where a
-       band opens hard against the one above it (hp-new-in's top edge). */
+    /* Section rhythm -- the vertical tier every homepage stripe pads with.
+       lg is the standard gap between stripes; sm is the tightened variant for a
+       stripe that opens hard against the one above it, rather than sitting in
+       its own air. Named no stripe on purpose: this is a framework file. */
     --section-padding-lg: 5rem;
     --section-padding-sm: 3rem;
 

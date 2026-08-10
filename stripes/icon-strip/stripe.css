@@ -1,0 +1,113 @@
+/* ==== 6. hp-icon-strip — compressed service strip: small icon above one sans line,
+        three across, pure whitespace separation (band 06) ==== */
+
+.hp-icon-strip {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-icon-strip > .cc-collection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding-inline: var(--gutter);
+}
+
+.hp-icon-strip > .cc-collection .cc-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: visible;
+}
+
+/* the banner image IS the line icon — small, contained, centred */
+.hp-icon-strip > .cc-collection .cc-banner__img {
+    display: flex;
+    justify-content: center;
+}
+
+.hp-icon-strip > .cc-collection .cc-banner__img img {
+    height: 2.75rem;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+}
+
+.hp-icon-strip > .cc-collection .cc-banner__body {
+    position: static;
+    inset: auto;
+    background: none;
+    padding: 0.9rem 0 0;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.hp-icon-strip > .cc-collection .cc-banner__title {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    color: var(--text);
+}
+
+.hp-icon-strip > .cc-collection .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--text-muted);
+    max-width: 30ch;
+}
+
+/* a CMS-filled CTA reads as the quiet arrow-link */
+.hp-icon-strip > .cc-collection .cc-banner__cta {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    align-self: center;
+    color: var(--text);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    transition: var(--global-transition);
+}
+
+.hp-icon-strip > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--brand-link);
+}
+
+/* hover: the icon lifts a breath — no bounce */
+.hp-icon-strip > .cc-collection .cc-banner:hover .cc-banner__img img {
+    transform: translateY(-3px);
+}
+
+/* reveal: pure fade stagger — stiller than the photo bands */
+.hp-icon-strip > .cc-collection .cc-banner {
+    opacity: 0;
+    transition: opacity 0.9s ease, transform 0.4s ease;
+}
+
+.hp-icon-strip.inView > .cc-collection .cc-banner {
+    opacity: 1;
+}
+
+.hp-icon-strip.inView > .cc-collection .cc-banner:nth-child(2) {
+    transition-delay: 0.12s;
+}
+
+.hp-icon-strip.inView > .cc-collection .cc-banner:nth-child(3) {
+    transition-delay: 0.24s;
+}
+
+@media (max-width: 640px) {
+    .hp-icon-strip > .cc-collection {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}

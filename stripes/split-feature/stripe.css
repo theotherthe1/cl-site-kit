@@ -1,0 +1,142 @@
+/* ==== 5. hp-split-feature — three full-bleed panels on a two-column split:
+        one tall feature panel down the left, two stacked panels right
+        (band 05, per the contract's layout model); the triptych's
+        deliberate echo, differing in scale, gradient depth, wipe reveal
+        and the frame-draw hover ==== */
+
+.hp-split-feature {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-split-feature > .cc-collection {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 10px;  /* the same seam as the triptych — the structural echo */
+    padding: 0; /* deliberate full-bleed */
+}
+
+/* entry 1 is the feature: it holds the whole left column and, being the only
+   panel with an intrinsic ratio, it is what sets the band's height. The two
+   rows then split that height and entries 2 and 3 fill their cells. */
+.hp-split-feature > .cc-collection .cc-banner:first-child {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+}
+
+.hp-split-feature > .cc-collection .cc-banner:first-child .cc-banner__img,
+.hp-split-feature > .cc-collection .cc-banner:first-child .cc-banner__img img {
+    aspect-ratio: 3 / 4; /* tall feature crop — statelier than the triptych */
+}
+
+/* the stacked pair take their height from the row, so no ratio of their own —
+   each lands at roughly 3/2 against the feature's 3/4 */
+.hp-split-feature > .cc-collection .cc-banner:nth-child(n+2),
+.hp-split-feature > .cc-collection .cc-banner:nth-child(n+2) .cc-banner__img {
+    height: 100%;
+}
+
+/* deeper gradient than the triptych: the panel is taller, the text larger */
+.hp-split-feature > .cc-collection .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: clamp(1.75rem, 3vw, 3rem);
+    background: linear-gradient(
+        to top,
+        var(--black-50) 0%,
+        var(--black-10) 40%,
+        transparent 60%
+    );
+}
+
+.hp-split-feature > .cc-collection .cc-banner__title {
+    font-family: var(--font-display);
+    font-size: var(--fontSize-2xl);
+    line-height: 1.12;
+    letter-spacing: 0.015em;
+    color: var(--bannerText);
+    max-width: 18ch;
+}
+
+.hp-split-feature > .cc-collection .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.9;
+    max-width: 40ch;
+}
+
+/* PRIMARY CTA — ghost, white variant (photo band) */
+.hp-split-feature > .cc-collection .cc-banner__cta {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--text-inverse);
+    border-radius: var(--global-radius);
+    color: var(--text-inverse);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-split-feature > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: var(--background);
+    border-color: var(--background);
+    box-shadow: none;
+    color: var(--text);
+}
+
+/* hover: hairline frame draws inward — the motif made interactive
+   (full four-side inset frame, all edges at once) */
+.hp-split-feature > .cc-collection .cc-banner:hover {
+    box-shadow: inset 0 0 0 10px var(--white-30);
+}
+
+/* reveal: quiet clip-path wipe, distinct from the triptych's rise */
+.hp-split-feature > .cc-collection .cc-banner {
+    clip-path: inset(0 0 8% 0);
+    opacity: 0;
+    transition: clip-path 0.9s ease, opacity 0.9s ease, box-shadow 0.4s ease;
+}
+
+.hp-split-feature.inView > .cc-collection .cc-banner {
+    clip-path: inset(0);
+    opacity: 1;
+}
+
+.hp-split-feature.inView > .cc-collection .cc-banner:nth-child(2) {
+    transition-delay: 0.15s;
+}
+
+.hp-split-feature.inView > .cc-collection .cc-banner:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+@media (max-width: 900px) {
+    /* the trio stacks — each panel keeps presence, none carries the split */
+    .hp-split-feature > .cc-collection {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+    }
+
+    .hp-split-feature > .cc-collection .cc-banner:first-child {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .hp-split-feature > .cc-collection .cc-banner:nth-child(n+2),
+    .hp-split-feature > .cc-collection .cc-banner:nth-child(n+2) .cc-banner__img {
+        height: auto;
+    }
+
+    .hp-split-feature > .cc-collection .cc-banner__img,
+    .hp-split-feature > .cc-collection .cc-banner__img img {
+        aspect-ratio: 4 / 3;
+    }
+}

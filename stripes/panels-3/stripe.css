@@ -1,0 +1,121 @@
+/* ==== 3. hp-panels-3 — full-bleed triptych, 10px gaps, bottom-up gradient,
+        serif white title + ghost CTA bottom-left per panel (band 03) ==== */
+
+.hp-panels-3 {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-panels-3 > .cc-collection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;      /* the mockup's exact seam */
+    padding: 0;     /* deliberate full-bleed */
+}
+
+.hp-panels-3 > .cc-collection .cc-banner__img,
+.hp-panels-3 > .cc-collection .cc-banner__img img {
+    aspect-ratio: 4 / 5; /* ~477x600 panels in the render */
+}
+
+/* bottom-up gradient only where the text lives — the upper frame stays clean */
+.hp-panels-3 > .cc-collection .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 2.8vw, 2.5rem);
+    background: linear-gradient(
+        to top,
+        var(--black-50) 0%,
+        transparent 45%
+    );
+    transition: background 0.6s ease;
+}
+
+.hp-panels-3 > .cc-collection .cc-banner__title {
+    font-family: var(--font-display);
+    font-size: var(--fontSize-2xl);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    color: var(--bannerText);
+    max-width: 16ch;
+}
+
+/* desc kept quiet, body-copy role — the mockup panels carry title + CTA only,
+   but a CMS-filled desc must stay legible on the photo */
+.hp-panels-3 > .cc-collection .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.9;
+    max-width: 34ch;
+}
+
+/* PRIMARY CTA — ghost, white variant (photo band) */
+.hp-panels-3 > .cc-collection .cc-banner__cta {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--text-inverse);
+    border-radius: var(--global-radius);
+    color: var(--text-inverse);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-panels-3 > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: var(--background);
+    border-color: var(--background);
+    box-shadow: none;
+    color: var(--text);
+}
+
+/* hover: overlay tint deepens + the platform's gentle image scale —
+   never the zoom alone */
+.hp-panels-3 > .cc-collection .cc-banner:hover .cc-banner__body {
+    background: linear-gradient(
+        to top,
+        var(--black-80) 0%,
+        transparent 55%
+    );
+}
+
+/* reveal: quiet staggered rise, left to right */
+.hp-panels-3 > .cc-collection .cc-banner {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hp-panels-3.inView > .cc-collection .cc-banner {
+    opacity: 1;
+    transform: none;
+}
+
+.hp-panels-3.inView > .cc-collection .cc-banner:nth-child(2) {
+    transition-delay: 0.12s;
+}
+
+.hp-panels-3.inView > .cc-collection .cc-banner:nth-child(3) {
+    transition-delay: 0.24s;
+}
+
+@media (max-width: 900px) {
+    /* mobile: the triptych becomes a horizontal scroll-snap rail */
+    .hp-panels-3 > .cc-collection {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .hp-panels-3 > .cc-collection .cc-banner {
+        flex: 0 0 78%;
+        scroll-snap-align: start;
+    }
+}

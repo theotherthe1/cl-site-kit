@@ -1,0 +1,159 @@
+/* ==== 1. hp-hero-fade — full-bleed editorial fade hero; text bottom-left,
+        dash pagination bottom-right, minimal white arrows (band 01) ==== */
+
+.hp-hero-fade > .cc-collection {
+    padding: 0; /* deliberate full-bleed — band 01 runs edge to edge */
+}
+
+/* carousel height chain — mockup hero is ~800px on a 1440 canvas; the vw track
+   runs a touch taller (65vw) and the ceiling is viewport-relative (80vh) so the
+   stage never outgrows the fold on short, wide screens */
+.hp-hero-fade .splide {
+    height: clamp(30rem, 65vw, 80vh);
+}
+
+.hp-hero-fade .splide__track,
+.hp-hero-fade .splide__list,
+.hp-hero-fade .splide__slide {
+    height: 100%;
+}
+
+/* Band 01: a soft even veil over the whole frame, gathering weight only in the
+   lower third where the text block sits — NOT a heavy flat wash. */
+.hp-hero-fade .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 2.8vw, 3rem);
+    background: linear-gradient(
+        to top,
+        var(--black-50) 0%,
+        var(--black-10) 45%,
+        var(--black-10) 100%
+    );
+}
+
+.hp-hero-fade .cc-banner__title {
+    font-family: var(--font-display);
+    font-size: var(--fontSize-3xl);
+    line-height: 1;
+    letter-spacing: 0;
+    color: var(--bannerText);
+    max-width: 22ch;
+    text-wrap: balance;
+}
+
+/* Band 01: the desc is BODY COPY beneath the title on a ~474px measure —
+   two quiet sans lines, not an eyebrow. */
+.hp-hero-fade .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.92;
+    max-width: 48ch;
+}
+
+/* PRIMARY CTA — the ghost. White variant for photo bands (band 01 anatomy:
+   1px outline, letterspaced 13px label, quiet). */
+.hp-hero-fade .cc-banner__cta {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--text-inverse);
+    border-radius: var(--global-radius);
+    color: var(--text-inverse);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+/* hover-reset law — one combined rule, all four properties */
+.hp-hero-fade .cc-banner:hover .cc-banner__cta {
+    background: var(--background);
+    border-color: var(--background);
+    box-shadow: none;
+    color: var(--text);
+}
+
+/* chrome reconciliation: dashes move to bottom-RIGHT (band 01) — the body is
+   bottom-LEFT so the two never collide; arrows go minimal white on the photo */
+.hp-hero-fade .splide__pagination {
+    left: auto;
+    right: var(--bannerPadding);
+    bottom: var(--bannerPadding);
+    transform: none;
+    width: auto;
+}
+
+/* Hero dashes sit on photography, so both states read off --text-inverse
+   (30% -> solid) instead of the global brand-dark ramp.
+   SPECIFICITY: these MUST use the [data-splide-opts].hp-hero-fade compound, not
+   .hp-hero-fade alone. 05-CC-SplideBanners.css sets the same backgrounds via
+   [data-splide-opts] .splide__pagination__page[.is-active] = (0,3,0); a bare
+   .hp-hero-fade ... .is-active only ties at (0,3,0) and loses to whichever bundle
+   loads last. .hp-hero-fade is the SAME element that carries data-splide-opts
+   (default.aspx band 01), so the compound is valid and reaches (0,4,0). */
+[data-splide-opts].hp-hero-fade .splide__pagination__page {
+    background: var(--white-30);
+}
+
+[data-splide-opts].hp-hero-fade .splide__pagination__page.is-active {
+    background: var(--text-inverse);
+}
+
+/* hover must not fall back to the dark global rule mid-photo */
+[data-splide-opts].hp-hero-fade .splide__pagination__page:hover {
+    background: var(--text-inverse);
+}
+
+.hp-hero-fade .splide__arrow {
+    background: transparent;
+    border-color: transparent;
+}
+
+.hp-hero-fade .splide__arrow svg {
+    fill: var(--text-inverse);
+}
+
+.hp-hero-fade .splide__arrow:hover {
+    background: var(--white-30);
+    border-color: var(--white-30);
+    opacity: 1;
+}
+
+@media (max-width: 640px) {
+    /* distinct mobile hero: taller portrait stage, tighter type, the veil
+       deepens so the shorter measure stays legible over any crop */
+    .hp-hero-fade .splide {
+        height: min(34rem, 82svh);
+    }
+
+    .hp-hero-fade .cc-banner__body {
+        padding: 1.25rem 1.25rem 2.75rem; /* clears the dashes on narrow screens */
+        gap: 2rem;
+        background: linear-gradient(
+            to top,
+            var(--black-80) 0%,
+            var(--black-10) 60%
+        );
+    }
+
+    .hp-hero-fade .cc-banner__title {
+        font-size: var(--fontSize-2xl);
+        max-width: 16ch;
+    }
+
+    .hp-hero-fade .cc-banner__desc {
+        max-width: 100%;
+    }
+
+    .hp-hero-fade .splide__pagination {
+        right: 1.25rem;
+        bottom: 1rem;
+    }
+}

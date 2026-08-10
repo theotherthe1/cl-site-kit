@@ -40,7 +40,7 @@
         <!-- === 1. HERO (hero-fade: full-bleed editorial photo, text bottom-left, dash pagination bottom-right, slow quiet crossfade) === -->
         <div class="wrapper">
             <div class="grid">
-                <div class="col-1 hp-hero"
+                <div class="col-1 hp-hero-fade"
                      data-splide-opts='{ "type":"fade", "rewind":true, "autoplay":true, "interval":6000, "speed":1400, "arrows":true, "pagination":true, "cover":false }'
                      data-animate>
                     <uc1:BannerCollectionSplide ID="TjHero" runat="server"
@@ -52,7 +52,7 @@
         <!-- === 2. NEW IN (product-carousel: FAF header as the left text rail, 3-up cards on grey tiles, arrows live in the rail) === -->
         <div class="wrapper">
             <div class="grid fixed">
-                <div class="col-1 hp-new-in"
+                <div class="col-1 hp-product-rail"
                      data-splide-opts='{ "type":"loop", "perPage":3, "gap":"1.5rem", "speed":700, "trimSpace":true, "arrows":true, "pagination":true, "cover":false, "breakpoints":{ "1024":{ "perPage":2 }, "640":{ "perPage":1 } } }'
                      data-animate>
                     <!-- the whole band is this one control: FafCustomRepeaterSplide's
@@ -69,7 +69,7 @@
         <!-- === 3. COLLECTIONS (grid-3: full-bleed triptych, gradient overlay, serif H2 + ghost CTA bottom-left per panel) === -->
         <div class="wrapper">
             <div class="grid">
-                <div class="col-1 hp-collections" data-animate>
+                <div class="col-1 hp-panels-3" data-animate>
                     <uc1:BannerCollectionDisplay ID="TjCollections" runat="server"
                         bannerid="2" bannerLimit="3" imageSizing="imgCtr75" />
                 </div>
@@ -84,7 +84,7 @@
              mount; bannerLimit is 13 to still land 12 logos in the strip. -->
         <div class="wrapper">
             <div class="grid fixed">
-                <div class="col-1 hp-brands"
+                <div class="col-1 hp-logo-strip"
                      data-splide-opts='{ "type":"loop", "perPage":6, "gap":"3rem", "autoplay":true, "interval":3000, "speed":900, "arrows":true, "pagination":true, "cover":false, "breakpoints":{ "1024":{ "perPage":4 }, "640":{ "perPage":2 } } }'
                      data-splide-skip="1"
                      data-animate>
@@ -103,7 +103,7 @@
              same gradient/H2/ghost-CTA anatomy as the triptych, taller) === -->
         <div class="wrapper">
             <div class="grid">
-                <div class="col-1 hp-seasonal-duo" data-animate>
+                <div class="col-1 hp-split-feature" data-animate>
                     <uc1:BannerCollectionDisplay ID="TjSeasonalDuo" runat="server"
                         bannerid="4" bannerLimit="3" imageSizing="imgCtr75" />
                 </div>
@@ -113,7 +113,7 @@
         <!-- === 6. USP STRIP (grid-3: icon above one small sans line, three across, pure whitespace) === -->
         <div class="wrapper">
             <div class="grid fixed">
-                <div class="col-1 hp-usp" data-animate>
+                <div class="col-1 hp-icon-strip" data-animate>
                     <uc1:BannerCollectionDisplay ID="TjUsp" runat="server"
                         bannerid="5" bannerLimit="3" imageSizing="imgCtr75" />
                 </div>
@@ -123,8 +123,8 @@
         <!-- === 7. ABOUT (required: label + hairline + serif declaration over a wide measure) === -->
         <div class="wrapper">
             <div class="grid fixed">
-                <div class="col-1 hp-about" data-animate>
-                    <div class="hp-about__body">
+                <div class="col-1 hp-statement" data-animate>
+                    <div class="hp-statement__body">
                         <p><%= CitrusStore.SystemBase.CitrusStoreConfiguration.HomePageText%></p>
                     </div>
                 </div>
@@ -134,7 +134,7 @@
         <!-- === 8. STAY INSPIRED (cta-fullwidth: centered serif H2 + one sans line, no image, hands off to footer signup) === -->
         <div class="wrapper">
             <div class="grid fixed">
-                <div class="col-1 hp-stay-inspired" data-animate>
+                <div class="col-1 hp-cta-close" data-animate>
                     <uc1:BannerCollectionDisplay ID="TjStayInspired" runat="server"
                         bannerid="6" bannerLimit="1" imageSizing="imgCtr75" />
                 </div>
