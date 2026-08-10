@@ -1,6 +1,6 @@
 <%@ Control Language="vb" EnableViewState = False AutoEventWireup="false" Codebehind="TopSubBanner.ascx.vb" Inherits="CitrusStore.CitrusStore.TopSubBanner" TargetSchema="http://schemas.microsoft.com/intellisense/nav4-0" %>
 
-<%@ Register TagPrefix="uc1" TagName="BannerCollectionDisplay" src="/modules/Controls/BannerCollectionDisplayGrid.ascx" %>
+<%@ Register TagPrefix="uc1" TagName="BannerCollectionDisplay" src="/SiteSpecific/CustomContent/controls/BannerCollectionDisplayGrid.ascx" %>
 <%@ Register TagPrefix="uc1" TagName="BannerCollectionSplide" src="/SiteSpecific/CustomContent/Controls/BannerCollectionSplide.ascx" %>
 
 
