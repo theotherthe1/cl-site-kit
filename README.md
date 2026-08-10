@@ -12,7 +12,7 @@ MANIFEST.md               every file marked FRAMEWORK / CLIENT / VERBATIM
 kit/CustomContent/        the tree you copy into a new site
 stripes/                  parts bin: 8 pickable homepage stripes + mandatory _shared
 examples/templeton-jones/ a finished skin, for reference
-docs/                     CONTRACT, BUILD, ADDING-A-STRIPE, QA-CHECKLIST
+docs/                     START-HERE first; then CONTRACT, BUILD, ADDING-A-STRIPE, QA-CHECKLIST
 tools/lint.ps1            the only automated check that exists here
 ```
 
@@ -20,6 +20,7 @@ tools/lint.ps1            the only automated check that exists here
 
 | I want to... | Read |
 |---|---|
+| **build a site, and I have not used this before** | **`docs/START-HERE.md`** |
 | understand what I'm allowed to change | `docs/CONTRACT.md` |
 | build or reskin a site | `docs/BUILD.md` |
 | pick homepage stripes | `stripes/README.md` |

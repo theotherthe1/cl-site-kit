@@ -3,7 +3,10 @@
 The whole job, in order. `/new-site` automates steps 2-7; this is what it does
 and what you check.
 
-Read `CONTRACT.md` first if you have not. Nothing below makes sense without it.
+**New to the kit? Read `START-HERE.md` instead.** This page is the detailed
+reference and assumes the vocabulary. That one is the walkthrough.
+
+Read `CONTRACT.md` before doing anything unusual.
 
 ---
 
