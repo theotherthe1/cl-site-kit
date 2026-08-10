@@ -290,7 +290,7 @@ body:has(.hp-hero):has(#search.srchCtr:focus-within) {
 
 /* Dropdown Titles */
 .wrapper.masthead .NodeLevel1 > a {
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
     font-size: var(--dropdown-titleSize);
     letter-spacing: 1px;
     border-bottom: var(--dropdownAreaTitleUnderline);

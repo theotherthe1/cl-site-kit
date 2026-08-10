@@ -75,7 +75,7 @@
 .productCustomerRewards > div .crTextDesc .crValueCtr span{
     font-size: var(--detail-textSize) !important;
     color: var(--detail-rewards-color) !important;
-    font-family: citrfontbold;
+    font-family: var(--font-bold);
 }
 
 /* ==================== Product Color Picker Styles ==================== */
@@ -99,7 +99,7 @@
     display: block;
     width: 100%;
     margin-top: var(--detail-margin);
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
 }
 
 /* Color picker item styling */
@@ -196,7 +196,7 @@ span#productPrice {
     padding: var(--detail-buttonPadding);
     font-size: var(--detail-buttonSize);
     letter-spacing: var(--detail-letterSpacing);
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
     align-items: center;
     align-content: center;
     justify-content: center;
@@ -430,7 +430,7 @@ h1#devProductName {
     font-size: var(--detail-nameSize);
     padding-left: 0;
     color: var(--detail-titleColor);
-    font-family: 'citrfontboldalt';
+    font-family: var(--font-display);
     font-weight: 700;
 }
 
@@ -450,7 +450,7 @@ h1#devProductName {
     margin-right: calc(var(--detail-margin) * 0.5);
     border-right: var(--detail-border);
     padding-right: calc(var(--detail-padding) * 0.5);
-    font-family: 'citrfontreg';
+    font-family: var(--font-body);
 }
 
 .add-to-cart-area-msg-handling:after {
@@ -463,7 +463,7 @@ h1#devProductName {
     margin-right: calc(var(--detail-margin) * 0.5);
     border-right: var(--detail-border);
     padding-right: calc(var(--detail-padding) * 0.5);
-    font-family: 'citrfontreg';
+    font-family: var(--font-body);
 }
 
 a#Brand {
@@ -474,7 +474,7 @@ a#Brand {
     background: var(--detail-brandBadge-background);
     width: fit-content;
     border-radius: var(--detail-radius);
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
 }
 
 .col-1.flex-grow1.add-to-cart-area-msg {

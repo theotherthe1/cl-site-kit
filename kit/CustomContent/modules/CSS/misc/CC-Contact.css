@@ -124,7 +124,7 @@
     font-size: var(--contact-titleSize);
     color: var(--contact-titleColor);
     margin-bottom: calc(var(--contact-margin) * 0.5);
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
 }
 
 .contact .contact-subtitle {
@@ -190,7 +190,7 @@
     font-size: var(--contact-subtitleSize);
     color: var(--contact-titleColor);
     margin-bottom: calc(var(--contact-formGap) * 0.5);
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
 }
 
 .contact .contact-form-description {
@@ -216,7 +216,7 @@
     background: var(--contact-inputBackground);
     font-size: var(--contact-textSize);
     color: var(--contact-textColor);
-    font-family: 'citrfontreg';
+    font-family: var(--font-body);
     transition: var(--contact-buttonTransition);
     margin-bottom: var(--contact-formGap);
 }
@@ -241,7 +241,7 @@
     font-size: var(--contact-labelSize);
     color: var(--contact-labelColor);
     margin-bottom: calc(var(--contact-formGap) * 0.5);
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
 }
 
 /* Form Textarea */
@@ -261,7 +261,7 @@
     padding: var(--contact-buttonPadding);
     cursor: pointer;
     transition: var(--contact-buttonTransition);
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
     width: auto;
     line-height: normal;
     min-width: 150px;
@@ -323,7 +323,7 @@
     font-size: var(--contact-subtitleSize);
     color: var(--contact-titleColor);
     margin: 0;
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
 }
 
 .contact .contact-info-content {
@@ -387,7 +387,7 @@
     font-size: var(--contact-subtitleSize);
     color: var(--contact-titleColor);
     margin: 0;
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
 }
 
 .contact .contact-hours-content {

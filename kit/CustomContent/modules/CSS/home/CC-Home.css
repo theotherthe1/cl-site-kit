@@ -102,7 +102,7 @@
 }
 
 .hp-hero .cc-banner__title {
-    font-family: citrfontboldalt;
+    font-family: var(--font-display);
     font-size: var(--fontSize-3xl);
     line-height: 1;
     letter-spacing: 0;
@@ -277,7 +277,7 @@
 }
 
 .hp-new-in .faf-title {
-    font-family: citrfontboldalt;
+    font-family: var(--font-display);
     font-size: var(--fontSize-2xl);
     line-height: 1.1;
     letter-spacing: 0.01em;
@@ -286,7 +286,7 @@
 }
 
 .hp-new-in .faf-description {
-    font-family: citrfontreg;
+    font-family: var(--font-body);
     font-size: var(--fontSize-md);
     line-height: 1.55;
     color: var(--text-secondary);
@@ -365,13 +365,13 @@
     gap: 0.3rem;
     text-decoration: none;
     color: var(--text-secondary);
-    font-family: citrfontreg;
+    font-family: var(--font-body);
     font-size: var(--fontSize-sm);
 }
 
 .hp-new-in .faf-product-name {
     order: -1; /* band 02: name first, price beneath */
-    font-family: citrfontreg;
+    font-family: var(--font-body);
     font-size: var(--fontSize-sm);
     line-height: 1.45;
     color: var(--text);
@@ -490,7 +490,7 @@
 }
 
 .hp-collections > .cc-collection .cc-banner__title {
-    font-family: citrfontboldalt;
+    font-family: var(--font-display);
     font-size: var(--fontSize-2xl);
     line-height: 1.1;
     letter-spacing: 0.01em;
@@ -646,7 +646,7 @@
 .hp-brands .CC-HomepageTitles .cc-collection .cc-banner__title {
     grid-column: 1;
     grid-row: 2;
-    font-family: citrfontboldalt;
+    font-family: var(--font-display);
     font-size: var(--fontSize-2xl);
     line-height: 1.1;
     letter-spacing: 0.01em;
@@ -809,7 +809,7 @@
 }
 
 .hp-seasonal-duo > .cc-collection .cc-banner__title {
-    font-family: citrfontboldalt;
+    font-family: var(--font-display);
     font-size: var(--fontSize-2xl);
     line-height: 1.12;
     letter-spacing: 0.015em;
@@ -946,7 +946,7 @@
 }
 
 .hp-usp > .cc-collection .cc-banner__title {
-    font-family: citrfontreg;
+    font-family: var(--font-body);
     font-size: 1.1rem;
     letter-spacing: 0.02em;
     line-height: 1.4;
@@ -1041,13 +1041,13 @@
     align-self: stretch;
     border-top: 1px solid var(--border);
     padding-top: var(--text-block-wrap);
-    font-family: citrfontreg;
+    font-family: var(--font-body);
     font-size: var(--fontSize-sm);
     color: var(--text);
 }
 
 .hp-about__body p {
-    font-family: citrfontboldalt;
+    font-family: var(--font-display);
     font-size: var(--fontSize-2xl);
     line-height: 1.2;
     color: var(--text);
@@ -1093,7 +1093,7 @@
 }
 
 .hp-stay-inspired > .cc-collection .cc-banner__title {
-    font-family: citrfontboldalt;
+    font-family: var(--font-display);
     font-size: var(--fontSize-2xl);
     line-height: 1.15;
     letter-spacing: 0.015em;
@@ -1139,7 +1139,7 @@
    echoing the wordmark lockup that opens it. No competitor ships these towns. */
 .hp-stay-inspired > .cc-collection .cc-banner__body::after {
     content: "Shrewsbury \00A0\00B7\00A0 Abersoch \00A0\00B7\00A0 Newport";
-    font-family: citrfontreg;
+    font-family: var(--font-body);
     font-size: var(--fontSize-xs);
     letter-spacing: 0.22em;
     color: var(--text-muted);

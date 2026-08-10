@@ -13,7 +13,7 @@
     --bannerCardText: var(--text);
     /* Banner description type ramp — one typographic voice for every
        .cc-banner__desc. Colour/opacity stay per-band; only type lives here. */
-    --bannerDescFontFamily: citrfontreg;
+    --bannerDescFontFamily: var(--font-body);
     --bannerDescSize: var(--fontSize-md);
     --bannerDescLineHeight: 150%;
     --bannerDescLetterSpacing: normal;
@@ -187,7 +187,7 @@
 }
 
 .cc-banner__title {
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
     font-size: var(--fontSize-2xl);
     color: var(--bannerText);
     order: -1;
@@ -277,7 +277,7 @@
 }
 
 .CC-HomepageTitles h2 {
-    font-family: 'citrfontboldAlt';
+    font-family: var(--font-display);
     font-size: var(--fontSize-2xl);
     margin: 0;
     line-height: 1.2;
@@ -316,7 +316,7 @@
     gap: calc(var(--bannerGap) * 0.5);
 }
 .CC-HomepageTitles .cc-collection .cc-banner__title {
-    order: 0; font-family: citrfontboldalt; font-size: var(--fontSize-2xl);
+    order: 0; font-family: var(--font-display); font-size: var(--fontSize-2xl);
     line-height: 1.2; margin: 0; max-width: none;
 }
 .CC-HomepageTitles .cc-collection .cc-banner__desc {
@@ -334,7 +334,7 @@
     border: var(--bannerViewBorder);
     padding: var(--bannerViewPadding);
     border-radius: var(--bannerViewRadius);
-    font-family: citrfontbold;
+    font-family: var(--font-bold);
     font-size: var(--bannerViewSize);
     letter-spacing: 0.12em;
     transition: var(--global-transition);

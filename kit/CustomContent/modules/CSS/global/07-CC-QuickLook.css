@@ -65,7 +65,7 @@
 
 /* Price */
 .quicklookitem-wrapper .quicklookitem-inner-right---prices-price {
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
     font-size: var(--quicklook-titleSize);
 }
 

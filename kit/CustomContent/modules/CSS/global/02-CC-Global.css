@@ -16,25 +16,57 @@ body {
 }
 
 
-/* Custom Fonts */
+/* Font slots
+   ---------------------------------------------------------------------------
+   FOUR physical slots. The family names below are fixed kit vocabulary and are
+   never edited — no rule anywhere names them directly. A reskin swaps the FILES
+   in /font/ and points the ROLE TOKENS in 01-CC-Brand.css at whichever slots it
+   needs; every rule in the kit uses var(--font-body|bold|display|accent).
+
+   woff2 is listed first and ttf second, so a client may hand over either format
+   and the browser takes the first it understands. A slot no role token names is
+   never downloaded, so an unused slot costs nothing and its files may simply be
+   absent — which is how a two-face client works (point --font-bold at the same
+   family as --font-body rather than shipping a duplicate font).
+
+     slot              intended role              files
+     citrfontreg       body / running text        font/body.woff2 | body.ttf
+     citrfontbold      bold + semantic headings   font/bold.woff2 | bold.ttf
+     citrfontboldalt   editorial display face     font/display.woff2 | display.ttf
+     citrfontaccent    optional fourth face       font/accent.woff2 | accent.ttf
+
+   `font-weight: normal !important` is load-bearing on all four: these are
+   single-weight files, and without it the browser synthesises a fake bold on
+   any element that also carries a font-weight. Do not remove it. */
 
 @font-face {
-    font-family: 'citrfontboldalt';
-    src: url('/sitespecific/customcontent/font/boldalt.ttf') format('truetype');
+    font-family: 'citrfontreg';
+    src: url('/sitespecific/customcontent/font/body.woff2') format('woff2'),
+         url('/sitespecific/customcontent/font/body.ttf') format('truetype');
     font-weight: normal !important;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'citrfontbold';
-    src: url('/sitespecific/customcontent/font/bold.ttf') format('truetype');
+    src: url('/sitespecific/customcontent/font/bold.woff2') format('woff2'),
+         url('/sitespecific/customcontent/font/bold.ttf') format('truetype');
     font-weight: normal !important;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'citrfontreg';
-    src: url('/sitespecific/customcontent/font/regular.ttf') format('truetype');
+    font-family: 'citrfontboldalt';
+    src: url('/sitespecific/customcontent/font/display.woff2') format('woff2'),
+         url('/sitespecific/customcontent/font/display.ttf') format('truetype');
+    font-weight: normal !important;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'citrfontaccent';
+    src: url('/sitespecific/customcontent/font/accent.woff2') format('woff2'),
+         url('/sitespecific/customcontent/font/accent.ttf') format('truetype');
     font-weight: normal !important;
     font-style: normal;
 }
@@ -189,7 +221,7 @@ body {
 
 html,
 body {
-    font-family: 'citrfontreg';
+    font-family: var(--font-body);
     font-weight: 400;
     font-style: normal;
     font-size: var(--fontSize-base);
@@ -207,7 +239,7 @@ h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6,
 .current, .bannerTitle, .mainFont,
 .ctaTitle, .boldfont {
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
     font-weight: 300;
     font-style: normal;
 }

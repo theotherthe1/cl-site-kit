@@ -14,7 +14,7 @@
 }
 
 #LandingPage #facetsearch_landingPageTotalProductsLbl {
-    font-family: "citrfontbold";
+    font-family: var(--font-bold);
     font-size: var(--faf-textSize);
     color: var(--faf-textColor);
 }
@@ -41,7 +41,7 @@
 
 /* ==================== Facet Headers ==================== */
 #LandingPage .FAFFiltersReorder .facetHdr {
-    font-family: "citrfontbold";
+    font-family: var(--font-bold);
     font-size: var(--faf-buttonSize);
     color: var(--faf-buttonColor);
     background: var(--faf-buttonBackground);
@@ -91,7 +91,7 @@
 #LandingPage .FAFFiltersReorder .LPExpandButton {
     font-size: var(--faf-countSize);
     color: var(--faf-hoverColor) !important;
-    font-family: "citrfontbold";
+    font-family: var(--font-bold);
     text-align: right;
     transition: var(--faf-transition);
     border-bottom: none;
@@ -144,7 +144,7 @@
     justify-content: center;
     gap: calc(var(--faf-gap) * 0.5);
     cursor: pointer;
-    font-family: "citrfontbold";
+    font-family: var(--font-bold);
 }
 
 #LandingPage .FAFFiltersMobile.mobile .FAFoptionsContainer:hover {

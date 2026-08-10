@@ -1,5 +1,41 @@
 /* CC-Brand.css - Templeton Jones */
 
+/* ===========================================================================
+   TYPE ROLES
+   ---------------------------------------------------------------------------
+   The three (optionally four) typographic jobs on the site. Every rule in the
+   kit names a ROLE, never a font — so a reskin repoints a role here and nothing
+   else is edited. The slots themselves (citrfontreg / citrfontbold /
+   citrfontboldalt / citrfontaccent) are declared once in 02 and map to the
+   files in /font/.
+
+     --font-body     running text, inputs, CTA labels
+     --font-bold     semantic headings (h1-h6) and bold UI emphasis
+     --font-display  the editorial face — big band statements, feature titles
+     --font-accent   optional fourth face; leave pointed at body if unused
+
+   HARD CONSTRAINT — font/body.* and font/bold.* are NOT optional.
+   The platform's own stylesheets (Modules/CSS/**, citr-*.css at the site root,
+   ~186 declarations) name `citrfontreg` and `citrfontbold` LITERALLY. Those
+   rules are outside this tree and cannot be repointed, so both slots must
+   always contain a real font file or platform-styled text loses its face.
+   Leave these two role tokens on their matching slots; repointing them only
+   splits our typography away from the platform's.
+
+   `citrfontboldalt` (display) and `citrfontaccent` are ours alone — no platform
+   rule names them, so those slots are genuinely optional.
+
+   Templeton Jones supplies one text face for both body and bold (the two files
+   are byte-identical). That duplication is required, not waste: the platform
+   will apply `citrfontbold` regardless of what we point --font-bold at.
+   =========================================================================== */
+:root {
+    --font-body:    'citrfontreg';
+    --font-bold:    'citrfontbold';
+    --font-display: 'citrfontboldalt';
+    --font-accent:  var(--font-body);   /* unused on this client */
+}
+
 /* Reskin Controls */
 :root {
     --brand: #1E1E1E;
@@ -20,7 +56,7 @@
     --global-buttonSize: var(--fontSize-xs);
     /* CTA type ramp — one typographic voice for every button and link-text.
        Retune here, not in the page CSS. */
-    --global-buttonFontFamily: citrfontreg;
+    --global-buttonFontFamily: var(--font-body);
     --global-buttonLetterSpacing: 10%;
     --global-buttonLineHeight: 1.2;
     --global-buttonTextTransform: uppercase;

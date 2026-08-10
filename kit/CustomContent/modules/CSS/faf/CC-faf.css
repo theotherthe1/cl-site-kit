@@ -50,7 +50,7 @@
 /* ==================== FAF Header Styles ==================== */
 /* Main facet header styling */
 #FafKnockoutResults .facetHdr {
-    font-family: "citrfontbold";
+    font-family: var(--font-bold);
     text-transform: unset;
     background: var(--faf-pageBackground);
 } 
@@ -79,7 +79,7 @@ span.col-1.facetHdr.FFDesktopHDR:hover {
 #FAFTitle {
     order: -1; /* Moves title to top */
     text-align: center;
-    font-family: citrfontboldAlt;
+    font-family: var(--font-display);
 }
 
 .FFopen.FFopen {
@@ -212,7 +212,7 @@ a.col-1.frItemName {
     letter-spacing: var(--faf-badgeLetterSpacing);
     padding: var(--faf-badgePadding);
     font-size: var(--faf-badgeSize) !important;
-    font-family: citrfontbold !important;
+    font-family: var(--font-bold) !important;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -263,7 +263,7 @@ a.col-1.frItemName {
     flex-flow: column;
     justify-content: flex-start;
     padding-bottom: 0 !important;
-    font-family: 'citrfontreg';
+    font-family: var(--font-body);
     font-weight: bolder;
 }
 
@@ -308,7 +308,7 @@ a.col-1.frItemName {
     top: 0px;
     right: 22px;
     text-align: center;
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
     display: flex;
     justify-content: center;
     line-height: normal;
@@ -327,7 +327,7 @@ a.col-1.frItemName {
 
 /* Price styling */
 span.nowPrice-betterSearch {
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
     color: var(--faf-textColor);
 }   
 
@@ -361,7 +361,7 @@ span.standardPrice-betterSearch{
    
 /* Price styling in quick look */
 .quicklookitem-inner-right---prices-price {
-    font-family: 'citrfontbold';
+    font-family: var(--font-bold);
     font-size: var(--faf-titleSize);
 }
    
@@ -594,7 +594,7 @@ span.standardPrice-betterSearch{
 }
 
 .FAFFilters.FFmobile .title-holder.mobile h2 {
-    font-family: "citrfontbold";
+    font-family: var(--font-bold);
     font-size: var(--faf-titleSize);
     color: var(--faf-titleColor);
     margin: 0;
@@ -659,7 +659,7 @@ span.standardPrice-betterSearch{
 
 /* Tappable group headers */
 .FAFFilters.FFmobile .facetHdr.FFmobileHDR.FFmobileHDR {
-    font-family: "citrfontbold" !important;
+    font-family: var(--font-bold) !important;
     font-size: var(--faf-buttonSize) !important;
     color: var(--faf-buttonColor) !important;
     background: var(--faf-buttonBackground) !important;
@@ -681,14 +681,14 @@ span.standardPrice-betterSearch{
 
 /* Sub headers (facet definition + sub facet titles) */
 .FAFFilters.FFmobile .facetHdr {
-    font-family: "citrfontbold";
+    font-family: var(--font-bold);
     color: var(--faf-textColor);
     text-transform: unset;
     background: var(--faf-pageBackground);
 }
 
 .FAFFilters.FFmobile .facetSubHdr {
-    font-family: "citrfontbold";
+    font-family: var(--font-bold);
     color: var(--faf-textColor) !important;
     font-size: var(--faf-textSize);
 }
@@ -846,7 +846,7 @@ span.standardPrice-betterSearch{
 
     .FAFFiltersReorder .FacetSearch > div:before{
         content: "Search";
-        font-family: 'citrfontbold';
+        font-family: var(--font-bold);
     }
     
     /* Hide the "Type to Filter" heading */
