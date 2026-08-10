@@ -1,0 +1,530 @@
+/* ==================== Contact Variables ==================== */
+:root {
+    /* Contact Typography */
+    --contact-titleSize: var(--fontSize-2xl);
+    --contact-subtitleSize: var(--fontSize-xl);
+    --contact-textSize: var(--fontSize-base);
+    --contact-labelSize: var(--fontSize-sm);
+    --contact-buttonSize: var(--fontSize-base);
+    
+    /* Contact Colors */
+    --contact-background: var(--background-raised);
+    --contact-textColor: var(--text);
+    --contact-titleColor: var(--text);
+    --contact-labelColor: var(--text);
+    --contact-borderColor: var(--global-border);
+    --contact-linkColor: var(--brand);
+    --contact-accentColor: var(--brand-accent);
+    --contact-focusColor: var(--brand-focus);
+    --contact-errorColor: var(--sale);
+    
+    /* Contact Layout & Spacing */
+    --contact-padding: var(--global-padding);
+    --contact-gap: var(--global-gap);
+    --contact-margin: var(--global-margin);
+    --contact-radius: var(--global-radius);
+    --contact-formGap: calc(var(--global-gap) * 0.5);
+    
+    /* Contact Form Variables */
+    --contact-inputPadding: 0.75rem 1rem;
+    --contact-inputBorder: var(--global-border);
+    --contact-inputBorderRadius: var(--global-radius);
+    --contact-inputBackground: var(--background);
+    --contact-inputFocusBorder: 2px solid var(--brand-focus);
+    --contact-inputErrorBorder: 2px solid var(--sale);
+    
+    /* Contact Button Variables */
+    --contact-buttonSize: var(--global-buttonSize);
+    --contact-buttonColor: var(--global-buttonColor);
+    --contact-buttonBorder: var(--global-buttonBorder);
+    --contact-buttonBackground: var(--global-buttonBackground);
+    --contact-buttonPadding: var(--global-buttonPadding);
+    --contact-buttonRadius: var(--global-buttonRadius);
+    
+    /* Contact Button Hover States */
+    --contact-buttonBackgroundHover: var(--global-buttonBackgroundHover);
+    --contact-buttonColorHover: var(--global-buttonColorHover);
+    --contact-buttonBorderHover: var(--global-buttonBorderHover);
+    --contact-buttonPaddingHover: var(--global-buttonPaddingHover);
+    --contact-buttonTransition: var(--global-buttonTransition);
+    
+    /* Contact Map Variables */
+    --contact-mapHeight: 450px;
+    --contact-mapBorderRadius: var(--global-radius);
+    --contact-mapBorder: var(--global-border);
+    
+    /* Contact Info Variables */
+    --contact-infoBackground: var(--background-raised);
+    --contact-infoPadding: var(--global-padding);
+    --contact-infoBorderRadius: var(--global-radius);
+    --contact-infoBorder: var(--global-border);
+    
+    /* Contact Hours Variables */
+    --contact-hoursBackground: var(--background-raised);
+    --contact-hoursPadding: var(--global-padding);
+    --contact-hoursBorderRadius: var(--global-radius);
+    --contact-hoursBorder: var(--global-border);
+}
+
+/* ==================== Contact Page Layout ==================== */
+/* Main contact wrapper */
+.wrapper .grid.fixed .container .col-1.maxInner.ctrPad32 {
+    padding: var(--contact-padding);
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* ==================== Contact Breadcrumbs ==================== */
+.contact .contact-breadcrumbs {
+    margin-bottom: var(--contact-margin);
+    padding-bottom: calc(var(--contact-margin) * 0.5);
+    border-bottom: var(--contact-borderColor);
+}
+
+.contact .breadcrumb-link {
+    color: var(--contact-textColor);
+    text-decoration: none;
+    transition: var(--contact-buttonTransition);
+    font-size: var(--contact-textSize);
+}
+
+.contact .breadcrumb-link:hover {
+    color: var(--contact-linkColor);
+}
+
+.contact .breadcrumb-current {
+    color: var(--contact-linkColor);
+    font-weight: bold;
+}
+
+.contact .breadcrumb-separator {
+    color: var(--contact-accentColor);
+    margin: 0 0.5rem;
+}
+
+.contact .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ==================== Contact Header ==================== */
+.contact .contact-header {
+    margin-bottom: var(--contact-margin);
+    text-align: center;
+}
+
+.contact .contact-title {
+    font-size: var(--contact-titleSize);
+    color: var(--contact-titleColor);
+    margin-bottom: calc(var(--contact-margin) * 0.5);
+    font-family: 'citrfontbold';
+}
+
+.contact .contact-subtitle {
+    font-size: var(--contact-textSize);
+    margin: 0;
+    font-style: italic;
+}
+
+/* ==================== Contact Map Styles ==================== */
+.contact .contact-map-section {
+    margin-bottom: var(--contact-margin);
+}
+
+.contact .contact-map-container {
+    position: relative;
+    width: 100%;
+    height: var(--contact-mapHeight);
+    border-radius: var(--contact-mapBorderRadius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.contact .contact-map-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: var(--contact-mapBorderRadius);
+}
+
+/* ==================== Contact Content Grid ==================== */
+.contact .contact-content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--contact-gap);
+    margin-bottom: var(--contact-margin);
+}
+
+/* ==================== Contact Form Styles ==================== */
+
+.contact .contact-form-section li{
+    list-style: none;
+}
+
+.contact .contact-form-section {
+    order: 1;
+}
+
+.contact .contact-form-container {
+    background: var(--contact-background);
+    padding: var(--contact-padding);
+    border-radius: var(--contact-radius);
+    border: var(--contact-borderColor);
+    box-shadow: var(--shadow-sm);
+    height: fit-content;
+}
+
+.contact .contact-form-header {
+    margin-bottom: var(--contact-formGap);
+    text-align: center;
+}
+
+.contact .contact-form-title {
+    font-size: var(--contact-subtitleSize);
+    color: var(--contact-titleColor);
+    margin-bottom: calc(var(--contact-formGap) * 0.5);
+    font-family: 'citrfontbold';
+}
+
+.contact .contact-form-description {
+    font-size: var(--contact-textSize);
+    margin: 0;
+    font-style: italic;
+}
+
+.contact .contact-form-wrapper {
+    margin-top: var(--contact-formGap);
+}
+
+/* Form Input Styles */
+.contact .contact-form-wrapper input[type="text"],
+.contact .contact-form-wrapper input[type="email"],
+.contact .contact-form-wrapper input[type="tel"],
+.contact .contact-form-wrapper textarea,
+.contact .contact-form-wrapper select {
+    width: 100%;
+    padding: var(--contact-inputPadding);
+    border: var(--contact-inputBorder);
+    border-radius: var(--contact-inputBorderRadius);
+    background: var(--contact-inputBackground);
+    font-size: var(--contact-textSize);
+    color: var(--contact-textColor);
+    font-family: 'citrfontreg';
+    transition: var(--contact-buttonTransition);
+    margin-bottom: var(--contact-formGap);
+}
+
+.contact .contact-form-wrapper input:focus,
+.contact .contact-form-wrapper textarea:focus,
+.contact .contact-form-wrapper select:focus {
+    outline: none;
+    border: var(--contact-inputFocusBorder);
+    box-shadow: 0 0 0 3px oklch(from var(--contact-focusColor) l c h / 0.15);
+}
+
+.contact .contact-form-wrapper input.error,
+.contact .contact-form-wrapper textarea.error,
+.contact .contact-form-wrapper select.error {
+    border: var(--contact-inputErrorBorder);
+}
+
+/* Form Labels */
+.contact .contact-form-wrapper label {
+    display: block;
+    font-size: var(--contact-labelSize);
+    color: var(--contact-labelColor);
+    margin-bottom: calc(var(--contact-formGap) * 0.5);
+    font-family: 'citrfontbold';
+}
+
+/* Form Textarea */
+.contact .contact-form-wrapper textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Form Submit Button */
+.contact .contact-form-wrapper input[type="submit"],
+.contact .contact-form-wrapper button[type="submit"] {
+    font-size: var(--contact-buttonSize);
+    color: var(--contact-buttonColor);
+    background: var(--contact-buttonBackground);
+    border: var(--contact-buttonBorder);
+    border-radius: var(--contact-buttonRadius);
+    padding: var(--contact-buttonPadding);
+    cursor: pointer;
+    transition: var(--contact-buttonTransition);
+    font-family: 'citrfontbold';
+    width: auto;
+    line-height: normal;
+    min-width: 150px;
+}
+
+.contact .contact-form-wrapper input[type="submit"]:hover,
+.contact .contact-form-wrapper button[type="submit"]:hover {
+    background: var(--contact-buttonBackgroundHover);
+    color: var(--contact-buttonColorHover);
+    border: var(--contact-buttonBorderHover);
+    padding: var(--contact-buttonPaddingHover);
+}
+
+/* Form Validation Messages */
+.contact .contact-form-wrapper .error-message {
+    color: var(--contact-errorColor);
+    font-size: var(--contact-labelSize);
+    margin-top: calc(var(--contact-formGap) * 0.5);
+    display: block;
+}
+
+.contact .contact-form-wrapper .success-message {
+    color: var(--contact-linkColor);
+    font-size: var(--contact-textSize);
+    margin-top: var(--contact-formGap);
+    padding: var(--contact-padding);
+    background: oklch(from var(--contact-focusColor) l c h / 0.1);
+    border: 1px solid var(--contact-focusColor);
+    border-radius: var(--contact-radius);
+}
+
+/* ==================== Contact Info Section ==================== */
+.contact .contact-info-section {
+    order: 2;
+}
+
+.contact .contact-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--contact-formGap);
+    height: fit-content;
+}
+
+/* Contact Info Block */
+.contact .contact-info-block {
+    background: var(--contact-infoBackground);
+    padding: var(--contact-infoPadding);
+    border-radius: var(--contact-infoBorderRadius);
+    border: var(--contact-infoBorder);
+    box-shadow: var(--shadow-sm);
+}
+
+.contact .contact-info-header {
+    margin-bottom: var(--contact-formGap);
+    text-align: center;
+}
+
+.contact .contact-info-title {
+    font-size: var(--contact-subtitleSize);
+    color: var(--contact-titleColor);
+    margin: 0;
+    font-family: 'citrfontbold';
+}
+
+.contact .contact-info-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--contact-formGap);
+}
+
+/* Contact Info Items */
+.contact .contact-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--contact-formGap) * 0.25);
+}
+
+.contact .contact-info-label {
+    font-size: var(--contact-labelSize);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.contact .contact-info-value {
+    font-size: var(--contact-textSize);
+    color: var(--contact-textColor);
+    text-decoration: none;
+    transition: var(--contact-buttonTransition);
+}
+
+.contact .contact-phone:hover,
+.contact .contact-email:hover {
+    color: var(--contact-linkColor);
+}
+
+.contact .contact-address-content {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--contact-formGap) * 0.25);
+}
+
+.contact .contact-address-content span {
+    display: block;
+    line-height: 1.4;
+}
+
+/* Contact Hours Block */
+.contact .contact-hours-block {
+    background: var(--contact-hoursBackground);
+    padding: var(--contact-hoursPadding);
+    border-radius: var(--contact-hoursBorderRadius);
+    border: var(--contact-hoursBorder);
+    box-shadow: var(--shadow-sm);
+}
+
+.contact .contact-hours-header {
+    margin-bottom: var(--contact-formGap);
+    text-align: center;
+}
+
+.contact .contact-hours-title {
+    font-size: var(--contact-subtitleSize);
+    color: var(--contact-titleColor);
+    margin: 0;
+    font-family: 'citrfontbold';
+}
+
+.contact .contact-hours-content {
+    text-align: center;
+}
+
+.contact .contact-hours-list {
+    font-size: var(--contact-textSize);
+    color: var(--contact-textColor);
+    line-height: 1.6;
+}
+
+.contact .contact-hours-list div {
+    margin-bottom: calc(var(--contact-formGap) * 0.5);
+    padding: calc(var(--contact-formGap) * 0.25) 0;
+    border-bottom: var(--contact-borderColor);
+}
+
+.contact .contact-hours-list div:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+/* ==================== Contact Responsive Styles ==================== */
+@media screen and (max-width: 1024px) {
+    .contact .contact-content-grid {
+        grid-template-columns: 1fr;
+        gap: var(--contact-margin);
+    }
+    
+    .contact .contact-form-section {
+        order: 1;
+    }
+    
+    .contact .contact-info-section {
+        order: 2;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .contact .contact-title {
+        font-size: var(--contact-subtitleSize);
+    }
+    
+    .contact .contact-form-title,
+    .contact .contact-info-title,
+    .contact .contact-hours-title {
+        font-size: var(--contact-textSize);
+    }
+    
+    .contact .contact-form-container,
+    .contact .contact-info-block,
+    .contact .contact-hours-block {
+        padding: calc(var(--contact-padding) * 0.75);
+    }
+    
+    .contact .contact-map-container {
+        height: 300px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .contact .wrapper .grid.fixed .container .col-1.maxInner.ctrPad32 {
+        padding: calc(var(--contact-padding) * 0.5);
+    }
+    
+    .contact .contact-form-wrapper input[type="submit"],
+    .contact .contact-form-wrapper button[type="submit"] {
+        width: 100%;
+    }
+    
+    .contact .contact-map-container {
+        height: 250px;
+    }
+    
+    .contact .contact-header {
+        text-align: left;
+    }
+    
+    .contact .contact-form-header,
+    .contact .contact-info-header,
+    .contact .contact-hours-header {
+        text-align: left;
+    }
+}
+
+/* ==================== Contact Form Specific Elements ==================== */
+/* Form Field Groups */
+.contact .contact-form-wrapper .field-group {
+    margin-bottom: var(--contact-formGap);
+}
+
+.contact .contact-form-wrapper .field-group:last-child {
+    margin-bottom: 0;
+}
+
+/* Required Field Indicators */
+.contact .contact-form-wrapper label.required::after {
+    content: " *";
+    color: var(--contact-errorColor);
+}
+
+/* Form Help Text */
+.contact .contact-form-wrapper .help-text {
+    font-size: var(--contact-labelSize);
+    color: var(--contact-accentColor);
+    margin-top: calc(var(--contact-formGap) * 0.5);
+    font-style: italic;
+}
+
+/* Form Loading State */
+.contact .contact-form-wrapper .loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.contact .contact-form-wrapper .loading input[type="submit"],
+.contact .contact-form-wrapper .loading button[type="submit"] {
+    background: var(--contact-accentColor);
+    color: var(--contact-buttonColorHover);
+    cursor: not-allowed;
+}
+
+
+/* Contact form success animation */
+.contact .contact-form-wrapper .success-message {
+    animation: slideInDown 0.5s ease;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+       

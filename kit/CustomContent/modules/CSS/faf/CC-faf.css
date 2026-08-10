@@ -1,0 +1,862 @@
+/* ==================== FAF Variables ==================== */
+:root {
+    --faf-titleSize: var(--fontSize-lg);
+    --faf-textSize: var(--fontSize-base);
+    --faf-countSize: var(--fontSize-xs);
+    --faf-pageBackground: var(--background);
+    --faf-background: var(--background-raised);
+    --faf-titleColor: var(--brand-dark);
+    --faf-textColor: var(--text);
+    --faf-countColor: var(--brand-link);
+    --faf-hoverColor: var(--brand-link);
+    --faf-padding: var(--global-padding);
+    --faf-margin: var(--global-margin);
+    --faf-gap: var(--global-gap);
+    --faf-radius: var(--global-radius);
+    --faf-buttonRadius: var(--global-buttonRadius);
+    --faf-transition: var(--global-transition);
+    --faf-buttonSize: var(--global-buttonSize);
+    --faf-buttonColor: var(--global-buttonColor);
+    --faf-buttonBorder: var(--global-buttonBorder);
+    --faf-buttonBackground: var(--global-buttonBackground);
+    --faf-buttonPadding: var(--global-buttonPadding);
+    --faf-buttonBackgroundHover: var(--global-buttonBackgroundHover);
+    --faf-buttonColorHover: var(--global-buttonColorHover);
+    --faf-buttonBorderHover: var(--global-buttonBorderHover);
+    --faf-buttonPaddingHover: var(--global-buttonPaddingHover);
+    --faf-buttonTransition: var(--global-buttonTransition);
+    --faf-border: 1px solid var(--border);
+    --faf-borderRadius: var(--global-radius);
+    --faf-sale-background: var(--sale);
+    --faf-sale-color: var(--text-inverse);
+    --faf-filterBackground: var(--brand);
+    --faf-sliderBackground: var(--brand);
+    --faf-tooltipBackground: var(--brand-dark);
+    --faf-tooltipColor: var(--text-inverse);
+    --faf-addToCart-background: var(--global-addToCart-background);
+    --faf-addToCart-border: var(--global-addToCart-border);
+    --faf-addToCart-color: var(--global-addToCart-color);
+    --faf-addToCart-backgroundHover: var(--global-addToCart-backgroundHover);
+    --faf-addToCart-borderHover: var(--global-addToCart-borderHover);
+    --faf-addToCart-colorHover: var(--global-addToCart-colorHover);
+    --faf-badgePadding: 0.4rem;
+    --faf-badgeSize: var(--faf-countSize);
+    --faf-badgeLetterSpacing: 0.08em;
+    --faf-stockLabelWidth: 135px;
+    --faf-borderWidth: 0;
+    --faf-borderColor: var(--border);
+}
+
+/* ==================== FAF Header Styles ==================== */
+/* Main facet header styling */
+#FafKnockoutResults .facetHdr {
+    font-family: "citrfontbold";
+    text-transform: unset;
+    background: var(--faf-pageBackground);
+} 
+
+/* Desktop header specific styling */
+span.col-1.facetHdr.FFDesktopHDR {
+    font-size: var(--faf-buttonSize);
+    color: var(--faf-buttonColor) !important;
+    background: var(--faf-buttonBackground) !important;
+    border: var(--faf-buttonBorder) !important;
+    border-radius: var(--faf-buttonRadius);
+    padding: var(--faf-buttonPadding);
+    transition: var(--faf-buttonTransition);
+    cursor: pointer;
+}
+
+span.col-1.facetHdr.FFDesktopHDR:hover {
+    background: var(--faf-buttonBackgroundHover) !important;
+    color: var(--faf-buttonColorHover) !important;
+    border: var(--faf-buttonBorderHover) !important;
+    border-radius: var(--faf-buttonRadius);
+    padding: var(--faf-buttonPaddingHover);
+}
+
+/* Title positioning and font */
+#FAFTitle {
+    order: -1; /* Moves title to top */
+    text-align: center;
+    font-family: citrfontboldAlt;
+}
+
+.FFopen.FFopen {
+    background: var(--faf-pageBackground) !important;
+}
+
+.facetOption{
+    width: 100%;
+}
+
+.facetOption > span, .subFacetOption > span{
+    border-radius: var(--faf-radius);
+}
+
+.facetSelectedff.checked.checked, .facetSelectedff.checked.checked {
+    background: var(--faf-filterBackground) !important;
+    outline: var(--faf-borderWidth) solid var(--faf-filterBackground);
+}
+
+/* ==================== FAF Options Styles ==================== */
+/* Option button styling */
+.FAFoptions.FAFoptions a {
+    font-size: var(--faf-buttonSize);
+    color: var(--faf-buttonColor) !important;
+    background: var(--faf-buttonBackground) !important;
+    border: var(--faf-buttonBorder) !important;
+    border-radius: var(--faf-buttonRadius) !important;
+    margin: calc(var(--faf-gap) / 5) !important;
+    transition: var(--faf-buttonTransition);
+}    
+
+.FAFoptions.FAFoptions a:hover {
+    background: var(--faf-buttonBackgroundHover) !important;
+    color: var(--faf-buttonColorHover) !important;
+    border: var(--faf-buttonBorderHover) !important;
+}
+
+/* Mobile-specific option container */
+.mobile.mobile .FAFoptionsContainer > a {
+    font-size: var(--faf-buttonSize);
+    color: var(--faf-buttonColor) !important;
+    background: var(--faf-buttonBackground) !important;
+    border: var(--faf-buttonBorder) !important;
+    border-radius: var(--faf-buttonRadius) !important;
+    padding: var(--faf-buttonPadding);
+    transition: var(--faf-buttonTransition);
+    line-height: normal !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}    
+
+/* Titles */
+
+.selectFacet, .facetSubHdr, .subFacetOption:hover{
+	color: #000 !important;
+}
+
+.mobile .FAFoptionsContainer {
+    display: flex !important;
+    gap: calc(var(--faf-gap) * 0.15);
+}
+
+.mobile.mobile .FAFoptionsContainer > a:hover {
+    background: var(--faf-buttonBackgroundHover) !important;
+    color: var(--faf-buttonColorHover) !important;
+    border: var(--faf-buttonBorderHover) !important;
+    padding: var(--faf-buttonPaddingHover);
+}
+
+/* ==================== FAF UI Elements ==================== */
+/* Slider styling for price range */
+.noUi-connect.noUi-draggable {
+    background: var(--faf-sliderBackground);
+}
+
+.noUi-tooltip {
+    background: var(--faf-tooltipBackground) !important;
+    color: var(--faf-tooltipColor) !important;
+}
+
+/* Item name link styling */
+a.col-1.frItemName {
+    color: var(--faf-textColor);
+}
+
+/* ==================== Stock Status Styles ==================== */
+/* Ensures out of stock items remain visible */
+.col-facetItem[data-isinstock="stockStatus-false"],
+.col-facetItem[data-isinstock="stockStatus-False"] {
+    opacity: 1 !important;
+    -webkit-filter: none !important;
+    filter: none !important;
+}
+
+/* Remove default stock status icon */
+[class*="stockStatus"]:after {
+    display: none;
+}
+
+/* Stock status container layout */
+.facetStock {
+    line-height: initial !important;
+}
+
+/* Remove default pricing borders */
+.facetPricing {
+    border-bottom: none !important;
+}
+
+.facetPricing .pricing{
+    display: flex;
+}
+
+/* Stock status positioning */
+[class*="stockStatus"] {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0;
+    border-bottom: none !important;
+    justify-content: center;
+    top: 0;
+    margin-bottom: 0 !important;
+}
+
+/* ==================== Stock Button Styles ==================== */
+/* Base stock button styling */
+[class*="stockStatus-"]:before {
+    text-align: center;
+    letter-spacing: var(--faf-badgeLetterSpacing);
+    padding: var(--faf-badgePadding);
+    font-size: var(--faf-badgeSize) !important;
+    font-family: citrfontbold !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: initial !important;
+    transition: var(--faf-transition);
+    width: 100%;
+    border-radius: var(--faf-buttonRadius);
+}
+
+/* Different stock status variations */
+/* In stock items */
+.stockStatus-True.stockStatus-True:before {
+    content: "Add To Cart" !important;
+    background: var(--faf-addToCart-background) !important;
+    border: var(--faf-addToCart-border) !important;
+    color: var(--faf-addToCart-color) !important;
+    line-height: normal;
+}
+
+/* Out of stock items */
+.stockStatus-false.stockStatus-false:before {
+    content: "Stock Notification";
+    background: var(--status-out-of-stock) !important;
+    border: 1px solid var(--status-out-of-stock-dark) !important;
+    color: var(--text-inverse) !important;
+}
+
+/* Special order items */
+.stockStatus-SpecialOrder.stockStatus-SpecialOrder:before,
+.stockStatus-PreOrder.stockStatus-PreOrder:before {
+    content: "Special Order";
+    background: var(--status-special-order) !important;
+    border: 1px solid var(--status-special-order-dark) !important;
+    color: var(--text-inverse) !important;
+}
+
+/* Coming soon items */
+.stockStatus-ComingSoon.stockStatus-ComingSoon:before {
+    content: "Coming Soon";
+    background: var(--status-coming-soon) !important;
+    border: 1px solid var(--status-coming-soon-dark) !important;
+    color: var(--text-inverse) !important;
+}
+
+/* View Item btn*/
+.frItemName {
+    display: flex !important;
+    flex-flow: column;
+    justify-content: flex-start;
+    padding-bottom: 0 !important;
+    font-family: 'citrfontreg';
+    font-weight: bolder;
+}
+
+
+/* out of stock filter override */
+.col-facetItem[data-isinstock="stockStatus-false"], .col-facetItem[data-isinstock="stockStatus-False"]{
+    opacity: 1 !important;
+    filter: none !important;
+    -webkit-filter: none !important;
+}                         
+
+/* ==================== Facet Item Styles ==================== */
+/* Main item details container */
+.facetItemDetails {
+    background: var(--background-raised);
+    border: var(--faf-border);
+    border-radius: 0 0 var(--faf-borderRadius) var(--faf-borderRadius);
+    padding: calc(var(--faf-padding) * 0.6);
+}
+
+/* Product image container styling */
+.facetItemImg, 
+.facetItemImg:hover, 
+.facetItemImg:focus {
+    padding: calc(var(--faf-padding) * 0.5);
+    border: var(--faf-border);
+    border-bottom: none;
+    border-radius: var(--faf-borderRadius) var(--faf-borderRadius) 0 0;
+}
+
+/* ==================== Sale Badge Styles ==================== */
+/* Sale percentage badge styling */
+[data-onsale="1"] .percentOff-betterSearch {
+    background: var(--faf-sale-background);
+    color: var(--faf-sale-color);
+    padding: calc(var(--faf-padding) * 0.25) calc(var(--faf-padding) * 0.5);
+    border-radius: var(--faf-buttonRadius);
+    font-weight: bold;
+    letter-spacing: 0.04em;
+    position: absolute;
+    width: fit-content;
+    top: 0px;
+    right: 22px;
+    text-align: center;
+    font-family: 'citrfontbold';
+    display: flex;
+    justify-content: center;
+    line-height: normal;
+    padding: .5rem;
+}
+
+/* Remove default sale indicator */
+.facetIsOnSale span:after {
+    display: none;
+}
+
+/* Grid item spacing */
+.item.col-facetItem {
+    padding: calc(var(--faf-padding) * 0.4375);
+}
+
+/* Price styling */
+span.nowPrice-betterSearch {
+    font-family: 'citrfontbold';
+    color: var(--faf-textColor);
+}   
+
+span.standardPrice-betterSearch{
+    color: var(--faf-sale-background) !important;
+    font-size: var(--faf-textSize);
+}
+
+/* ==================== Quick Look Styles ==================== */
+/* Quick look modal container */
+.quicklookitem-wrapper[data-state="open"] .quicklookitem-inner {
+    border: var(--faf-border);
+    border-radius: var(--faf-borderRadius);
+}
+   
+/* Close button styling */
+.quicklookitem-close {
+    border-radius: var(--faf-borderRadius);
+}
+   
+/* Right side content layout */
+.quicklookitem-inner-right {
+    display: flex;
+    flex-flow: column;
+}
+   
+/* Product name in quick look */
+.quicklookitem-inner-right .quicklookitem-inner-right---name {
+    font-size: var(--faf-titleSize);
+}
+   
+/* Price styling in quick look */
+.quicklookitem-inner-right---prices-price {
+    font-family: 'citrfontbold';
+    font-size: var(--faf-titleSize);
+}
+   
+/* Was price styling */
+.quicklookitem-inner-right .quicklookitem-inner-right---prices .quicklookitem-inner-right---prices-wasprice {
+    color: var(--faf-sale-background);
+}
+   
+/* View full details link */
+.quicklookitem-inner-right .quicklookitem-inner-right---link {
+    font-size: var(--faf-buttonSize);
+    color: var(--faf-buttonColor);
+    background: var(--faf-buttonBackground);
+    border: var(--faf-buttonBorder);
+    border-radius: var(--faf-buttonRadius);
+    padding: var(--faf-buttonPadding);
+    transition: var(--faf-buttonTransition);
+}
+   
+/* View full details hover state */
+.quicklookitem-inner-right .quicklookitem-inner-right---link:hover {
+    background: var(--faf-buttonBackgroundHover);
+    color: var(--faf-buttonColorHover);
+    border: var(--faf-buttonBorderHover);
+    padding: var(--faf-buttonPaddingHover);
+}
+   
+/* Click & Collect notice */
+.quicklookitem-inner-right .quicklookitem-inner-right---clickcollectnotice {
+    margin-top: auto;
+    background: transparent;
+    border: none;
+    color: var(--faf-textColor);
+}
+   
+/* Product image spacing */
+.quicklookitem-image > div {
+    margin: var(--faf-margin);
+}
+   
+/* ==================== Add to Cart Area Styles ==================== */
+/* Quantity label styling */
+.add-to-cart-area-dropdown-qty-label {
+    background: none;
+    border: 0;
+    color: var(--faf-textColor);
+}
+   
+/* Quantity input styling */
+.add-to-cart-area-dropdown-qty input {
+    border: var(--faf-border);
+    border-radius: var(--faf-borderRadius);
+}
+   
+/* Add to cart button - in stock */
+.add-to-cart-area-button.bgStandard {
+    font-size: var(--faf-buttonSize);
+    color: var(--faf-addToCart-color);
+    background: var(--faf-addToCart-background);
+    border: var(--faf-addToCart-border);
+    border-radius: var(--faf-buttonRadius);
+    padding: var(--faf-buttonPadding);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    transition: var(--faf-buttonTransition);
+    line-height: normal;
+    align-items: center;
+}
+
+.add-to-cart-area-button.bgStandard:hover {
+    background: var(--faf-addToCart-backgroundHover);
+    color: var(--faf-addToCart-colorHover);
+    border: var(--faf-addToCart-borderHover);
+}
+   
+/* Add to cart button - out of stock */
+.add-to-cart-area-button[data-available="false"] {
+    background: var(--faf-sale-background);
+}  
+   
+/* Stock message styling */
+.add-to-cart-area-msg-stock:after {
+    text-align: left;
+}
+   
+/* Stock message label */
+.add-to-cart-area-msg-stock:before {
+    width: var(--faf-stockLabelWidth);
+    text-align: left !important;
+    margin-right: calc(var(--faf-gap) * 0.5);
+    border-right: var(--faf-border);
+    padding-right: calc(var(--faf-padding) * 0.5);
+}
+   
+/* Handling message styling */
+.add-to-cart-area-msg-handling:after {
+    text-align: left !important;
+}
+   
+/* Handling message label */
+.add-to-cart-area-msg-handling:before {
+    width: var(--faf-stockLabelWidth);
+    text-align: left !important;
+    margin-right: calc(var(--faf-gap) * 0.5);
+    border-right: var(--faf-border);
+    padding-right: calc(var(--faf-padding) * 0.5);
+}
+   
+/* Message container */
+.add-to-cart-area-msg {
+    border-top: none;
+    margin-top: var(--faf-margin);
+}
+   
+/* Remove default borders */
+.col-1.add-to-cart-area-msg-stock,
+.col-1.add-to-cart-area-msg-handling {
+    border-bottom: none;
+}
+            
+
+.allowFinance{
+    background: var(--faf-background) !important;
+    color: var(--faf-textColor) !important;
+    outline: var(--faf-border) !important;
+}
+
+.facetOptions{
+    order: 9;
+    padding-bottom: 0 !important;
+    border-bottom: none !important;
+}
+
+/* ==================== Responsive Styles ==================== */
+/* Tablet adjustments */
+@media screen and (max-width: 1024px) {
+    .facetItemDetails {
+        padding: calc(var(--faf-padding) * 0.5) !important;
+    }
+
+}
+
+
+/* Items Name Fix */
+
+.frItemName {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    
+    /* Keep your height constraints so the box stays consistent */
+    line-height: 1.2 !important;
+    height: 3lh !important;
+    min-height: 3lh !important;
+    max-height: 3lh !important;
+}
+
+
+      
+
+
+/* Custom */
+
+/* Base hidden state + animation setup */
+.productContainer .item {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease forwards;
+  }
+  
+  /* Fade + slide in keyframes */
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+
+/* Animation Delays */
+
+  .productContainer .item:nth-child(10n+1)  { animation-delay: 0.1s; }
+  .productContainer .item:nth-child(10n+2)  { animation-delay: 0.15s; }
+  .productContainer .item:nth-child(10n+3)  { animation-delay: 0.2s; }
+  .productContainer .item:nth-child(10n+4)  { animation-delay: 0.25s; }
+  .productContainer .item:nth-child(10n+5)  { animation-delay: 0.3s; }
+  .productContainer .item:nth-child(10n+6)  { animation-delay: 0.35s; }
+  .productContainer .item:nth-child(10n+7)  { animation-delay: 0.4s; }
+  .productContainer .item:nth-child(10n+8)  { animation-delay: 0.45s; }
+  .productContainer .item:nth-child(10n+9)  { animation-delay: 0.5s; }
+  .productContainer .item:nth-child(10n+10) { animation-delay: 0.55s; }      
+  
+  
+  /* Quixk View Fix */
+
+  .quicklookitem-wrapper {
+    z-index: 99999999 !important;
+}
+
+/* Speeeeeed Boost*/
+
+.productContainer .item {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 400px;
+} 
+
+/* ==================== Mobile Filter Drawer (<1024px) ==================== */
+/* Styles the .FAFFilters.FFmobile slide-out panel to match the FAF page */
+
+@media screen and (max-width: 1024px) {
+
+/* Drawer container */
+.FAFFilters.FFmobile.FFmobile {
+    background: var(--faf-pageBackground);
+    z-index: 2147483647 !important;
+}
+
+.FAFFilters.FFmobile .FAFFilters---inner {
+    background: var(--faf-pageBackground);
+    color: var(--faf-textColor);
+}
+
+/* ---------- Title / navigation bar ---------- */
+.FAFFilters.FFmobile .title-holder.mobile {
+    background: var(--faf-background);
+    border-bottom: var(--faf-border);
+    padding: var(--faf-padding);
+}
+
+.FAFFilters.FFmobile .title-holder.mobile h2 {
+    font-family: "citrfontbold";
+    font-size: var(--faf-titleSize);
+    color: var(--faf-titleColor);
+    margin: 0;
+}
+
+/* Back + close row */
+.FAFFilters.FFmobile .title-holder.mobile .active.zflex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--faf-gap);
+}
+
+.FAFFilters.FFmobile #FF-back {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--faf-gap) * 0.5);
+    color: var(--faf-textColor);
+    cursor: pointer;
+    transition: var(--faf-transition);
+}
+
+.FAFFilters.FFmobile #FF-back:hover {
+    color: var(--faf-hoverColor);
+}
+
+.FAFFilters.FFmobile #FF-back .fa-long-arrow-left {
+    font-size: var(--faf-titleSize);
+    line-height: 1;
+    display: inline-block;
+    align-items: center;
+    er; */
+    height: 75px;
+    top: -15px;
+}
+
+.FAFFilters.FFmobile #FF-back h2 {
+    margin: 0;
+    line-height: 1;
+}
+
+/* Hide non-functional close text */
+.FAFFilters.FFmobile #close {
+    display: none !important;
+}
+
+/* ---------- Scroll area ---------- */
+.FAFFilters.FFmobile .holder {
+    background: var(--faf-pageBackground);
+}
+
+/* ---------- Filter groups ---------- */
+.FAFFilters.FFmobile .FAFFiltersReorder .ToggleMenu {
+    background: var(--faf-pageBackground);
+    border-radius: var(--faf-radius);
+    overflow: hidden;
+}
+
+.FAFFilters.FFmobile .FAFFiltersReorder .ToggleMenu:last-child {
+    margin-bottom: 0;
+}
+
+/* Tappable group headers */
+.FAFFilters.FFmobile .facetHdr.FFmobileHDR.FFmobileHDR {
+    font-family: "citrfontbold" !important;
+    font-size: var(--faf-buttonSize) !important;
+    color: var(--faf-buttonColor) !important;
+    background: var(--faf-buttonBackground) !important;
+    border: var(--faf-buttonBorder) !important;
+    border-radius: var(--faf-buttonRadius) !important;
+    padding: var(--faf-buttonPadding) !important;
+    transition: var(--faf-buttonTransition) !important;
+    text-transform: unset !important;
+    letter-spacing: normal !important;
+    cursor: pointer !important;
+    margin-bottom: .5rem !important;
+}
+
+.FAFFilters.FFmobile .facetHdr.FFmobileHDR.FFmobileHDR:hover {
+    background: var(--faf-buttonBackgroundHover) !important;
+    color: var(--faf-buttonColorHover) !important;
+    border: var(--faf-buttonBorderHover) !important;
+}
+
+/* Sub headers (facet definition + sub facet titles) */
+.FAFFilters.FFmobile .facetHdr {
+    font-family: "citrfontbold";
+    color: var(--faf-textColor);
+    text-transform: unset;
+    background: var(--faf-pageBackground);
+}
+
+.FAFFilters.FFmobile .facetSubHdr {
+    font-family: "citrfontbold";
+    color: var(--faf-textColor) !important;
+    font-size: var(--faf-textSize);
+}
+
+/* ---------- Options / checkboxes ---------- */
+.FAFFilters.FFmobile .facetOption,
+.FAFFilters.FFmobile .subFacetOption {
+    color: var(--faf-textColor);
+    transition: var(--faf-transition);
+}
+
+.FAFFilters.FFmobile .facetOption > span,
+.FAFFilters.FFmobile .subFacetOption > span {
+    border-radius: var(--faf-radius);
+}
+
+.FAFFilters.FFmobile .selectFacet,
+.FAFFilters.FFmobile .subFacetOption label {
+    color: var(--faf-textColor);
+    cursor: pointer;
+}
+
+.FAFFilters.FFmobile .facetOption:hover .selectFacet,
+.FAFFilters.FFmobile .subFacetOption:hover {
+    color: var(--faf-hoverColor);
+}
+
+/* Selected checkbox highlight */
+.FAFFilters.FFmobile .facetSelectedff.checked {
+    background: var(--faf-filterBackground) !important;
+    outline: var(--faf-borderWidth) solid var(--faf-filterBackground);
+}
+
+/* ---------- Price slider ---------- */
+.FAFFilters.FFmobile .noUi-connect.noUi-draggable {
+    background: var(--faf-sliderBackground);
+}
+
+.FAFFilters.FFmobile .noUi-tooltip {
+    background: var(--faf-tooltipBackground) !important;
+    color: var(--faf-tooltipColor) !important;
+    border: none;
+}
+
+.FAFFilters.FFmobile #priceFilterLower,
+.FAFFilters.FFmobile #priceFilterUpper {
+    border: var(--faf-border);
+    border-radius: var(--faf-radius);
+    color: var(--faf-textColor);
+    background: var(--faf-pageBackground);
+}
+
+/* ---------- Type to filter search ---------- */
+.FAFFilters.FFmobile .facetTypeSearch {
+    border: var(--faf-border);
+    border-radius: var(--faf-radius);
+    color: var(--faf-textColor);
+    background: var(--faf-pageBackground);
+}
+
+.FAFFilters.FFmobile .Count {
+    font-size: var(--faf-countSize);
+    color: var(--faf-countColor);
+}
+
+/* ---------- Stock & Sale options ---------- */
+.FAFFilters.FFmobile .salestockOption {
+    display: flex;
+    flex-flow: column;
+    gap: calc(var(--faf-gap) * 0.5);
+}
+
+.FAFFilters.FFmobile .salestockOption label {
+    color: var(--faf-textColor);
+    cursor: pointer;
+}
+
+/* ---------- Bottom confirm / close bar ---------- */
+.FAFFilters.FFmobile .confirmContainer.zflex {
+    display: flex;
+    gap: var(--faf-gap);
+    background: var(--faf-background);
+    border-top: var(--faf-border);
+    padding: var(--faf-padding);
+}
+
+.FAFFilters.FFmobile #confirmButton {
+    flex: 1;
+    font-size: var(--faf-buttonSize);
+    color: var(--faf-addToCart-color);
+    background: var(--faf-addToCart-background);
+    border: var(--faf-addToCart-border);
+    border-radius: var(--faf-buttonRadius);
+    padding: var(--faf-buttonPadding);
+    transition: var(--faf-buttonTransition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.FAFFilters.FFmobile #confirmButton:hover {
+    background: var(--faf-addToCart-backgroundHover);
+    color: var(--faf-addToCart-colorHover);
+    border: var(--faf-addToCart-borderHover);
+}
+
+.FAFFilters.FFmobile #filterCloseButtonBottom.ffclose {
+    font-size: var(--faf-buttonSize);
+    color: var(--faf-buttonColor);
+    background: var(--faf-buttonBackground);
+    border: var(--faf-buttonBorder);
+    border-radius: var(--faf-buttonRadius);
+    padding: var(--faf-buttonPadding);
+    transition: var(--faf-buttonTransition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.FAFFilters.FFmobile #filterCloseButtonBottom.ffclose:hover {
+    background: var(--faf-buttonBackgroundHover);
+    color: var(--faf-buttonColorHover);
+    border: var(--faf-buttonBorderHover);
+}
+
+.FAFFilters.FFmobile .FAFFiltersReorder{
+    padding: .5rem !important;
+}
+
+} /* end @media (max-width: 1024px) */ 
+
+/* ==================== Desktop: Type-to-Filter always open at top ==================== */
+/* Moves the "Type to Filter" group to the top of the desktop filter list,
+   hides its heading, and keeps the search input permanently exposed. */
+@media screen and (min-width: 1025px) {
+
+    /* Flex column so the group can be reordered */
+    .FAFFiltersReorder {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Move Type to Filter to the top */
+    .FAFFiltersReorder .FacetSearch {
+        order: -1 !important;
+    }
+
+    .FAFFiltersReorder .FacetSearch > div{
+    padding: 0 !important;
+    padding-block: .5rem !important;
+    background: transparent !important;
+}    
+
+    .FAFFiltersReorder .FacetSearch > div:before{
+        content: "Search";
+        font-family: 'citrfontbold';
+    }
+    
+    /* Hide the "Type to Filter" heading */
+    .FAFFiltersReorder .FacetSearch .facetHdr.FFDesktopHDR {
+        display: none !important;
+    }
+
+    /* Keep the search body permanently open */
+    .FAFFiltersReorder .FacetSearch .ctrPad32 {
+        display: block !important;
+    }
+
+}

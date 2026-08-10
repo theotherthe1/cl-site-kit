@@ -1,0 +1,155 @@
+/* ==================== 08-CC-MiniBasket.css ====================
+   Minibasket flyout. On mobile it becomes a full-height, 90%-width
+   right-hand drawer; the "Continue Shopping" link (#ContinueLink, which
+   calls clearAll() to close) is repurposed as a top-right close (x) on
+   all viewports.
+   Relocated here from 03-CC-NavigationSearch.css so all basket styling
+   lives in one file. Loads last (08) so it wins the cascade.
+   ============================================================ */
+
+   :root {
+    /* relocated basket tokens (unchanged values) */
+    --basket-buttonSize: var(--fontSize-sm);
+    --basket-pipSize: var(--fontSize-xs);
+    --basketButtonBorder: var(--brand-dark);
+    --basketButtonText: var(--text);
+    --basketButtonHoverBackground: var(--brand-dark);
+    --basketButtonHoverText: var(--text-inverse);
+    --checkoutButtonBackground: var(--brand-accent);
+    --basketPipBackground: var(--brand-accent);
+    --basketPipColor: var(--text-on-accent);
+
+    /* drawer knobs */
+    --minibasket-width: 90%;          /* mobile */
+    --minibasket-widthDesktop: 420px; /* desktop */
+    --minibasket-z: 999999;
+
+
+    --pipSize: 18px;
+}
+
+/* ---- relocated colour / border rules (unchanged behaviour) ---- */
+.basketCtr.tbcnt.tbcntOpen {
+    border-radius: var(--global-radius);
+    border: 1px solid #c2c2c2
+    min-height: 70dvh;
+    max-height: 100%;
+    top: 0px;
+    right: 0;
+    max-width: 500px;
+}
+
+.activeminilink {
+    border-radius: var(--global-radius) var(--global-radius) 0 0;
+}
+
+
+
+
+/* Basket pip (count badge) */
+.wrapper.masthead .basketPip {
+    color: var(--basketPipColor);
+    background: var(--basketPipBackground);
+    font-size: var(--basket-pipSize);
+    width: var(--pipSize);
+    height: var(--pipSize);
+    line-height: var(--pipSize);
+    bottom: 50%;
+    right: 5%;
+}
+
+
+.wrapper.masthead .basketPip2 {
+    color: var(--basketPipColor);
+    background: var(--basketPipBackground);
+    border-radius: 100%;
+}
+
+/* Checkout button */
+.wrapper.masthead .CCartBut > div:last-of-type > a {
+    background: var(--checkoutButtonBackground);
+    border-radius: var(--global-buttonRadius);
+}
+
+/* ---- Continue Shopping -> close (x), all viewports ----
+   #basket is a fixed full-height drawer (below), so it is the containing
+   block for this absolutely-positioned close button on every viewport. */
+#basket .CCartBut > div:first-of-type {
+    position: absolute;
+    top: 0rem;
+    right: 0rem;
+    width: auto;
+    margin: 0;
+    z-index: 1;
+}
+#ContinueLink {
+    font-size: 0;              /* hide the "Continue Shopping" text */
+    line-height: 0;
+    width: auto;
+    min-width: 0;
+    padding: 0.35rem 0.6rem;
+    border: none;
+    background: none;
+}
+#ContinueLink::before {
+    content: "\00D7";          /* x */
+    font-size: 1.75rem;
+    line-height: 1;
+    color: var(--text);
+    transition: var(--global-transition);
+}
+#ContinueLink:hover::before { color: var(--brand); }
+
+/* Checkout now fills the row (Continue is out of flow) */
+#basket .CCartBut > div:last-of-type { width: 100%; }
+
+
+/* ---- full-height right-hand drawer, slides in when opened (all viewports) ----
+   Styled on .basketCtr (both states) and kept rendered off-canvas so the open
+   transition can animate; display is forced on to beat the core display:none
+   toggle, and the closed panel is hidden off-screen via transform + visibility. */
+#basket.basketCtr {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: auto;
+    width: var(--minibasket-widthDesktop) !important;
+    max-width: 100%;
+    min-height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    border-radius: 0;
+    z-index: var(--minibasket-z);
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    display: flex !important;
+    flex-flow: column;
+    transform: translateX(100%);   /* off-canvas to the right */
+    visibility: hidden;
+    transition: transform 0.35s ease, visibility 0.35s ease;
+}
+/* open state - slide into view */
+#basket.basketCtr.tbcntOpen {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+/* Push bottom section down */
+
+#basket .col-1:has(#MiniBasketMerchandiseTotal) {
+    margin-top: auto;
+}
+
+
+/* mobile / tablet: wider drawer + larger close */
+@media (max-width: 1024px) {
+    #basket.basketCtr { width: var(--minibasket-width) !important; }
+    #basket .CCartBut > div:first-of-type { top: 0.75rem; right: 0.75rem; }
+    #ContinueLink::before { font-size: 2.25rem; }
+}
+
+/* product list */
+
+div[data-boxcontext*="minibasket"]{
+    max-height: 100% !important;
+}

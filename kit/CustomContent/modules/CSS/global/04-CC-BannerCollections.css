@@ -1,0 +1,364 @@
+/* CC-BannerCollections.css - Templeton Jones
+   Quiet luxury banner chrome: white canvas, full-bleed photography with
+   ghost 1px-outline CTAs, hairline vocabulary. Tokens only. */
+
+/* Banner Collection Variables */
+:root {
+    --bannerRadius: 0px;
+    --bannerPadding: clamp(1rem, 3vw, 2.5rem);
+    --bannerGap: var(--global-gap);
+    --bannerBorder: var(--global-border);
+    --bannerText: var(--text-inverse);
+    --bannerCardBg: var(--background-raised);
+    --bannerCardText: var(--text);
+    /* Banner description type ramp — one typographic voice for every
+       .cc-banner__desc. Colour/opacity stay per-band; only type lives here. */
+    --bannerDescFontFamily: citrfontreg;
+    --bannerDescSize: var(--fontSize-md);
+    --bannerDescLineHeight: 150%;
+    --bannerDescLetterSpacing: normal;
+    --brandLogoFilter: brightness(0) opacity(0.35);
+    --brandLogoFilterHover: none;
+    --brandLogoMaxHeight: 55px;
+    --bannerViewSize: var(--global-buttonSize);
+    --bannerViewColor: var(--text);
+    --bannerViewBorder: 1px solid var(--text);
+    --bannerViewBackground: transparent;
+    --bannerViewPadding: var(--global-buttonPadding);
+    --bannerViewRadius: var(--global-buttonRadius);
+    --bannerViewBackgroundHover: var(--brand-dark);
+    --bannerViewColorHover: var(--text-inverse);
+    --bannerViewBorderHover: 1px solid var(--brand-dark);
+    --bannerViewPaddingHover: var(--global-buttonPaddingHover);
+    --bannerViewTransition: var(--global-buttonTransition);
+}
+
+
+/* CC-bg Colour Modifier Classes
+   Apply to any col-1 to set the colour context for that section.
+   Rescopes banner tokens -- buttons, text, logos, Splide arrows all update. */
+
+.CC-bgDark {
+    background: var(--brand-dark) !important;
+    --bannerText: var(--text-inverse);
+    --bannerCardBg: var(--background-raised);
+    --bannerCardText: var(--text);
+    --comp-divider: oklch(from var(--text-inverse) l c h / 0.15);
+    --brandLogoFilter: brightness(0) invert(1) opacity(0.4);
+    --brandLogoFilterHover: brightness(0) invert(1) opacity(1);
+    --bannerViewBackground: var(--brand-accent);
+    --bannerViewColor: var(--text-on-accent);
+    --bannerViewBorder: 1px solid var(--brand-accent);
+    --bannerViewBackgroundHover: var(--brand-accent-dark);
+    --bannerViewColorHover: var(--text-on-accent);
+    --bannerViewBorderHover: 1px solid var(--brand-accent-dark);
+    --splideArrowBg: transparent;
+    --splideArrowColor: var(--text-inverse);
+    --splideArrowHoverColor: var(--text-inverse);
+}
+
+.CC-bgLight {
+    background: var(--background-raised) !important;
+    --bannerText: var(--text);
+    --bannerCardBg: var(--background);
+    --bannerCardText: var(--text);
+    --comp-divider: oklch(from var(--text) l c h / 0.12);
+    --brandLogoFilter: brightness(0) opacity(0.4);
+    --brandLogoFilterHover: brightness(0) opacity(1);
+    --bannerViewBackground: var(--brand);
+    --bannerViewColor: var(--text-on-brand);
+    --bannerViewBorder: 1px solid var(--brand);
+    --bannerViewBackgroundHover: var(--brand-accent);
+    --bannerViewColorHover: var(--text-on-accent);
+    --bannerViewBorderHover: 1px solid var(--brand-accent);
+    --splideArrowBg: transparent;
+    --splideArrowColor: var(--text);
+}
+
+.CC-bgBrand {
+    background: var(--brand) !important;
+    --bannerText: var(--text-on-brand);
+    --bannerCardBg: oklch(from var(--brand) calc(l + 0.08) c h);
+    --bannerCardText: var(--text-on-brand);
+    --comp-divider: oklch(from var(--text-on-brand) l c h / 0.2);
+    --brandLogoFilter: brightness(0) invert(1) opacity(0.4);
+    --brandLogoFilterHover: brightness(0) invert(1) opacity(1);
+    --bannerViewBackground: var(--brand-accent);
+    --bannerViewColor: var(--text-on-accent);
+    --bannerViewBorder: 1px solid var(--brand-accent);
+    --bannerViewBackgroundHover: var(--brand-accent-dark);
+    --bannerViewColorHover: var(--text-on-accent);
+    --bannerViewBorderHover: 1px solid var(--brand-accent-dark);
+    --splideArrowBg: transparent;
+    --splideArrowColor: var(--text-on-brand);
+}
+
+.CC-bgAccent {
+    background: var(--brand-accent) !important;
+    --bannerText: var(--text-on-accent);
+    --bannerCardBg: oklch(from var(--brand-accent) calc(l + 0.08) c h);
+    --bannerCardText: var(--text-on-accent);
+    --comp-divider: oklch(from var(--text-on-accent) l c h / 0.2);
+    --brandLogoFilter: brightness(0) invert(1) opacity(0.4);
+    --brandLogoFilterHover: brightness(0) invert(1) opacity(1);
+    --bannerViewBackground: var(--brand);
+    --bannerViewColor: var(--text-on-brand);
+    --bannerViewBorder: 1px solid var(--brand);
+    --bannerViewBackgroundHover: oklch(from var(--brand) calc(l + 0.1) c h);
+    --bannerViewColorHover: var(--text-on-brand);
+    --bannerViewBorderHover: 1px solid oklch(from var(--brand) calc(l + 0.1) c h);
+    --splideArrowBg: transparent;
+    --splideArrowColor: var(--text-on-accent);
+}
+
+.CC-bgWhite {
+    background: var(--background) !important;
+    --bannerText: var(--text);
+    --bannerCardBg: var(--background-raised);
+    --bannerCardText: var(--text);
+    --comp-divider: oklch(from var(--text) l c h / 0.1);
+    --brandLogoFilter: brightness(0) opacity(0.4);
+    --brandLogoFilterHover: brightness(0) opacity(1);
+    --bannerViewBackground: var(--brand);
+    --bannerViewColor: var(--text-on-brand);
+    --bannerViewBorder: 1px solid var(--brand);
+    --bannerViewBackgroundHover: var(--brand-accent);
+    --bannerViewColorHover: var(--text-on-accent);
+    --bannerViewBorderHover: 1px solid var(--brand-accent);
+    --splideArrowBg: transparent;
+    --splideArrowColor: var(--text);
+}
+
+
+/* cc-banner -- Visual Foundation
+   Layout (grid columns, aspect-ratio, gap, padding) is set per-component
+   in job CSS. This block owns only the visual style that must be consistent
+   across every banner on every section.
+
+   Height model: the <img> drives cc-banner height in-flow (no position:absolute
+   chicken-and-egg). Per-component CSS sets aspect-ratio on the img, or for
+   Splide the slide sets the height and cc-banner fills it. */
+
+.cc-banner {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--bannerRadius);
+    text-decoration: none;
+}
+
+.cc-banner__img {
+    display: block;
+    width: 100%;
+}
+
+.cc-banner__img img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+    border-radius: var(--bannerRadius);
+}
+
+.cc-banner__body {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--text-block-wrap);
+    padding: clamp(1rem, 2vw, 2rem);
+    background: var(--gradient-overlay-diagonal);
+    z-index: 2;
+}
+
+/* .text-wrap — the title + description wrapper. The two spans used to be
+   direct flex children of .cc-banner__body; the wrapper has to reproduce that
+   context or they collapse back to inline and run together on one line.
+   gap/align-items are pulled from the parent so every band keeps the spacing
+   and alignment it already declares. */
+.text-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--text-wrap);
+    align-items: inherit;
+    min-width: 0;
+}
+
+.cc-banner__title {
+    font-family: 'citrfontbold';
+    font-size: var(--fontSize-2xl);
+    color: var(--bannerText);
+    order: -1;
+}
+
+.cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.9;
+}
+
+
+
+
+.cc-banner__desc:empty,
+.cc-banner__title:empty,
+.cc-banner__cta:empty {
+    display: none !important;
+}
+
+
+/* cc-banner in Splide context
+   Keep cc-banner__img in-flow so the flex slide has real content width.
+   Height chain: .splide (explicit) -> track/list/slide (100%) -> cc-banner (100%)
+   -> cc-banner__img (100%) -> img (100%, object-fit: cover). */
+
+.splide__slide .cc-banner {
+    height: 100%;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.splide__slide .cc-banner__img {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+}
+
+.splide__slide .cc-banner__img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: unset;
+}
+
+
+/* cc-brand -- Brand Logo */
+
+.cc-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+}
+
+.cc-brand__img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    max-height: var(--brandLogoMaxHeight);
+    object-fit: contain;
+    filter: var(--brandLogoFilter);
+    transition: filter var(--global-transition);
+}
+
+.cc-brand:hover .cc-brand__img {
+    filter: var(--brandLogoFilterHover);
+}
+
+
+/* CC-HomepageTitles */
+
+.CC-HomepageTitles {
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--bannerGap) * 0.5);
+    /* padding-bottom: clamp(0.75rem, 1.5vw, 2.25rem); */
+    max-width: var(--navWidth);
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.CC-HomepageTitles h2 {
+    font-family: 'citrfontboldAlt';
+    font-size: var(--fontSize-2xl);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.CC-HomepageTitles p {
+    font-size: var(--fontSize-base);
+    margin: 0;
+    opacity: 0.8;
+}
+
+.CC-HomepageTitles.wht,
+.CC-HomepageTitles.wht h2,
+.CC-HomepageTitles.wht p { color: var(--bannerText); }
+
+.CC-HomepageTitles.blk,
+.CC-HomepageTitles.blk h2,
+.CC-HomepageTitles.blk p { color: var(--bannerCardText); }
+
+
+/* CC-HomepageTitles - CMS-driven title block: a 1-item banner styled as heading + desc + CTA.
+   The extra .cc-collection specificity (0,3,0) keeps a title banner above section tile rules. */
+.CC-HomepageTitles .cc-collection { width: 100%; }
+.CC-HomepageTitles .cc-collection .cc-banner {
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: calc(var(--bannerGap) * 0.5);
+    /* opt out of tile styling that would otherwise leak in */
+    opacity: 1; height: auto; aspect-ratio: auto; background: none;
+    border-radius: 0; overflow: visible; box-shadow: none; transform: none !important;
+}
+.CC-HomepageTitles .cc-collection .cc-banner::after { display: none; }   /* no tile corner stamp */
+.CC-HomepageTitles .cc-collection .cc-banner__img { display: none; }     /* image slot unused on titles */
+.CC-HomepageTitles .cc-collection .cc-banner__body {
+    position: static; inset: auto; background: none; padding: 0;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: calc(var(--bannerGap) * 0.5);
+}
+.CC-HomepageTitles .cc-collection .cc-banner__title {
+    order: 0; font-family: citrfontboldalt; font-size: var(--fontSize-2xl);
+    line-height: 1.2; margin: 0; max-width: none;
+}
+.CC-HomepageTitles .cc-collection .cc-banner__desc {
+    order: 1; font-family: var(--bannerDescFontFamily); font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight); letter-spacing: var(--bannerDescLetterSpacing);
+    opacity: 0.8; margin: 0; text-transform: none;
+}
+/* CTA underneath - canonical banner-view button tokens (matches every other CTA) */
+.CC-HomepageTitles .cc-collection .cc-banner__cta {
+    order: 2;
+    align-self: center;
+    margin-top: 0.5rem;
+    background: var(--bannerViewBackground);
+    color: var(--bannerViewColor);
+    border: var(--bannerViewBorder);
+    padding: var(--bannerViewPadding);
+    border-radius: var(--bannerViewRadius);
+    font-family: citrfontbold;
+    font-size: var(--bannerViewSize);
+    letter-spacing: 0.12em;
+    transition: var(--global-transition);
+}
+.CC-HomepageTitles .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: var(--bannerViewBackgroundHover); color: var(--bannerViewColorHover);
+    border: var(--bannerViewBorderHover);
+}
+/* colour variants - mirror .wht/.blk which otherwise only target h2/p */
+.CC-HomepageTitles.wht .cc-collection .cc-banner__title,
+.CC-HomepageTitles.wht .cc-collection .cc-banner__desc { color: var(--bannerText); }
+.CC-HomepageTitles.blk .cc-collection .cc-banner__title,
+.CC-HomepageTitles.blk .cc-collection .cc-banner__desc { color: var(--bannerCardText); }
+
+
+/* Scroll-in Animation */
+
+[data-animate] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+[data-animate].inView {
+    opacity: 1;
+    transform: translateY(0);
+}

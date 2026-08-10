@@ -1,0 +1,80 @@
+/* CC-Brand.css - Templeton Jones */
+
+/* Reskin Controls */
+:root {
+    --brand: #1E1E1E;
+    --brand-dark: var(--brand-focus);
+    --brand-accent: #1E1E1E;
+    --brand-link: #1E1E1E;
+    --brand-focus: #191937;
+    --sale: #c8102e;
+    --text-on-brand: #FFFFFF;
+    --text-on-accent: #FFFFFF;
+    --background: #FFFFFF;
+    --background-raised: #F5F4F2;
+    --text: #1E1E1E;
+    --text-inverse: #FFFFFF;
+    --global-radius: 3px;
+    --global-innerRadius: 2px;
+    --global-border: 1px solid var(--border-light);
+    --global-buttonSize: var(--fontSize-xs);
+    /* CTA type ramp — one typographic voice for every button and link-text.
+       Retune here, not in the page CSS. */
+    --global-buttonFontFamily: citrfontreg;
+    --global-buttonLetterSpacing: 10%;
+    --global-buttonLineHeight: 1.2;
+    --global-buttonTextTransform: uppercase;
+    --global-buttonColor: var(--text-on-brand);
+    --global-buttonBorder: 1px solid var(--brand-dark);
+    --global-buttonRadius: var(--global-radius);
+    --global-buttonBackground: var(--brand-dark);
+    --global-buttonPadding: 0.95rem 1.7rem;
+    --global-buttonBackgroundHover: var(--background);
+    --global-buttonColorHover: var(--text);
+    --global-buttonBorderHover: 1px solid var(--brand-dark);
+    --global-buttonPaddingHover: 0.65rem 2.2rem;
+    --global-buttonRadiusHover: var(--global-radius);
+    --global-buttonTransition: var(--global-transition);
+    --global-addToCart-background: var(--brand-accent);
+    --global-addToCart-border: none;
+    --global-addToCart-color: var(--text-on-accent);
+    --global-addToCart-backgroundHover: oklch(from var(--brand-accent) calc(l + 0.2) c h);
+    --global-addToCart-borderHover: none;
+    --global-addToCart-colorHover: var(--text-on-accent);
+
+    --navItemsFontSize: var(--fontSize-xs);
+    --navItemsTextTransform: uppercase;
+
+    /* ---- Nav bar: SOLID state (HOMEPAGE ONLY) ----------------------------
+       On the homepage the bar floats transparent over the hero. It turns
+       solid two ways, and BOTH read this one set, so they can never disagree:
+           the page is scrolled past 20px
+           a panel is open - dropdown, mobile hamburger, account, search
+
+       Only two things to think about:
+           --navSolid-background   the fill
+           the other three         everything sitting on it - links, their
+                                   hover, the icons, and the masked wordmark
+                                   (which follows --navSolid-linksHover)
+
+       To invert to a DARK solid bar, change these four and nothing else:
+           --navSolid-background: var(--brand-dark);
+           --navSolid-links:      oklch(from var(--text-inverse) l c h / 0.85);
+           --navSolid-linksHover: var(--text-inverse);
+           --navSolid-icons:      var(--text-inverse);
+
+       Wired in 03 (Navigation Solid State), which re-points --navBackground /
+       --navLinks / --navLinks-hover / --navIcons at these four.
+
+       Values must name RAW colours, never var(--navLinks) and friends: 03
+       sets --navLinks: var(--navSolid-links), so pointing back would be a
+       cyclic reference and both sides would resolve to invalid.
+
+       Interior pages are NOT affected by any of this - they use
+       --navBackground (03) in every state. */
+    --navSolid-background: var(--text-inverse);
+    --navSolid-links: oklch(from var(--brand-focus) l c h / 0.85);
+    --navSolid-linksHover: var(--brand-focus);
+    --navSolid-icons: var(--brand-focus);
+}
+

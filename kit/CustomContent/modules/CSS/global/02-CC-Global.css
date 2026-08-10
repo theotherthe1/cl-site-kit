@@ -1,0 +1,270 @@
+/* CC-Global.css */
+
+/* Body offset for fixed navigation */
+body {
+    padding-top: 75px !important;
+}
+
+.wrapper {
+    float: none !important;
+}
+
+@media screen and (max-width: 1024px) {
+    body {
+        padding-top: 48px !important;
+    }
+}
+
+
+/* Custom Fonts */
+
+@font-face {
+    font-family: 'citrfontboldalt';
+    src: url('/sitespecific/customcontent/font/boldalt.ttf') format('truetype');
+    font-weight: normal !important;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'citrfontbold';
+    src: url('/sitespecific/customcontent/font/bold.ttf') format('truetype');
+    font-weight: normal !important;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'citrfontreg';
+    src: url('/sitespecific/customcontent/font/regular.ttf') format('truetype');
+    font-weight: normal !important;
+    font-style: normal;
+}
+
+/* Full-width overrides */
+.fixed,
+.NodeLevel0 > .CSSFacetNavModules {
+    max-width: var(--global-NavFooterWidth) !important;
+}
+
+
+/* Design Tokens
+   Brand tokens (--brand, --brand-dark, --brand-accent, etc.)
+   live in CC-Brand.css. That file must load before this one --
+   the oklch() derivations below depend on those variables. */
+
+:root {
+
+    /* Layout and Typography */
+
+    --global-NavFooterWidth: 100% !important;
+
+    /* Spacing */
+    --global-padding: 1rem;
+    --global-gap:     1rem;
+    --global-margin:  1rem;
+
+    /* Section rhythm -- the vertical tier every homepage band pads with.
+       lg is the standard band gap; sm is the tightened variant used where a
+       band opens hard against the one above it (hp-new-in's top edge). */
+    --section-padding-lg: 5rem;
+    --section-padding-sm: 3rem;
+
+    --text-wrap: 1.25rem;
+    --text-block-wrap: 1.875rem;
+
+    /* Motion */
+    --global-transition: 0.3s ease;
+
+    /* Font scale -- fluid clamp, except sm/md which are pinned so they render
+       at a flat 14px / 16px on every viewport (rem, so user zoom still scales
+       them; 1rem = 16px at the default root size).
+       The clamp minimum is what small viewports get, so the floors on xs and
+       lg..3xl are set for mobile legibility; each ramp reaches its max around
+       1440px. */
+    --fontSize-xs: 0.825rem;
+    --fontSize-sm:   0.875rem;
+    --fontSize-base: 0.925rem;
+    --fontSize-md:   1rem;
+    --fontSize-lg: 2rem;
+    --fontSize-xl: 2.25rem;
+    --fontSize-2xl: 2.5rem;
+    --fontSize-3xl: 3rem;
+
+
+
+
+
+
+    /* Auto-derived -- no need to touch for a reskin */
+
+    /* Brand shades -- each base token gets -light and -dark only.
+       --brand-dark is a base reskin token (CC-Brand.css),
+       so --brand has only a -light shade here. */
+    --brand-light:        oklch(from var(--brand) calc(l + 0.1) c h);
+
+    --brand-accent-light: oklch(from var(--brand-accent) calc(l + 0.05) c h);
+    --brand-accent-dark:  oklch(from var(--brand-accent) calc(l - 0.05) c h);
+
+    --brand-link-light:   oklch(from var(--brand-link) calc(l + 0.05) c h);
+    --brand-link-dark:    oklch(from var(--brand-link) calc(l - 0.05) c h);
+
+    --brand-focus-light:  oklch(from var(--brand-focus) calc(l + 0.05) c h);
+    --brand-focus-dark:   oklch(from var(--brand-focus) calc(l - 0.05) c h);
+
+    --sale-light:         oklch(from var(--sale) calc(l + 0.1) c h);
+    --sale-dark:          oklch(from var(--sale) calc(l - 0.1) c h);
+
+    /* Background variants */
+    --background-sunken:         oklch(from var(--background-raised) calc(l - 0.03) c h);
+    --background-overlay:        oklch(from var(--brand) l c h / 0.04);
+    --background-input:          oklch(from var(--background-raised) calc(l + 0.01) c h);
+    --background-inverse:        var(--brand);
+    --background-inverse-raised: var(--brand-dark);
+
+    /* Text hierarchy */
+    --text-secondary: oklch(from var(--text) calc(l + 0.25) c h);
+    --text-muted:     oklch(from var(--text) calc(l + 0.35) c h);
+    --text-subtle:    oklch(from var(--text) calc(l + 0.5) c h);
+    --text-link:      var(--brand-link);
+
+    /* Borders */
+    --border:        oklch(from var(--text) calc(l + 0.6) c h);
+    --border-light:  oklch(from var(--text) calc(l + 0.7) c h);
+    --border-subtle: oklch(from var(--text) calc(l + 0.8) c h);
+    --border-brand:  var(--brand-accent);
+
+    /* Opacity variants */
+    --white-90: oklch(from var(--text-inverse) l c h / 0.9);
+    --white-60: oklch(from var(--text-inverse) l c h / 0.6);
+    --white-55: oklch(from var(--text-inverse) l c h / 0.55);
+    --white-30: oklch(from var(--text-inverse) l c h / 0.3);
+    --black-80: oklch(from var(--text) l c h / 0.82);
+    --black-65: oklch(from var(--text) l c h / 0.65);
+    --black-50: oklch(from var(--text) l c h / 0.5);
+    --black-10: oklch(from var(--text) l c h / 0.1);
+    --black-05: oklch(from var(--text) l c h / 0.05);
+
+    /* Overlays and gradients */
+    --overlay-dark:              oklch(from #252525 l c h / 0.82);
+    --overlay-medium:            oklch(from #252525 l c h / 0.65);
+    --overlay-light:             oklch(from #252525 l c h / 0.4);
+    --gradient-brand:            var(--brand-accent);
+    --gradient-dark:             linear-gradient(0deg, var(--brand), var(--brand-dark));
+    --gradient-dark-reverse:     linear-gradient(0deg, var(--brand-dark), var(--brand));
+    --gradient-overlay-bottom:   linear-gradient(0deg, var(--overlay-dark), transparent 70%);
+    --gradient-overlay-left:     linear-gradient(90deg, var(--overlay-dark), transparent 70%);
+    --gradient-overlay-diagonal: linear-gradient(45deg, var(--overlay-dark), transparent 60%);
+
+    /* Shadows */
+    --shadow-sm: 0 2px 4px var(--black-05);
+    --shadow-md: 0 4px 6px var(--black-10);
+    --shadow-lg: 0 10px 15px oklch(from var(--text) l c h / 0.15);
+
+    /* Status colors -- functional, not brand */
+    --status-out-of-stock:      #e74c3c;
+    --status-out-of-stock-dark: oklch(from #e74c3c calc(l - 0.05) c h);
+    --status-special-order:      #f39c12;
+    --status-special-order-dark: oklch(from #f39c12 calc(l - 0.08) c h);
+    --status-coming-soon:        #3498db;
+    --status-coming-soon-dark:   oklch(from #3498db calc(l - 0.05) c h);
+}
+
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+    height: 7px;
+    -webkit-overflow-scrolling: auto;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: var(--global-radius);
+    background-color: var(--brand-focus-light);
+    -webkit-box-shadow: 0 0 1px var(--brand-focus-dark);
+}
+
+
+/* Base Typography */
+
+html,
+body {
+    font-family: 'citrfontreg';
+    font-weight: 400;
+    font-style: normal;
+    font-size: var(--fontSize-base);
+    color: var(--text);
+    background: #fff;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    body {
+        padding-top: 48px !important;
+    }
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.current, .bannerTitle, .mainFont,
+.ctaTitle, .boldfont {
+    font-family: 'citrfontbold';
+    font-weight: 300;
+    font-style: normal;
+}
+
+
+/* Disable empty-href links */
+
+a[href=""] {
+    pointer-events: none;
+    cursor: default;
+    text-decoration: none;
+}
+
+
+/* Grid Row System */
+
+[class*="grirow"] > div > a {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+[class*="grirow"] > div {
+    display: grid;
+}
+
+.grirow1 > div { grid-template-columns: repeat(1, 1fr); }
+.grirow2 > div { grid-template-columns: repeat(2, 1fr); }
+.grirow3 > div { grid-template-columns: repeat(3, 1fr); }
+.grirow4 > div { grid-template-columns: repeat(4, 1fr); }
+.grirow5 > div { grid-template-columns: repeat(5, 1fr); }
+.grirow6 > div { grid-template-columns: repeat(6, 1fr); }
+.grirow7 > div { grid-template-columns: repeat(7, 1fr); }
+
+/* Grid: mobile */
+@media screen and (max-width: 767.9px) {
+    [class*="grirow"] > div { grid-template-columns: repeat(1, 1fr); }
+    .grirow2 > div            { grid-template-columns: repeat(1, 1fr); }
+    .grirow4 > div            { grid-template-columns: repeat(2, 1fr); }
+    .grirow5 > div            { grid-template-columns: repeat(2, 1fr); }
+    .grirow6 > div            { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Grid: tablet */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    [class*="grirow"] > div { grid-template-columns: repeat(1, 1fr); }
+    .grirow2 > div            { grid-template-columns: repeat(1, 1fr); }
+    .grirow4 > div            { grid-template-columns: repeat(2, 1fr); }
+    .grirow5 > div            { grid-template-columns: repeat(2, 1fr); }
+    .grirow6 > div            { grid-template-columns: repeat(2, 1fr); }
+}
+
+
+
+/* Starbuys and Coupon Drawer */
+
+.coupon-drawer-container[data-state="open"],
+.starbuy-drawer {
+    z-index: 999999 !important;
+}

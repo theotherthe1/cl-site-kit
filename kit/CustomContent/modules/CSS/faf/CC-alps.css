@@ -1,0 +1,177 @@
+/* ==================== ALP Filter Styles ==================== */
+/* Restyles the Advanced Landing Page filters using --faf-* variables */
+/* Appended after platform styles - overrides citrusstyles-unity defaults */
+
+/* ==================== Product Count Panel ==================== */
+#LandingPage #facetsearch_landingPageTotalProductsPanel {
+    background: var(--faf-pageBackground);
+    padding: var(--faf-padding) !important;
+    border-radius: var(--faf-radius);
+}
+
+#LandingPage #facetsearch_landingPageTotalProductsPanel p {
+    margin: 0;
+}
+
+#LandingPage #facetsearch_landingPageTotalProductsLbl {
+    font-family: "citrfontbold";
+    font-size: var(--faf-textSize);
+    color: var(--faf-textColor);
+}
+
+/* ==================== Filter Flex Container ==================== */
+#LandingPage .ALPfilters.flexreorder {
+    background: var(--faf-background);
+    gap: var(--faf-gap);
+    padding: var(--faf-padding);
+    border-radius: var(--faf-radius);
+}
+
+/* ==================== Filter Groups ==================== */
+#LandingPage .ALPfilterList > div {
+    margin-bottom: var(--faf-margin);
+    background: var(--faf-pageBackground);
+    border-radius: var(--faf-radius);
+    overflow: hidden;
+}
+
+#LandingPage .ALPfilterList > div:last-child {
+    margin-bottom: 0;
+}
+
+/* ==================== Facet Headers ==================== */
+#LandingPage .FAFFiltersReorder .facetHdr {
+    font-family: "citrfontbold";
+    font-size: var(--faf-buttonSize);
+    color: var(--faf-buttonColor);
+    background: var(--faf-buttonBackground);
+    border: var(--faf-buttonBorder);
+    border-radius: var(--faf-buttonRadius);
+    padding: var(--faf-buttonPadding);
+    text-transform: unset;
+    letter-spacing: normal;
+    cursor: pointer;
+    transition: var(--faf-buttonTransition);
+}
+
+/* ==================== Filter Links Container ==================== */
+#LandingPage .FAFFiltersReorder .LPFilters {
+    margin: 0;
+    padding: var(--faf-padding);
+    background: var(--faf-pageBackground);
+}
+
+/* ==================== Filter Links ==================== */
+#LandingPage .FAFFiltersReorder .LPFilters a {
+    font-size: var(--faf-textSize);
+    color: var(--faf-textColor);
+    border-bottom: var(--faf-border);
+    padding-bottom: calc(var(--faf-padding) * 0.5);
+    margin-bottom: calc(var(--faf-padding) * 0.5);
+    transition: var(--faf-transition);
+    text-transform: capitalize;
+}
+
+#LandingPage .FAFFiltersReorder .LPFilters a:last-of-type {
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+#LandingPage .FAFFiltersReorder .LPFilters a:hover {
+    color: var(--faf-hoverColor);
+}
+
+/* ==================== Filter Link Arrow ==================== */
+#LandingPage .FAFFiltersReorder .LPFilters a:after {
+    color: var(--faf-hoverColor);
+}
+
+/* ==================== Expand Button ==================== */
+#LandingPage .FAFFiltersReorder .LPExpandButton {
+    font-size: var(--faf-countSize);
+    color: var(--faf-hoverColor) !important;
+    font-family: "citrfontbold";
+    text-align: right;
+    transition: var(--faf-transition);
+    border-bottom: none;
+}
+
+#LandingPage .FAFFiltersReorder .LPExpandButton:hover {
+    opacity: 0.75;
+}
+
+#LandingPage .FAFFiltersReorder .LPExpandButton:after {
+    content: none !important;
+}
+
+/* ==================== Mobile Close ==================== */
+#LandingPage .FAFFiltersReorder .confirmContainer {
+    background: var(--faf-background);
+    border-top: var(--faf-border);
+    padding: var(--faf-padding);
+}
+
+#LandingPage .FAFFiltersReorder .ffclose {
+    background: var(--faf-buttonBackground);
+    border-radius: var(--faf-buttonRadius);
+    transition: var(--faf-buttonTransition);
+}
+
+#LandingPage .FAFFiltersReorder .ffclose:before {
+    color: var(--faf-buttonColor);
+}
+
+#LandingPage .FAFFiltersReorder .ffclose:hover {
+    background: var(--faf-buttonBackgroundHover);
+}
+
+#LandingPage .FAFFiltersReorder .ffclose:hover:before {
+    color: var(--faf-buttonColorHover);
+}
+
+/* ==================== Mobile Filter Toggle ==================== */
+#LandingPage .FAFFiltersMobile.mobile .FAFoptionsContainer {
+    font-size: var(--faf-buttonSize);
+    color: var(--faf-buttonColor);
+    background: var(--faf-buttonBackground);
+    border: var(--faf-buttonBorder);
+    border-radius: var(--faf-buttonRadius);
+    padding: var(--faf-buttonPadding);
+    transition: var(--faf-buttonTransition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--faf-gap) * 0.5);
+    cursor: pointer;
+    font-family: "citrfontbold";
+}
+
+#LandingPage .FAFFiltersMobile.mobile .FAFoptionsContainer:hover {
+    background: var(--faf-buttonBackgroundHover);
+    color: var(--faf-buttonColorHover);
+    border: var(--faf-buttonBorderHover);
+}
+
+#LandingPage .FAFFiltersMobile.mobile .FAFoptionsContainer .fa-sliders {
+    color: inherit;
+}
+
+/* ==================== Responsive ==================== */
+@media screen and (max-width: 1024px) {
+    #LandingPage .ALPfilters.flexreorder {
+        padding: calc(var(--faf-padding) * 0.75);
+        gap: calc(var(--faf-gap) * 0.75);
+    }
+}
+
+@media screen and (max-width: 425px) {
+    #LandingPage .ALPfilters.flexreorder {
+        padding: calc(var(--faf-padding) * 0.5);
+        gap: calc(var(--faf-gap) * 0.5);
+    }
+
+    #LandingPage .FAFFiltersReorder .LPFilters {
+        padding: calc(var(--faf-padding) * 0.75);
+    }
+}

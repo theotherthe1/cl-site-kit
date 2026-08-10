@@ -1,0 +1,881 @@
+/* ==================== Navigation Variables - Templeton Jones ==================== */
+:root {
+    /* Navigation Typography */
+    --nav-fontSize: var(--fontSize-sm);
+    --dropdown-titleSize: var(--fontSize-base);
+    --dropdown-linkSize: var(--fontSize-base);
+    --login-titleSize: var(--fontSize-md);
+    --login-linkSize: var(--fontSize-sm);
+    --search-inputSize: var(--fontSize-base);
+
+    /* Mobile Typography */
+    --mobile-navLinkSize: var(--fontSize-base);
+
+    /* Navigation Width */
+    --navWidth: var(--global-NavFooterWidth);
+
+    /* General Navigation Colors */
+    --navBackground: var(--brand-dark);
+    --navIcons: var(--text-inverse);
+    --navLinks: oklch(from var(--text-inverse) l c h / 0.85);
+    --navLinks-hover: var(--text-inverse);
+
+    /* Sale Link Styles */
+    --sale-color: var(--text-inverse);
+    --sale-background: var(--sale);
+    --sale-border: 1px solid var(--sale);
+    --sale-padding: .2rem .5rem;
+    --sale-radius: var(--global-buttonRadius);
+
+    /* Sale Link Hover States */
+    --sale-colorHover: var(--text-inverse);
+    --sale-backgroundHover: var(--sale);
+    --sale-borderHover: 1px solid var(--sale);
+    --sale-paddingHover: var(--global-buttonPadding);
+    --sale-transition: var(--global-buttonTransition);
+
+    /* Sale Dropdown */
+    --saleDropdownBackground: var(--sale);
+    --saleDropdownText: var(--text-inverse);
+
+    /* Dropdown Colors */
+    --dropdownBackground: var(--background);
+    --dropdownAreaBackground: var(--background);
+    --dropdownAreaTitle: var(--text);
+    --dropdownAreaTitleUnderline: 1px solid oklch(from var(--text) l c h / 0.2);
+    --dropdownAreaLinks: var(--text);
+
+    /* Login Dropdown */
+    --loginDropdownBackground: var(--background);
+    --loginTitleColor: var(--text);
+    --loginLinkColor: var(--text);
+
+    /* Search */
+    --searchBackground: transparent;
+    --searchText: var(--text-inverse);
+    --searchIconColor: var(--text-inverse);
+    --searchPlaceholderColor: oklch(from var(--text-inverse) l c h / 0.6);
+
+    /* Mobile Navigation */
+    --mobileNavLinkColor: var(--text-inverse);
+    --mobileNavBackground: var(--brand-dark);
+    --mobileHamburgerBackground: transparent;
+    /* Rest-state value only. It must name a RAW colour, not var(--navIcons):
+       a custom property resolves its var()s on the element that DECLARES it,
+       so a :root indirection would bake in :root's white and never see the
+       Solid State's body-level re-point. The solid value is set alongside the
+       other four in that block instead. */
+    --mobileHamburgerColor: var(--text-inverse);
+    --mobileNavOverlay: var(--black-50);
+    --mobileNavBlur: blur(3px);
+
+    /* CTA Bar */
+    --ctaBackground: var(--brand-dark);
+    --ctaColor: var(--text-inverse);
+    --ctaFontSize: var(--fontSize-xs);
+    --ctaDivider: 1px solid var(--white-30);
+
+    /* Outlet Nav Button */
+    --outletBorder: var(--text-inverse);
+    --outletHoverBackground: var(--text-inverse);
+    --outletHoverText: var(--text);
+
+    /* Filter */
+    --filterBackground: var(--background);
+}
+
+/* ==================== Navigation Solid State ====================
+   HOMEPAGE ONLY. There the bar floats transparent over the hero (99), and it
+   has to become solid whenever transparency would break it. Two ways in, one
+   look - white bar, --brand-focus contents:
+
+     the bar is SCROLLED   past 20px (.is-scrolled, homepage-nav.js)
+     a PANEL is open       dropdown / mobile hamburger / account / search
+
+   Scoped with :has(.hp-hero) so it cannot reach interior pages, which keep
+   the plain solid bar (--navBackground) in every state. Do not drop that
+   scope without re-reading requirement 4.
+
+   Implemented by re-pointing the four nav colour tokens rather than writing
+   a parallel set of rules: every rule below already reads --navBackground /
+   --navLinks / --navLinks-hover / --navIcons, so the whole bar follows - text,
+   icons and the masked wordmark (99 paints it with --navLinks-hover) - with no
+   new selectors and no specificity fight. The knobs are --navSolid-* in
+   01-CC-Brand: ONE set for both triggers, so the two can never disagree.
+
+   Backgrounds are the exception and cannot be done by token: 99's
+   `body:has(.hp-hero) .wrapper.masthead { background: transparent !important }`
+   is a literal at (0,3,1) and has to be beaten declaration-to-declaration.
+   Scrolled is handled below; the panel-open cases are in 99 beside the rule
+   they override. Keep those trigger lists in step with this one.
+
+   On the triggers themselves:
+     open-slide-menu  mobile hamburger panel. Stamped in two places by the
+                      platform - #body-wrapper-overlay (see the rule below,
+                      which display:none's it, so it CANNOT be a nav
+                      ancestor) and a page wrapper, almost certainly <body>.
+                      The markup is not on this share to check, so both
+                      halves are covered: the class on body itself, and
+                      :has() for anywhere else. :has() never matches its own
+                      subject, which is why the pair is not redundant.
+     .CSSFacetNavModules.active   a top-level nav node's dropdown
+     .tbcntOpen                   the platform's toolbar-content open flag -
+                                  account today, and search if it uses the
+                                  same pattern (.srchCtr carries .tbcnt)
+     #search:focus-within         belt and braces for search: covers the
+                                  mobile field, which is permanently visible
+                                  rather than a toggle. Focus only, never
+                                  hover - 99 expands the desktop pill on
+                                  hover too, and repainting the whole bar on
+                                  a passing mouse would be twitchy.
+
+   The mini-basket is deliberately NOT a trigger. */
+
+body:has(.hp-hero):has(.wrapper.masthead.is-scrolled),
+body:has(.hp-hero).open-slide-menu,
+body:has(.hp-hero):has(.open-slide-menu),
+body:has(.hp-hero):has(.wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active),
+body:has(.hp-hero):has(.wrapper.masthead .tbcntOpen),
+body:has(.hp-hero):has(#search.srchCtr:focus-within) {
+    --navBackground: var(--navSolid-background);
+    --navLinks: var(--navSolid-links);
+    --navLinks-hover: var(--navSolid-linksHover);
+    --navIcons: var(--navSolid-icons);
+    /* The mobile hamburger needs re-pointing HERE and cannot just be declared
+       as var(--navIcons) up in :root: a custom property substitutes its var()s
+       on the element that declares it, so a :root indirection resolves against
+       :root's --navIcons (white) and inherits down already resolved, blind to
+       this body-level override. The other icons dodge this because 03 reads
+       var(--navIcons) directly in a `color` declaration on the glyph itself.
+       Mobile-only element, but harmless to set at every width. */
+    --mobileHamburgerColor: var(--navSolid-icons);
+}
+
+/* ==================== Navigation Fix ==================== */
+#body-wrapper-overlay.open-slide-menu {
+    display: none;
+}
+
+/* ==================== Navigation Styles ==================== */
+
+.wrapper.masthead .fixed {
+    background: transparent;
+}
+
+/* Background & Borders */
+.wrapper.masthead {
+    background: var(--navBackground) !important;
+    border-bottom: 2px solid var(--brand-link-light);
+    /* One 400ms curve for every way this bar changes surface - the open state
+       and the scroll state are the same physical bar and must move alike.
+       NB the desktop block below re-declares `transition` for height; this
+       list is repeated there so the shorthand cannot drop it. */
+    transition:
+        background-color 400ms cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1),
+        backdrop-filter 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wrapper.masthead .container {
+    background: transparent;
+}
+
+.wrapper.masthead .navIcons {
+    border-bottom: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Navigation Links */
+.wrapper.masthead .ctrNavigation > .CSSFacetNavModules {
+    gap: 1.5rem;
+}
+
+.wrapper.masthead .NodeLevel0 > a {
+    color: var(--navLinks);
+    padding: 0;
+    font-size: var(--nav-fontSize);
+}
+
+.wrapper.masthead .NodeLevel0 > a:hover,
+.wrapper.masthead .NodeLevel0 > a.active,
+.wrapper.masthead .NodeLevel0 > div.active + a {
+    color: var(--navLinks-hover);
+}
+
+.wrapper.masthead .NodeLevel0 {
+    margin: 0;
+}
+
+/* Remove Default Arrows */
+.wrapper.masthead .NodeLevel0 > a:before,
+.wrapper.masthead .NodeLevel0 > a:after {
+    display: none;
+}
+
+/* Icon Colors */
+.wrapper.masthead .navIcons *[class*="icon-"] {
+    color: var(--navIcons);
+    width: 42px; 
+    height: 48px;
+}
+
+/* ==================== Sale Link ==================== */
+
+.NodeLevel0[data-nodename*='Sale'] > a {
+    color: var(--sale-color) !important;
+    background: var(--sale-background) !important;
+    border: var(--sale-border);
+    padding: var(--sale-padding) !important;
+    border-radius: var(--sale-radius);
+    transition: var(--sale-transition);
+    line-height: normal;
+}
+
+.wrapper.masthead .NodeLevel0[data-nodename*='Sale'] > a:hover,
+.wrapper.masthead .NodeLevel0[data-nodename*='Sale'] > a.active,
+.wrapper.masthead .NodeLevel0[data-nodename*='Sale'] > div.active + a {
+    color: var(--sale-colorHover) !important;
+    background: var(--sale-backgroundHover) !important;
+    border: var(--sale-borderHover);
+    padding: var(--sale-paddingHover);
+    filter: brightness(1.1);
+}
+
+/* Sale Dropdown */
+[data-nodename="Sale"] .CSSFacetNavModules .NodeLevel1 {
+    border: 1px solid var(--saleDropdownBackground) !important;
+    background: var(--saleDropdownBackground) !important;
+}
+
+[data-nodename="Sale"] .NodeLevel1 > a {
+    color: var(--saleDropdownText) !important;
+    border-color: var(--saleDropdownText) !important;
+}
+
+.wrapper.masthead [data-nodename="Sale"] .NodeLevel1 > .CSSFacetNavModules a {
+    color: var(--saleDropdownText);
+}
+
+/* ==================== Navigation Dropdown ==================== */
+
+.wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active {
+    background: var(--dropdownBackground);
+    gap: .5rem;
+    padding: 1rem;
+    justify-content: center;
+    border-radius: 0 0 var(--global-radius) var(--global-radius);
+    border: 2px solid var(--brand-link-light);
+    border-top: 0;
+    max-height: 80vh;
+}
+
+/* Dropdown Areas */
+.wrapper.masthead .NodeLevel1 {
+    width: auto;
+    background: var(--dropdownAreaBackground);
+    padding: 1rem;
+    border-radius: var(--global-radius);
+    border: 2px solid var(--brand-link-light);
+    min-width: 350px;
+    flex: 1;
+}
+
+.wrapper.masthead .NodeLevel1 > .CSSFacetNavModules {
+    display: flex;
+    flex-flow: column;
+    gap: .25rem;
+}
+
+/* Dropdown Titles */
+.wrapper.masthead .NodeLevel1 > a {
+    font-family: 'citrfontbold';
+    font-size: var(--dropdown-titleSize);
+    letter-spacing: 1px;
+    border-bottom: var(--dropdownAreaTitleUnderline);
+    color: var(--dropdownAreaTitle);
+    text-transform: none;
+    opacity: 1;
+}
+
+/* Dropdown Links */
+.wrapper.masthead .NodeLevel1 > .CSSFacetNavModules a {
+    color: var(--dropdownAreaLinks);
+    font-size: var(--dropdown-linkSize);
+    opacity: .8;
+}
+
+.wrapper.masthead .NodeLevel1 > .CSSFacetNavModules a:hover {
+    opacity: 1;
+}
+
+.wrapper.masthead .NodeLevel1 > .CSSFacetNavModules > div {
+    padding: 0;
+}
+
+/* Remove Link Animations */
+.wrapper.masthead .NodeLevel2 > a:before {
+    display: none;
+}
+
+/* ==================== Login Dropdown ==================== */
+
+.wrapper.masthead .loginCtr.tbcnt.tbcntOpen {
+    background: var(--loginDropdownBackground);
+    border: 2px solid var(--brand-link-light);
+    border-top: none;
+    border-radius: 0 0 var(--global-radius) var(--global-radius);
+}
+
+.wrapper.masthead .loginCtr.tbcnt.tbcntOpen .boldfont {
+    color: var(--loginTitleColor);
+    font-size: var(--login-titleSize);
+}
+
+.wrapper.masthead .loginCtr a {
+    color: var(--loginLinkColor);
+    font-size: var(--login-linkSize);
+    border-bottom: 1px solid var(--loginLinkColor);
+}
+
+/* ==================== Search ==================== */
+
+.wrapper.masthead .srchCtr.tbcnt .searchBoxForm {
+    background: var(--searchBackground);
+    color: var(--searchText);
+    font-size: var(--search-inputSize);
+}
+
+.wrapper.masthead .srchCtr.tbcnt .icon-search {
+    color: var(--searchIconColor);
+}
+
+.wrapper.masthead .srchCtr.tbcnt .searchBoxForm::placeholder {
+    color: var(--searchPlaceholderColor);
+}
+
+/* ==================== Navigation Mobile ==================== */
+
+@media screen and (max-width: 1024px) {
+    .wrapper.masthead .NodeLevel0 > a {
+        color: var(--mobileNavLinkColor) !important;
+        padding: 1rem;
+        background: var(--mobileNavBackground);
+        font-size: var(--mobile-navLinkSize);
+        border-bottom: var(--global-border);
+    }
+
+    .wrapper.masthead .NodeLevel0[data-nodename*='Sale'] > a {
+        color: var(--sale-colorHover) !important;
+        padding: 1rem 0.5rem 1rem 1rem !important;
+        font-size: var(--mobile-navLinkSize) !important;
+        background: var(--sale-backgroundHover) !important;
+        border-radius: 0;
+    }
+
+    .wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active {
+        flex-flow: column;
+        padding: 1rem;
+        padding-bottom: 15rem;
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .wrapper.masthead .ctrNavigation > .CSSFacetNavModules {
+        height: fit-content;
+    }
+
+    .wrapper.masthead .NodeLevel1 {
+        width: 100%;
+    }
+
+    .icon-menu.mobile {
+        order: 5;
+        background: var(--mobileHamburgerBackground);
+        color: var(--mobileHamburgerColor) !important;
+        border-radius: var(--global-radius);
+        margin-right: 2px;
+        margin-top: 1px;
+    }
+
+    .ctrNavigation {
+        background: var(--mobileNavOverlay);
+        backdrop-filter: var(--mobileNavBlur);
+    }
+}
+
+/* ==================== Navigation Active State ==================== */
+
+@media screen and (min-width: 1024px) {
+    .open-slide-menu .NodeLevel0 > a:not(.active) {
+        opacity: 0.3;
+    }
+
+    .wrapper.masthead {
+        transition: height .5s ease,
+                    background-color 400ms cubic-bezier(0.22, 1, 0.36, 1),
+                    box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1),
+                    backdrop-filter 400ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .wrapper.masthead.active {
+        height: 75px;
+    }
+
+    .wrapper.masthead .CSSFacetNavModules {
+        top: 0;
+        opacity: 1;
+        transition: .2s ease;
+    }
+
+    .wrapper.masthead.active .CSSFacetNavModules {
+        top: 0px !important;
+        opacity: 0;
+    }
+
+    /* Nav Link Underline Animation */
+    .wrapper.masthead .NodeLevel0 > a:before {
+        right: 0;
+        transform: rotate(0deg);
+    }
+
+    .wrapper.masthead .NodeLevel0 > a::before {
+        display: block;
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px !important;
+        bottom: 0;
+        left: 0;
+        background-color: var(--navLinks-hover);
+        transform-origin: bottom center;
+        transition: transform 0.25s ease-out;
+        top: 23px;
+    }
+
+    .wrapper.masthead .NodeLevel0[data-nodename*='Sale'] > a::before {
+        background-color: var(--sale-color);
+    }
+
+    .wrapper.masthead .NodeLevel0 > a:hover::before,
+    .wrapper.masthead .NodeLevel0 > a.active::before {
+        transform: scaleX(1);
+        transform-origin: bottom center;
+    }
+}
+
+/* ==================== Search Bar (Exposed) ====================
+
+.menu-icons-header > .icon-search {
+    display: none;
+}
+
+#search.srchCtr {
+    display: flex;
+    justify-content: center;
+    padding: .5rem;
+    max-width: 600px;
+    z-index: 999999;
+}
+
+#TopBanner1_clSearch1_containerSearch {
+    display: flex;
+    justify-content: center;
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+}
+
+.srchCtr.tbcnt .icon-search {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    min-width: 40px;
+    pointer-events: none;
+    top: -1px;
+}
+
+.srchCtr.tbcnt .searchBoxForm,
+.srchCtr.tbcnt .searchBoxForm:focus {
+    padding: 0 0 0 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: var(--global-radius);
+    border: var(--global-border);
+    width: 100%;
+}
+ */
+
+
+
+/* ==================== Layout & Responsive ==================== */
+
+body {
+    padding-top: 115px !important;
+}
+
+/* Mobile */
+@media screen and (max-width: 1024px) {
+    .menu-icons-header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    }
+
+    
+
+    .logoContainer {
+        width: 130px !important;
+    }
+
+    .logo {
+        max-width: 110px !important;
+    }
+
+    body {
+        padding-top: 103px !important;
+    }
+
+    #search.srchCtr {
+        max-width: 100%;
+    }
+
+    .ctrNavigation {
+        top: 50px !important;
+    }
+    
+
+/* Desktop */
+@media screen and (min-width: 1024px) {
+    #search {
+        position: absolute;
+        top: calc(-90px + 1.5rem);
+        z-index: 1;
+        left: calc(50% - 300px);
+    }
+
+    .wrapper.masthead .loginCtr.tbcnt.tbcntOpen {
+        top: 40px;
+        position: absolute;
+    }
+
+    .wrapper.masthead {
+        height: 115px;
+    }
+
+    .menu-icons-header {
+        width: 250px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    #navi {
+        display: flex;
+        top: 73px;
+        /* position: fixed; ----- removed to put the navigation menu inline */
+        justify-content: center;
+        padding-inline: 2rem;
+        max-width: var(--navWidth);
+        flex-grow: 0;
+        width: 100%;
+    }
+
+    .wrapper.masthead .ctrNavigation > .CSSFacetNavModules {
+        display: flex;
+        float: none;
+        justify-content: flex-start;
+    }
+
+    .wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active {
+        top: 42px;
+    }
+
+    /* NB unscoped - .zflex-s is a platform flex utility used site-wide (e.g.
+       .col-1.zflex-s on the detail page), so this reaches well beyond the
+       masthead. `flex-wrap: wrap` was removed: the masthead row is a .zflex-s
+       and both #navi and .navIcons are width:100%, so wrapping gave each one
+       its own line and stacked the bar into logo / links / icons rows. With
+       the default nowrap they shrink and share one row, which is the intended
+       horizontal bar. Left as a removal rather than an explicit `nowrap` so
+       the other .zflex-s containers keep whatever the platform gives them. */
+    .zflex-s, .zflexInline-s {
+        align-items: center;
+        -webkit-align-items:stretch;
+        -ms-align-items:stretch;
+        -moz-align-items:stretch;
+        display: flex;
+        align-content: center;
+    }
+
+}
+
+/* ==================== Filter ==================== */
+
+.sticky.sticknow .FAFoptionsContainer {
+    margin-top: 0 !important;
+    position: fixed;
+    top: 109px !important;
+    z-index: 7;
+    background: var(--filterBackground);
+    width: 100%;
+    left: 0;
+}
+
+/* ==================== Logo ==================== */
+
+.logoContainer {
+    width: 200px;
+}
+
+/* ==================== CTA Bar ==================== */
+
+/* Ctas */
+
+.ctaContainer {display: flex;justify-content: flex-start;top: 0; background: transparent;}
+
+.wrapper:has(.ctaContainer) {
+    background: var(--ctaBackground);
+}
+
+div[id*="CTA_bannerCollectionPanel"] {
+    display: flex;
+    flex-flow: row nowrap;
+    overflow-x: auto;
+    padding: 0 !important;
+    gap: 0 !important;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+div[id*="CTA_bannerCollectionPanel"] .bannerTxtCtr {
+    position: static;
+    padding: 0 !important;
+    grid-gap: 5px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: none !important;
+    flex-flow: column;
+}
+
+div[id*="CTA_bannerCollectionPanel"] .bannerTxtCtr > span {
+    font-size: var(--ctaFontSize) !important;
+    width: auto;
+    order: 0;
+    text-align: center !important;
+    color: var(--ctaColor) !important;
+    background: none !important;
+    padding: 0 !important;
+    text-transform: none !important;
+}
+
+div[id*="CTA_bannerCollectionPanel"] .bannerTxtCtr > span.bannerTitle {
+
+}
+
+div[id*="CTA_bannerCollectionPanel"] .bannerTxtCtr > span.bannerView {
+    display: none;
+}
+
+div[id*="CTA_bannerCollectionPanel"] .photo {
+    display: none;
+}
+
+div[id*="CTA_bannerCollectionPanel"] .photo:after{
+    width: 0 !important;
+}
+
+div[id*="CTA_bannerCollectionPanel"] .bannerDesc:before {
+    display: none;
+}
+
+div[id*="CTA_bannerCollectionPanel"] a:hover .bannerTxtCtr {
+    background: none;
+}
+
+div[id*="CTA_bannerCollectionPanel"] a {
+    min-width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block: .5rem;
+    border-left: var(--ctaDivider);
+    border-radius: 0;
+    gap: 1rem;
+}
+
+
+div[id*="CTA_bannerCollectionPanel"] a:nth-child(1) {
+    border-left: none;
+}
+
+div[id*="CTA_bannerCollectionPanel"] a:last-child {
+    border-right: none;
+}
+
+div[id*="CTA_bannerCollectionPanel"] .bannerDesc{
+    display: none;
+}
+
+div[id*="CTA_bannerCollectionPanel"] a .bannerTxtCtr,
+div[id*="CTA_bannerCollectionPanel"] a{
+    max-width: fit-content !important;
+    min-width: fit-content;
+    padding-inline: 1rem;
+    height: fit-content !important;
+}
+
+/* ==================== Outlet Nav Button ==================== */
+
+.wrapper.masthead .NodeLevel0[data-nodename*='Outlet'] {
+    margin-left: auto;
+    border: 1px solid var(--outletBorder);
+    padding: .2rem .5rem;
+    transition: var(--global-transition);
+}
+
+.wrapper.masthead .NodeLevel0[data-nodename*='Outlet']:hover {
+    background: var(--outletHoverBackground);
+}
+
+.wrapper.masthead .NodeLevel0[data-nodename*='Outlet']:hover > a {
+    color: var(--outletHoverText) !important;
+}
+
+/* ==================== Brands Dropdown ==================== */
+
+[data-nodename="Brands"] .NodeLevel1 .CSSFacetNavModules > div {
+    min-width: 200px;
+    max-width: 200px;
+    display: flex;
+}
+
+[data-nodename="Brands"] .NodeLevel1 > .CSSFacetNavModules {
+    flex-flow: row wrap !important;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem !important;
+}
+
+@media screen and (min-width: 1024px) {
+    [data-nodename="Brands"] .NodeLevel1:nth-child(1) > .CSSFacetNavModules > div a {
+        font-size: var(--fontSize-lg) !important;
+        font-weight: bold;
+    }
+}
+
+
+
+/* nav scroll animation */
+
+.navIcons {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+
+    /* Stays transparent in every state - the surface is painted by
+       .wrapper.masthead beneath it. Only the ink animates here now; the
+       background / shadow / blur transitions moved to the masthead with the
+       fill they belong to.
+
+       `color` is the row's inherited ink, tokenised so the Solid State block
+       carries it. It was a literal `white`, which went invisible the moment
+       the solid bar became white. --navIcons is white at rest, so this is a
+       no-op outside the solid state. */
+    background-color: transparent;
+    color: var(--navIcons);
+
+    transition: color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navIcons a,
+.navIcons button {
+    color: inherit;
+    transition: color 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.navIcons svg {
+    fill: currentColor;
+    stroke: currentColor;
+
+    transition:
+        fill 400ms cubic-bezier(0.22, 1, 0.36, 1),
+        stroke 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Scrolled SURFACE, homepage only. homepage-nav.js toggles .is-scrolled on
+   .wrapper.masthead - the outermost masthead layer - so the fill covers the
+   whole bar rather than just the inner .navIcons strip. Bump the ?v
+   querystring in default.aspx if you touch that script.
+
+   The :has(.hp-hero) scope does double duty: it enforces requirement 4
+   (interior pages never do this) AND lifts the selector to (0,4,1), which
+   clears 99's `body:has(.hp-hero) .wrapper.masthead { transparent !important }`
+   at (0,3,1). Specificity beats source order, so this wins even though 99
+   loads later - no duplicate override needed there.
+
+   Do NOT rely on the script only being loaded on the homepage for the
+   scoping; that was accidental, and a shared master page would undo it.
+
+   Contents are not set here - the Solid State block at the top of this file
+   re-points --navLinks / --navIcons / --navLinks-hover for the same trigger,
+   which is what stops white text landing on this white bar.
+
+   blur/shadow left as literals for now, by decision - they are surface
+   texture rather than brand colour. */
+body:has(.hp-hero) .wrapper.masthead.is-scrolled {
+    background: var(--navSolid-background) !important;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+
+
+    .masthead .fixed .navIcons {
+        position: relative;
+        padding: 0px 10px 0px 20px;
+    }
+
+    .navIcons {
+    height: 100%
+}
+
+
+/* Nav Icon Fixes */
+
+    .navIcons > div:not(.icon-menu.mobile), .navIcons > a, .navIcons *[class*="icon-"]:not(.icon-menu.mobile) {
+        width: auto;
+        line-height: 1;
+        font-size: 20px;
+        position: relative;
+        text-align: center;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+/* Icon order, left to right: search, account, bag. The platform emits them
+   head, bag, menu, search - .menu-icons-header is flex at both breakpoints
+   (438/483), so `order` does the reshuffle with no markup change. Keyed on
+   data-link rather than the icon-font class names, same reasoning as 99: the
+   data-link states the toggle's job, so a platform class rename cannot
+   silently scramble the row. The mobile hamburger keeps its own order (310)
+   and stays after these three. */
+
+.menu-icons-header > [data-link="search"] {
+    order: 1;
+}
+
+.menu-icons-header > [data-link="login"] {
+    order: 2;
+}
+
+.menu-icons-header > [data-link="basket"] {
+    order: 3;
+}

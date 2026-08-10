@@ -1,0 +1,152 @@
+/* CC-SplideBanners.css - Templeton Jones */
+
+/* Splide Tokens */
+:root {
+    --splideArrowSize: 2.75rem;
+    --splideArrowBg: transparent;
+    --splideArrowColor: var(--text);
+    --splideArrowHoverBg: transparent;
+    --splidePaginationSize: 8px;
+    --splidePaginationBg: oklch(from var(--brand-dark) l c h / 0.3);
+    --splidePaginationActiveBg: var(--brand-dark);
+}
+
+
+/* Base Splide Structure
+   [data-splide-opts] scoping gives (0,2,0) specificity minimum,
+   beating Splide's native (0,1,0) selectors without !important. */
+
+[data-splide-opts] .splide {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+[data-splide-opts] .splide__track {
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+}
+
+[data-splide-opts] .splide__list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+[data-splide-opts] .splide__slide {
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* Arrows */
+
+[data-splide-opts] .splide__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: var(--splideArrowSize);
+    height: var(--splideArrowSize);
+    background: var(--splideArrowBg);
+    color: var(--splideArrowColor);
+    border: 0;
+    border-radius: var(--global-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    opacity: 1;
+}
+
+[data-splide-opts] .splide__arrow:hover {
+    background: var(--splideArrowHoverBg);
+    color: var(--text-inverse);
+    transform: translateY(-50%) scale(1.1);
+}
+
+[data-splide-opts] .splide__arrow svg {
+    width: 1.5em;
+    height: 1.5em;
+    fill: currentColor;
+}
+
+[data-splide-opts] .splide__arrow--prev { left: var(--bannerPadding); }
+[data-splide-opts] .splide__arrow--next { right: var(--bannerPadding); }
+
+@media (max-width: 767px) {
+    [data-splide-opts] .splide__arrow--prev { left: 0.4rem; }
+    [data-splide-opts] .splide__arrow--next { right: 0.4rem; }
+}
+
+/* Arrows-top utility -- move arrows above the carousel */
+.CC-SplideArrowsTop .splide__arrow {
+    position: static;
+    transform: none;
+}
+.CC-SplideArrowsTop .splide__arrow:hover {
+    transform: scale(1.1);
+}
+
+.CC-SplideArrowsTop .splide__arrows {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    padding: 0 var(--bannerPadding) 0.5rem;
+}
+
+
+/* Pagination */
+
+[data-splide-opts] .splide__pagination {
+    position: absolute;
+    bottom: var(--bannerPadding);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+[data-splide-opts] .splide__pagination__page {
+    width: var(--splidePaginationSize);
+    height: var(--splidePaginationSize);
+    border-radius: 1px;
+    background: var(--splidePaginationBg);
+    transition: background 0.2s ease, width 0.2s ease;
+    cursor: pointer;
+    border: 0;
+    display: flex;
+}
+
+[data-splide-opts] .splide__pagination__page:hover {
+    background: var(--splidePaginationActiveBg);
+}
+
+[data-splide-opts] .splide__pagination__page.is-active {
+    width: 1.5rem;
+    background: var(--splidePaginationActiveBg);
+}
+
+
+/* cc-banner in Splide context
+   Height model for Splide carousels:
+   Set height on .splide itself in per-component CSS, then chain 100% down.
+   Splide's flex layout flows top-down -- the track/list/slide must all
+   inherit from the .splide container, not from each other or the slide content.
+
+   Per-component pattern:
+     .hp-foo .splide                      { height: clamp(320px, 60vh, 780px); }
+     .hp-foo .splide__track,
+     .hp-foo .splide__list,
+     .hp-foo .splide__slide               { height: 100%; }
+
+   cc-banner and __img then fill the slide via the rules in 04-CC-BannerCollections.css. */

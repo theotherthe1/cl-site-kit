@@ -1,0 +1,1147 @@
+/* ============================================================================
+   CC-Home.css — Templeton Jones (tj)
+   Layout-model replication of TJ Design.png. One white canvas; rhythm from
+   full-bleed photography bands vs contained, hairline-ruled text bands.
+   Motif: the hairline (section rules, 1px ghost CTAs, dash pagination).
+   Signature: the three-town lockup (Shrewsbury / Abersoch / Newport) echoed
+   in the closing band; the About declaration set as the large serif statement.
+   All colour/shadow/radius values are semantic var(--token) refs — the
+   colours-only run supplies the actual brand values.
+   Fix pass 2026-08-03: brands header anatomy (band-opening hairline → label →
+   H2/VIEW ALL row), about label hairline, new-in nested-control guards.
+   Full-width hairlines use var(--border) — var(--border-light) computes too
+   faint to render as a visible rule on this canvas.
+   Rhythm pass 2026-08-04: the per-band padding tiers (strip / content / airy,
+   each its own clamp) are retired in favour of ONE flat value — every band
+   pads padding-block: var(--section-padding-sm), top and bottom. The single
+   exception is hp-hero, which carries no section padding at all so the
+   full-bleed photo still runs flush to the nav. Retune the rhythm in
+   02-CC-Global.css, not here — --section-padding-lg is still declared there
+   but no homepage band currently uses it.
+   ============================================================================ */
+
+
+/* ==== 0. SHARED CAROUSEL CHROME — one dash-pagination geometry, quiet arrows ====
+   Scoped to [data-splide-opts] so it self-maintains across grid/carousel swaps.
+   Dash dots are the mockup's hero pagination — the SAME geometry runs on every
+   carousel (hero, New-in, Brands); only the inactive colour flips per background. */
+
+[data-splide-opts] .splide__pagination__page {
+    width: 1.75rem;
+    height: 2px;
+    border-radius: var(--global-radius);
+    background: var(--splidePaginationBg);
+    border: none;
+    opacity: 1;
+    transform: none;
+    transition: var(--global-transition);
+}
+
+[data-splide-opts] .splide__pagination__page.is-active {
+    width: 2.5rem;
+    background: var(--splidePaginationActiveBg);
+    transform: none;
+}
+
+[data-splide-opts] .splide__arrow {
+    width: 2.25rem;
+    height: 2.25rem;
+    background: transparent;
+    border: 1px solid transparent;
+    box-shadow: none;
+    opacity: 0.7;
+    transition: var(--global-transition);
+}
+
+[data-splide-opts] .splide__arrow svg {
+    fill: var(--text);
+    width: 1.1rem;
+    height: 1.1rem;
+    transition: var(--global-transition);
+}
+
+[data-splide-opts] .splide__arrow:hover {
+    opacity: 1;
+    background: var(--black-10);
+    border-color: var(--border-light);
+}
+
+
+/* ==== 1. hp-hero — full-bleed editorial fade hero; text bottom-left,
+        dash pagination bottom-right, minimal white arrows (band 01) ==== */
+
+.hp-hero > .cc-collection {
+    padding: 0; /* deliberate full-bleed — band 01 runs edge to edge */
+}
+
+/* carousel height chain — mockup hero is ~800px on a 1440 canvas; the vw track
+   runs a touch taller (65vw) and the ceiling is viewport-relative (80vh) so the
+   stage never outgrows the fold on short, wide screens */
+.hp-hero .splide {
+    height: clamp(30rem, 65vw, 80vh);
+}
+
+.hp-hero .splide__track,
+.hp-hero .splide__list,
+.hp-hero .splide__slide {
+    height: 100%;
+}
+
+/* Band 01: a soft even veil over the whole frame, gathering weight only in the
+   lower third where the text block sits — NOT a heavy flat wash. */
+.hp-hero .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 2.8vw, 3rem);
+    background: linear-gradient(
+        to top,
+        var(--black-50) 0%,
+        var(--black-10) 45%,
+        var(--black-10) 100%
+    );
+}
+
+.hp-hero .cc-banner__title {
+    font-family: citrfontboldalt;
+    font-size: var(--fontSize-3xl);
+    line-height: 1;
+    letter-spacing: 0;
+    color: var(--bannerText);
+    max-width: 22ch;
+    text-wrap: balance;
+}
+
+/* Band 01: the desc is BODY COPY beneath the title on a ~474px measure —
+   two quiet sans lines, not an eyebrow. */
+.hp-hero .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.92;
+    max-width: 48ch;
+}
+
+/* PRIMARY CTA — the ghost. White variant for photo bands (band 01 anatomy:
+   1px outline, letterspaced 13px label, quiet). */
+.hp-hero .cc-banner__cta {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--text-inverse);
+    border-radius: var(--global-radius);
+    color: var(--text-inverse);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+/* hover-reset law — one combined rule, all four properties */
+.hp-hero .cc-banner:hover .cc-banner__cta {
+    background: var(--background);
+    border-color: var(--background);
+    box-shadow: none;
+    color: var(--text);
+}
+
+/* chrome reconciliation: dashes move to bottom-RIGHT (band 01) — the body is
+   bottom-LEFT so the two never collide; arrows go minimal white on the photo */
+.hp-hero .splide__pagination {
+    left: auto;
+    right: var(--bannerPadding);
+    bottom: var(--bannerPadding);
+    transform: none;
+    width: auto;
+}
+
+/* Hero dashes sit on photography, so both states read off --text-inverse
+   (30% -> solid) instead of the global brand-dark ramp.
+   SPECIFICITY: these MUST use the [data-splide-opts].hp-hero compound, not
+   .hp-hero alone. 05-CC-SplideBanners.css sets the same backgrounds via
+   [data-splide-opts] .splide__pagination__page[.is-active] = (0,3,0); a bare
+   .hp-hero ... .is-active only ties at (0,3,0) and loses to whichever bundle
+   loads last. .hp-hero is the SAME element that carries data-splide-opts
+   (default.aspx band 01), so the compound is valid and reaches (0,4,0). */
+[data-splide-opts].hp-hero .splide__pagination__page {
+    background: var(--white-30);
+}
+
+[data-splide-opts].hp-hero .splide__pagination__page.is-active {
+    background: var(--text-inverse);
+}
+
+/* hover must not fall back to the dark global rule mid-photo */
+[data-splide-opts].hp-hero .splide__pagination__page:hover {
+    background: var(--text-inverse);
+}
+
+.hp-hero .splide__arrow {
+    background: transparent;
+    border-color: transparent;
+}
+
+.hp-hero .splide__arrow svg {
+    fill: var(--text-inverse);
+}
+
+.hp-hero .splide__arrow:hover {
+    background: var(--white-30);
+    border-color: var(--white-30);
+    opacity: 1;
+}
+
+@media (max-width: 640px) {
+    /* distinct mobile hero: taller portrait stage, tighter type, the veil
+       deepens so the shorter measure stays legible over any crop */
+    .hp-hero .splide {
+        height: min(34rem, 82svh);
+    }
+
+    .hp-hero .cc-banner__body {
+        padding: 1.25rem 1.25rem 2.75rem; /* clears the dashes on narrow screens */
+        gap: 2rem;
+        background: linear-gradient(
+            to top,
+            var(--black-80) 0%,
+            var(--black-10) 60%
+        );
+    }
+
+    .hp-hero .cc-banner__title {
+        font-size: var(--fontSize-2xl);
+        max-width: 16ch;
+    }
+
+    .hp-hero .cc-banner__desc {
+        max-width: 100%;
+    }
+
+    .hp-hero .splide__pagination {
+        right: 1.25rem;
+        bottom: 1rem;
+    }
+}
+
+
+/* ==== 2. hp-new-in — the grid-break: asymmetric text rail (1fr) + product
+        carousel (3.2fr); hairline rules the rail top; arrows live bottom-left
+        of the rail, never over the cards (band 02) ==== */
+
+.hp-new-in {
+    padding-block: var(--section-padding-sm);
+}
+
+/* the rail grid. This is FafCustomRepeaterSplide's own Panel — the band holds
+   nothing else, so the control's two children ARE the two columns:
+   .faf-header (the text rail) and .faf-splide-container (the cards).
+   Kept as a direct-child selector: the control nests no second
+   .faf-product-carousel now, and this must not start matching one if it ever
+   does again. */
+.hp-new-in > .faf-product-carousel {
+    display: grid;
+    grid-template-columns: minmax(15rem, 1fr) 3.2fr;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    align-items: start;
+    padding-inline: clamp(1.25rem, 2.8vw, 3rem); /* content gutter */
+    padding-bottom: 3.25rem; /* reserves the arrow row at the rail's foot */
+    position: relative;      /* arrows anchor to the whole band */
+}
+
+/* graceful empty state — the platform hides the Panel entirely when repeater 1
+   binds nothing, but a bound-yet-cardless render would still reserve the arrow
+   row, so stand it down (no dead space beneath the rail) */
+.hp-new-in > .faf-product-carousel:not(:has(.faf-product-card)) {
+    padding-bottom: 0;
+}
+
+/* the rail — the control's own header, bound from repeater 1 (repeaterTitle /
+   repeaterDesc / the Shop All link's detailLink). Hairline motif rules its top
+   edge, exactly as band 02 draws it.
+   NOTE the control does NOT wrap title+desc in a .text-wrap the way the banner
+   controls do, so all three children sit in one flex column: the gap here is
+   the tight title↔desc value and the CTA pushes itself off with margin-top,
+   which reproduces band 02's two-tier spacing. */
+.hp-new-in .faf-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--text-wrap);
+    border-top: 1px solid var(--border);
+    padding-top: 2rem;
+    margin: 0;
+}
+
+.hp-new-in .faf-title {
+    font-family: citrfontboldalt;
+    font-size: var(--fontSize-2xl);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    color: var(--text);
+    margin: 0;
+}
+
+.hp-new-in .faf-description {
+    font-family: citrfontreg;
+    font-size: var(--fontSize-md);
+    line-height: 1.55;
+    color: var(--text-secondary);
+    max-width: 26ch;
+    margin: 0;
+}
+
+.hp-new-in .faf-product-btn-container {
+    margin: calc(var(--text-block-wrap) - var(--text-wrap)) 0 0;
+}
+
+/* PRIMARY CTA — the same ghost, ink recolour for the white band */
+.hp-new-in .faf-view-more {
+    display: inline-block;
+    background: transparent;
+    border: 1px solid var(--brand-dark);
+    border-radius: var(--global-radius);
+    color: var(--text);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    text-decoration: none;
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-new-in .faf-view-more:hover {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    box-shadow: none;
+    color: var(--text-inverse);
+}
+
+/* product cards — image on a light tile, name + price beneath (band 02).
+   FAF carousels are content-height: the image aspect sizes the card. */
+.hp-new-in .faf-product-card {
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.hp-new-in .faf-product-image-link {
+    display: block;
+    background: var(--background-sunken); /* the grey tile */
+    overflow: hidden;
+}
+
+/* .faf-product-image is a background-image div; the inline style shorthand
+   resets size/repeat, so these two need !important to land */
+.hp-new-in .faf-product-image {
+    aspect-ratio: 1 / 1;
+    background-size: contain !important;   /* products float on the tile, uncropped */
+    background-repeat: no-repeat !important;
+    transition: transform 0.6s ease;
+}
+
+.hp-new-in .faf-product-card:hover .faf-product-image {
+    transform: scale(1.03); /* gentle — the luxury register, no bounce */
+}
+
+.hp-new-in .faf-product-info {
+    padding: 1rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    align-items: flex-start;
+}
+
+.hp-new-in .faf-product-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-family: citrfontreg;
+    font-size: var(--fontSize-sm);
+}
+
+.hp-new-in .faf-product-name {
+    order: -1; /* band 02: name first, price beneath */
+    font-family: citrfontreg;
+    font-size: var(--fontSize-sm);
+    line-height: 1.45;
+    color: var(--text);
+    transition: var(--global-transition);
+}
+
+.hp-new-in .faf-product-link:hover .faf-product-name {
+    color: var(--brand-link);
+}
+
+/* quiet quick-buy — present and usable, deferential to the editorial card */
+.hp-new-in .faf-quick-buy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--global-radius);
+    color: var(--text);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    cursor: pointer;
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-new-in .faf-quick-buy-btn:hover {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    box-shadow: none;
+    color: var(--text-inverse);
+}
+
+/* chrome reconciliation — the mockup's arrows sit bottom-left IN the rail
+   column: re-anchor them to the whole band (static splide, relative band) */
+.hp-new-in .faf-splide-container,
+.hp-new-in .faf-splide {
+    position: static;
+}
+
+.hp-new-in .splide__arrow {
+    top: auto;
+    bottom: 0;
+    transform: none;
+}
+
+.hp-new-in .splide__arrow--prev {
+    left: clamp(1.25rem, 2.8vw, 3rem);
+    right: auto;
+}
+
+.hp-new-in .splide__arrow--next {
+    left: calc(clamp(1.25rem, 2.8vw, 3rem) + 2.75rem);
+    right: auto;
+}
+
+/* card carousel: pagination flows BELOW the track, dark dashes on white */
+.hp-new-in .splide__pagination {
+    position: static;
+    transform: none;
+    margin-top: 1.5rem;
+    justify-content: center;
+    width: auto;
+}
+
+.hp-new-in .splide__pagination__page {
+    background: var(--black-10);
+}
+
+.hp-new-in .splide__pagination__page.is-active {
+    background: var(--brand-dark);
+}
+
+@media (max-width: 1024px) {
+    .hp-new-in > .faf-product-carousel {
+        grid-template-columns: 1fr; /* rail stacks above the cards */
+    }
+
+    .hp-new-in .faf-description {
+        max-width: 44ch;
+    }
+}
+
+
+/* ==== 3. hp-collections — full-bleed triptych, 10px gaps, bottom-up gradient,
+        serif white title + ghost CTA bottom-left per panel (band 03) ==== */
+
+.hp-collections {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-collections > .cc-collection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;      /* the mockup's exact seam */
+    padding: 0;     /* deliberate full-bleed */
+}
+
+.hp-collections > .cc-collection .cc-banner__img,
+.hp-collections > .cc-collection .cc-banner__img img {
+    aspect-ratio: 4 / 5; /* ~477x600 panels in the render */
+}
+
+/* bottom-up gradient only where the text lives — the upper frame stays clean */
+.hp-collections > .cc-collection .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 2.8vw, 2.5rem);
+    background: linear-gradient(
+        to top,
+        var(--black-50) 0%,
+        transparent 45%
+    );
+    transition: background 0.6s ease;
+}
+
+.hp-collections > .cc-collection .cc-banner__title {
+    font-family: citrfontboldalt;
+    font-size: var(--fontSize-2xl);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    color: var(--bannerText);
+    max-width: 16ch;
+}
+
+/* desc kept quiet, body-copy role — the mockup panels carry title + CTA only,
+   but a CMS-filled desc must stay legible on the photo */
+.hp-collections > .cc-collection .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.9;
+    max-width: 34ch;
+}
+
+/* PRIMARY CTA — ghost, white variant (photo band) */
+.hp-collections > .cc-collection .cc-banner__cta {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--text-inverse);
+    border-radius: var(--global-radius);
+    color: var(--text-inverse);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-collections > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: var(--background);
+    border-color: var(--background);
+    box-shadow: none;
+    color: var(--text);
+}
+
+/* hover: overlay tint deepens + the platform's gentle image scale —
+   never the zoom alone */
+.hp-collections > .cc-collection .cc-banner:hover .cc-banner__body {
+    background: linear-gradient(
+        to top,
+        var(--black-80) 0%,
+        transparent 55%
+    );
+}
+
+/* reveal: quiet staggered rise, left to right */
+.hp-collections > .cc-collection .cc-banner {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hp-collections.inView > .cc-collection .cc-banner {
+    opacity: 1;
+    transform: none;
+}
+
+.hp-collections.inView > .cc-collection .cc-banner:nth-child(2) {
+    transition-delay: 0.12s;
+}
+
+.hp-collections.inView > .cc-collection .cc-banner:nth-child(3) {
+    transition-delay: 0.24s;
+}
+
+@media (max-width: 900px) {
+    /* mobile: the triptych becomes a horizontal scroll-snap rail */
+    .hp-collections > .cc-collection {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .hp-collections > .cc-collection .cc-banner {
+        flex: 0 0 78%;
+        scroll-snap-align: start;
+    }
+}
+
+
+/* ==== 4. hp-brands — header anatomy per band 04: band-opening full-width
+        hairline, eyebrow label beneath it top-left, serif H2 left +
+        VIEW ALL right on the same row, greyscale logo drift below ==== */
+
+.hp-brands {
+    padding-block: var(--section-padding-sm);
+}
+
+/* heading: left-aligned editorial override of the CC-HomepageTitles baseline.
+   Top spacing owned by the section; zero bottom (gap owned by the strip).
+   Selectors carry .cc-collection so they outrank the baseline's
+   .CC-HomepageTitles .cc-collection rules on every property (the baseline's
+   text-align:center was leaking through — the centred-desc bug). */
+.hp-brands .CC-HomepageTitles {
+    align-items: flex-start;
+    text-align: left;
+    max-width: none;
+    margin: 0;
+    padding: 0 clamp(1.25rem, 2.8vw, 3rem);
+}
+
+.hp-brands .CC-HomepageTitles .cc-collection .cc-banner {
+    align-items: stretch;
+    text-align: left;
+}
+
+.hp-brands .CC-HomepageTitles .cc-collection .cc-banner__body {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    justify-items: start;
+    gap: 1.5rem 2rem;
+    width: 100%;
+    text-align: left;
+}
+
+/* band 04's header body is a GRID that places desc, title and CTA on named
+   rows/columns individually. The .text-wrap wrapper would swallow desc+title
+   into a single grid item and collapse that anatomy, so here it dissolves and
+   lets its children participate in the grid directly. */
+.hp-brands .CC-HomepageTitles .cc-collection .text-wrap {
+    display: contents;
+}
+
+/* the eyebrow — row 1, spanning the band, sitting beneath the band-opening
+   FULL-WIDTH HAIRLINE it carries as border-top (bands/04: the rule runs
+   above the "Brands" label; var(--border) so it actually renders) */
+.hp-brands .CC-HomepageTitles .cc-collection .cc-banner__desc {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: stretch;
+    width: 100%;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--text);
+    opacity: 1;
+    text-align: left;
+}
+
+.hp-brands .CC-HomepageTitles .cc-collection .cc-banner__title {
+    grid-column: 1;
+    grid-row: 2;
+    font-family: citrfontboldalt;
+    font-size: var(--fontSize-2xl);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    text-wrap: balance;
+    max-width: none;
+}
+
+/* QUIET CTA — the arrow-link (band 04's VIEW ALL, sans the banned underline) */
+.hp-brands .CC-HomepageTitles .cc-collection .cc-banner__cta {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    margin: 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    color: var(--text);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    transition: var(--global-transition);
+}
+
+.hp-brands .CC-HomepageTitles .cc-collection .cc-banner__cta::after {
+    content: "\2192";
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.hp-brands .CC-HomepageTitles .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--brand-link);
+}
+
+.hp-brands .CC-HomepageTitles .cc-collection .cc-banner:hover .cc-banner__cta::after {
+    transform: translateX(0.35em);
+}
+
+/* the logo drift — greyscale at rest, brand colour breathes back on hover.
+   Content-height strip (logo row): NO fixed splide height chain here. */
+.hp-brands > .cc-collection {
+    padding: clamp(2.5rem, 4vw, 3.5rem) clamp(1.25rem, 2.8vw, 3rem) 0;
+}
+
+.hp-brands .splide__slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hp-brands .cc-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0;
+}
+
+.hp-brands .cc-brand__img {
+    max-height: 1.875rem;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(1);
+    opacity: 0.55;
+    transition: var(--global-transition);
+}
+
+.hp-brands .cc-brand:hover .cc-brand__img {
+    filter: grayscale(0);
+    opacity: 1;
+}
+
+/* chrome: logo-strip pagination flows below, dark dashes on white;
+   arrows inherit the quiet ink baseline and stay at the strip's edges */
+.hp-brands .splide__pagination {
+    position: static;
+    transform: none;
+    margin-top: 1.75rem;
+    justify-content: center;
+    width: auto;
+}
+
+.hp-brands .splide__pagination__page {
+    background: var(--black-10);
+}
+
+.hp-brands .splide__pagination__page.is-active {
+    background: var(--brand-dark);
+}
+
+@media (max-width: 640px) {
+    .hp-brands .CC-HomepageTitles .cc-collection .cc-banner__body {
+        grid-template-columns: 1fr;
+    }
+
+    .hp-brands .CC-HomepageTitles .cc-collection .cc-banner__cta {
+        grid-column: 1;
+        grid-row: 3;
+        justify-self: start;
+    }
+}
+
+
+/* ==== 5. hp-seasonal-duo — three full-bleed panels on a two-column split:
+        one tall feature panel down the left, two stacked panels right
+        (band 05, per the contract's layout model); the triptych's
+        deliberate echo, differing in scale, gradient depth, wipe reveal
+        and the frame-draw hover ==== */
+
+.hp-seasonal-duo {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-seasonal-duo > .cc-collection {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 10px;  /* the same seam as the triptych — the structural echo */
+    padding: 0; /* deliberate full-bleed */
+}
+
+/* entry 1 is the feature: it holds the whole left column and, being the only
+   panel with an intrinsic ratio, it is what sets the band's height. The two
+   rows then split that height and entries 2 and 3 fill their cells. */
+.hp-seasonal-duo > .cc-collection .cc-banner:first-child {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+}
+
+.hp-seasonal-duo > .cc-collection .cc-banner:first-child .cc-banner__img,
+.hp-seasonal-duo > .cc-collection .cc-banner:first-child .cc-banner__img img {
+    aspect-ratio: 3 / 4; /* tall feature crop — statelier than the triptych */
+}
+
+/* the stacked pair take their height from the row, so no ratio of their own —
+   each lands at roughly 3/2 against the feature's 3/4 */
+.hp-seasonal-duo > .cc-collection .cc-banner:nth-child(n+2),
+.hp-seasonal-duo > .cc-collection .cc-banner:nth-child(n+2) .cc-banner__img {
+    height: 100%;
+}
+
+/* deeper gradient than the triptych: the panel is taller, the text larger */
+.hp-seasonal-duo > .cc-collection .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: clamp(1.75rem, 3vw, 3rem);
+    background: linear-gradient(
+        to top,
+        var(--black-50) 0%,
+        var(--black-10) 40%,
+        transparent 60%
+    );
+}
+
+.hp-seasonal-duo > .cc-collection .cc-banner__title {
+    font-family: citrfontboldalt;
+    font-size: var(--fontSize-2xl);
+    line-height: 1.12;
+    letter-spacing: 0.015em;
+    color: var(--bannerText);
+    max-width: 18ch;
+}
+
+.hp-seasonal-duo > .cc-collection .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.9;
+    max-width: 40ch;
+}
+
+/* PRIMARY CTA — ghost, white variant (photo band) */
+.hp-seasonal-duo > .cc-collection .cc-banner__cta {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--text-inverse);
+    border-radius: var(--global-radius);
+    color: var(--text-inverse);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-seasonal-duo > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: var(--background);
+    border-color: var(--background);
+    box-shadow: none;
+    color: var(--text);
+}
+
+/* hover: hairline frame draws inward — the motif made interactive
+   (full four-side inset frame, all edges at once) */
+.hp-seasonal-duo > .cc-collection .cc-banner:hover {
+    box-shadow: inset 0 0 0 10px var(--white-30);
+}
+
+/* reveal: quiet clip-path wipe, distinct from the triptych's rise */
+.hp-seasonal-duo > .cc-collection .cc-banner {
+    clip-path: inset(0 0 8% 0);
+    opacity: 0;
+    transition: clip-path 0.9s ease, opacity 0.9s ease, box-shadow 0.4s ease;
+}
+
+.hp-seasonal-duo.inView > .cc-collection .cc-banner {
+    clip-path: inset(0);
+    opacity: 1;
+}
+
+.hp-seasonal-duo.inView > .cc-collection .cc-banner:nth-child(2) {
+    transition-delay: 0.15s;
+}
+
+.hp-seasonal-duo.inView > .cc-collection .cc-banner:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+@media (max-width: 900px) {
+    /* the trio stacks — each panel keeps presence, none carries the split */
+    .hp-seasonal-duo > .cc-collection {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+    }
+
+    .hp-seasonal-duo > .cc-collection .cc-banner:first-child {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .hp-seasonal-duo > .cc-collection .cc-banner:nth-child(n+2),
+    .hp-seasonal-duo > .cc-collection .cc-banner:nth-child(n+2) .cc-banner__img {
+        height: auto;
+    }
+
+    .hp-seasonal-duo > .cc-collection .cc-banner__img,
+    .hp-seasonal-duo > .cc-collection .cc-banner__img img {
+        aspect-ratio: 4 / 3;
+    }
+}
+
+
+/* ==== 6. hp-usp — compressed service strip: small icon above one sans line,
+        three across, pure whitespace separation (band 06) ==== */
+
+.hp-usp {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-usp > .cc-collection {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding-inline: clamp(1.25rem, 2.8vw, 3rem);
+}
+
+.hp-usp > .cc-collection .cc-banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    overflow: visible;
+}
+
+/* the banner image IS the line icon — small, contained, centred */
+.hp-usp > .cc-collection .cc-banner__img {
+    display: flex;
+    justify-content: center;
+}
+
+.hp-usp > .cc-collection .cc-banner__img img {
+    height: 2.75rem;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+}
+
+.hp-usp > .cc-collection .cc-banner__body {
+    position: static;
+    inset: auto;
+    background: none;
+    padding: 0.9rem 0 0;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.hp-usp > .cc-collection .cc-banner__title {
+    font-family: citrfontreg;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+    color: var(--text);
+}
+
+.hp-usp > .cc-collection .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--text-muted);
+    max-width: 30ch;
+}
+
+/* a CMS-filled CTA reads as the quiet arrow-link */
+.hp-usp > .cc-collection .cc-banner__cta {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    align-self: center;
+    color: var(--text);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    transition: var(--global-transition);
+}
+
+.hp-usp > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--brand-link);
+}
+
+/* hover: the icon lifts a breath — no bounce */
+.hp-usp > .cc-collection .cc-banner:hover .cc-banner__img img {
+    transform: translateY(-3px);
+}
+
+/* reveal: pure fade stagger — stiller than the photo bands */
+.hp-usp > .cc-collection .cc-banner {
+    opacity: 0;
+    transition: opacity 0.9s ease, transform 0.4s ease;
+}
+
+.hp-usp.inView > .cc-collection .cc-banner {
+    opacity: 1;
+}
+
+.hp-usp.inView > .cc-collection .cc-banner:nth-child(2) {
+    transition-delay: 0.12s;
+}
+
+.hp-usp.inView > .cc-collection .cc-banner:nth-child(3) {
+    transition-delay: 0.24s;
+}
+
+@media (max-width: 640px) {
+    .hp-usp > .cc-collection {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+
+/* ==== 7. hp-about — band-opening full-width hairline, "About Us" eyebrow
+        beneath it, then the serif declaration over a wide left-aligned
+        measure (band 07): "Made for the countryside, chosen for wherever
+        the day takes you." ==== */
+
+.hp-about {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-about__body {
+    padding-inline: clamp(1.25rem, 2.8vw, 3rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+}
+
+/* the eyebrow device — the mockup's "About Us" label, sitting beneath the
+   band-opening FULL-WIDTH HAIRLINE it carries as border-top (align-self
+   stretch spans the flex column; var(--border) so the rule actually renders) */
+.hp-about__body::before {
+    content: "About Us";
+    align-self: stretch;
+    border-top: 1px solid var(--border);
+    padding-top: var(--text-block-wrap);
+    font-family: citrfontreg;
+    font-size: var(--fontSize-sm);
+    color: var(--text);
+}
+
+.hp-about__body p {
+    font-family: citrfontboldalt;
+    font-size: var(--fontSize-2xl);
+    line-height: 1.2;
+    color: var(--text);
+    /* max-width: 72ch; */   /* the render's ~1100px measure, left-aligned */
+    margin: 0;
+    text-wrap: pretty;
+}
+
+@media (max-width: 640px) {
+    .hp-about__body p {
+        font-size: var(--fontSize-lg);
+        line-height: 1.55;
+    }
+}
+
+
+/* ==== 8. hp-stay-inspired — centred serif close, one quiet sans line, and
+        the three-town lockup as the page's signing-off mark (band 08 +
+        the signature: Shrewsbury / Abersoch / Newport) ==== */
+
+.hp-stay-inspired {
+    padding-block: var(--section-padding-sm);
+}
+
+/* the mockup band is pure type — the banner's PHOTO stands down here
+   (the image only; all three body fields stay live for the CMS) */
+.hp-stay-inspired > .cc-collection .cc-banner__img {
+    display: none;
+}
+
+.hp-stay-inspired > .cc-collection .cc-banner {
+    overflow: visible;
+}
+
+.hp-stay-inspired > .cc-collection .cc-banner__body {
+    position: static;
+    inset: auto;
+    background: none;
+    padding: 0 clamp(1.25rem, 2.8vw, 3rem);
+    gap: 1.1rem;
+    align-items: center;
+    text-align: center;
+}
+
+.hp-stay-inspired > .cc-collection .cc-banner__title {
+    font-family: citrfontboldalt;
+    font-size: var(--fontSize-2xl);
+    line-height: 1.15;
+    letter-spacing: 0.015em;
+    color: var(--text);
+    max-width: 24ch;
+    text-wrap: balance;
+}
+
+.hp-stay-inspired > .cc-collection .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--text-secondary);
+    max-width: 52ch;
+}
+
+/* PRIMARY CTA — ghost, ink recolour (white band); shows when the CMS fills it */
+.hp-stay-inspired > .cc-collection .cc-banner__cta {
+    align-self: center;
+    background: transparent;
+    border: 1px solid var(--brand-dark);
+    border-radius: var(--global-radius);
+    color: var(--text);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-stay-inspired > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    box-shadow: none;
+    color: var(--text-inverse);
+}
+
+/* the SIGNATURE — the three towns sign the page off, tiny and letterspaced,
+   echoing the wordmark lockup that opens it. No competitor ships these towns. */
+.hp-stay-inspired > .cc-collection .cc-banner__body::after {
+    content: "Shrewsbury \00A0\00B7\00A0 Abersoch \00A0\00B7\00A0 Newport";
+    font-family: citrfontreg;
+    font-size: var(--fontSize-xs);
+    letter-spacing: 0.22em;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+}

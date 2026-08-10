@@ -1,0 +1,688 @@
+/* ==================== Detail Variables ==================== */
+:root {
+    --detail-titleSize: var(--fontSize-xl);
+    --detail-textSize: var(--fontSize-base);
+    --detail-priceSize: var(--fontSize-xl);
+    --detail-nameSize: var(--fontSize-2xl);
+    --detail-background: var(--background);
+    --detail-titleColor: var(--brand-dark);
+    --detail-textColor: var(--text);
+    --detail-padding: var(--global-padding);
+    --detail-gap: var(--global-gap);
+    --detail-margin: var(--global-margin);
+    --detail-radius: var(--global-radius);
+    --detail-buttonRadius: var(--global-buttonRadius);
+    --detail-border: var(--global-border);
+    --detail-transition: var(--global-transition);
+    --detail-buttonSize: var(--global-buttonSize);
+    --detail-buttonColor: var(--global-buttonColor);
+    --detail-buttonBorder: var(--global-buttonBorder);
+    --detail-buttonBackground: var(--global-buttonBackground);
+    --detail-buttonPadding: var(--global-buttonPadding);
+    --detail-buttonBackgroundHover: var(--global-buttonBackgroundHover);
+    --detail-buttonColorHover: var(--global-buttonColorHover);
+    --detail-buttonBorderHover: var(--global-buttonBorderHover);
+    --detail-buttonPaddingHover: var(--global-buttonPadding);
+    --detail-price-color: var(--text);
+    --detail-wasPrice-color: var(--brand-link);
+    --detail-wasPrice-background: var(--background-raised);
+    --detail-sale-background: var(--sale);
+    --detail-sale-color: var(--text-inverse);
+    --detail-brandBadge-background: var(--brand-dark);
+    --detail-brandBadge-color: var(--text-inverse);
+    --detail-brandBadge-size: var(--fontSize-md);
+    --detail-finance-background: var(--brand);
+    --detail-finance-border: 1px solid var(--brand);
+    --detail-finance-color: var(--text-on-brand);
+    --detail-pdpTopBackground: var(--background-raised);
+    --detail-rewards-background: var(--brand);
+    --detail-rewards-border: 2px solid var(--brand);
+    --detail-rewards-color: var(--text-on-brand);
+    --detail-addToCart-background: var(--global-addToCart-background);
+    --detail-addToCart-border: var(--global-addToCart-border);
+    --detail-addToCart-color: var(--global-addToCart-color);
+    --detail-addToCart-backgroundHover: var(--global-addToCart-backgroundHover);
+    --detail-addToCart-borderHover: var(--global-addToCart-borderHover);
+    --detail-addToCart-colorHover: var(--global-addToCart-colorHover);
+    --detail-stockLabelWidth: 135px;
+    --detail-letterSpacing: 0;
+}
+
+.fixed.productPageTop{
+    min-width: 100% !important;
+    padding-right: 0;
+    /* padding-top: 3rem; */
+}
+
+/* ==================== Customer Rewards Styles ==================== */
+
+.productCustomerRewards{
+    order: -1 !important;
+}
+
+.productCustomerRewards > div{
+    background: var(--detail-rewards-background);
+    border-radius: var(--detail-radius);
+    padding: var(--detail-padding);
+    border: var(--detail-rewards-border);
+    color: var(--detail-rewards-color);
+}
+
+.productCustomerRewards > div .crTextDesc{
+    font-size: var(--detail-textSize) !important;
+}
+
+.productCustomerRewards > div .crTextDesc .crValueCtr span{
+    font-size: var(--detail-textSize) !important;
+    color: var(--detail-rewards-color) !important;
+    font-family: citrfontbold;
+}
+
+/* ==================== Product Color Picker Styles ==================== */
+/* Set order of color picker in layout */
+#firstdetails .productColourPicker {
+    order: -1;
+}
+
+/* Align color picker items */
+#firstdetails .productColourPicker .colourPicker,
+#firstdetails .productColourPicker.colourPicker {
+    justify-content: flex-start;
+}
+
+/* Color picker header text */
+#firstdetails .productColourPicker.colourPicker::before,
+#firstdetails .productColourPicker .colourPicker::before {
+    content: "Other Colours Available";
+    color: var(--detail-textColor);
+    font-size: var(--detail-textSize);
+    display: block;
+    width: 100%;
+    margin-top: var(--detail-margin);
+    font-family: 'citrfontbold';
+}
+
+/* Color picker item styling */
+#firstdetails .productColourPicker.colourPicker a {
+    border: var(--detail-border);
+    border-radius: var(--detail-radius);
+}
+
+/* ==================== Price Display Styles ==================== */
+.nowPrice {
+    font-size: var(--detail-priceSize) !important;
+    color: var(--detail-price-color);
+}
+
+span#productPrice {
+    padding-block: var(--detail-padding);
+}
+
+.productPriceBlock + div:has(span) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0px, 1fr));
+    align-items: center;
+    border-radius: var(--detail-radius);
+    overflow: hidden;
+    /* border: var(--detail-border); */
+    justify-content: space-evenly;
+    justify-items: start;
+}
+
+.nowPrice, .standardPrice, .percentOff {
+    display: block;
+    text-align: center;
+    padding-block: var(--detail-padding);
+    font-size: var(--detail-textSize);
+}
+
+.nowPrice {
+    grid-column: 1;
+    grid-row: 1;
+    /* background-color: var(--background-raised); */
+}
+
+.standardPrice {
+    grid-column: 2;
+    grid-row: 1;
+    /* background-color: #eaeaea; */
+    text-decoration: none;
+}
+
+.percentOff {
+    grid-column: 3;
+    grid-row: 1;
+    background-color: var(--detail-sale-background);
+    color: var(--detail-sale-color);
+    border-radius: var(--detail-radius);
+    width: fit-content;
+    padding: calc(var(--detail-padding) * 0.5);
+    justify-self: center;
+}
+
+.standardPrice:empty, .percentOff:empty {
+    display: none;
+}
+
+.standardPrice:before {
+    content: "RRP "
+}
+
+/* ==================== CTA Button Styles ==================== */
+/* Hide main CTA button */
+.ctaMain {
+    display: none;
+}
+
+/* Full-width CTA container */
+.detailOrder>div.detalCTA {
+    grid-column: 1/13 !important;
+}
+
+/* ==================== Range and Related Items Styles ==================== */
+/* Remove padding from range viewer and related items */
+.detailOrder>div#ShowRangeViewer,
+.detailOrder>div#ShowRelatedRepeater {
+    padding: 0;
+}
+
+/* ==================== Product Size Button Styles ==================== */
+/* Size selector button base styles */
+.productSize>a {
+    display: flex;
+    color: var(--detail-buttonColor);
+    background: var(--detail-buttonBackground);
+    border: var(--detail-buttonBorder);
+    padding: var(--detail-buttonPadding);
+    font-size: var(--detail-buttonSize);
+    letter-spacing: var(--detail-letterSpacing);
+    font-family: 'citrfontbold';
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    gap: var(--detail-gap);
+    border-radius: var(--detail-buttonRadius);
+    transition: var(--detail-transition);
+}
+
+/* Size selector button hover state */
+.productSize>a:hover {
+    color: var(--detail-buttonColorHover);
+    background: var(--detail-buttonBackgroundHover);
+    border: var(--detail-buttonBorderHover);
+}
+
+/* ==================== Responsive Layout Styles ==================== */
+@media screen and (max-width: 1024px) {
+    /* Adjust padding for tablet view */
+    div#prodInfoRight>div#firstdetails,
+    .shortdesc-block {
+        padding: var(--detail-padding);
+    }
+
+    /* Remove padding from detail grid */
+    .maxInner.cssGrid.detailOrder {
+        padding: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    /* Single column layout for mobile description */
+    .detailOrder>div.detalCTA #ModularLongDescription {
+        -webkit-column-count: 1;
+        column-count: 1;
+    }
+}
+
+/* ==================== Product Header Styles ==================== */
+/* Product name sizing */
+h2.col-1.product-section-header.productName {
+    font-size: var(--detail-titleSize);
+}
+
+/* Remove season border */
+.col-1.season {
+    border-bottom: none;
+}
+
+/* ==================== Button Styles ==================== */
+/* Standard button styling */
+span.col-.button,
+.cc-lookup-service-lookupbutton.icon-search,
+.col-1.cc-lookup-service-lookupbutton-location,
+.productSize>a {
+    font-size: var(--detail-buttonSize);
+    color: var(--detail-buttonColor);
+    background: var(--detail-buttonBackground);
+    border: var(--detail-buttonBorder);
+    border-radius: var(--detail-buttonRadius);
+    padding: var(--detail-buttonPadding);
+    transition: var(--detail-transition);
+    display: flex;
+    align-items: center;
+}
+
+/* Standard button hover states */
+span.col-.button:hover,
+.cc-lookup-service-lookupbutton.icon-search:hover,
+.col-1.cc-lookup-service-lookupbutton-location:hover,
+.productSize>a:hover {
+    background: var(--detail-buttonBackgroundHover);
+    color: var(--detail-buttonColorHover);
+    border: var(--detail-buttonBorderHover);
+}
+
+/* ==================== Cart Target Styles ==================== */
+/* Cart container styling */
+div#cart-target {
+    background: var(--detail-background);
+    padding: var(--detail-padding);
+    border-radius: var(--detail-radius);
+    border: var(--detail-border);
+}
+
+/* Standard background class */
+.bgStandard {
+    background: var(--detail-buttonBackground);
+    border-radius: var(--detail-buttonRadius);
+    color: var(--detail-buttonColor);
+}
+
+/* ==================== Lookup Service Styles ==================== */
+/* Lookup service layout */
+.cc-lookup-service-entrysection {
+    display: flex !important;
+    flex-flow: row wrap;
+    gap: var(--detail-gap);
+}
+
+/* Lookup service item sizing */
+.cc-lookup-service-entrysection > div {
+    flex-basis: 200px;
+    flex-grow: 1;
+}
+
+/* Hide lookup service dividers */
+.cc-lookup-service-divider > .cc-lookup-service-divider-left,
+.cc-lookup-service-divider > .cc-lookup-service-divider-right,
+.cc-lookup-service-divider {
+    display: none !important;
+}
+
+/* Lookup button styling */
+.cc-lookup-service-lookupbutton.icon-search {
+    background: var(--detail-buttonBackground);
+    transition: var(--detail-transition);
+}
+
+/* Lookup button icon color */
+.cc-lookup-service-lookupbutton.icon-search::before {
+    color: var(--detail-buttonColor);
+}
+
+/* Lookup service wrapper styling */
+.cc-lookup-service-wrapper.col-1.ctrMgr8-top.ctrMgr16-bottom {
+    background: var(--detail-background);
+    padding: var(--detail-padding) !important;
+    border-radius: var(--detail-radius);
+    margin-bottom: var(--detail-margin) !important;
+    border: var(--detail-border);
+}
+
+/* Location button styling */
+.col-1.cc-lookup-service-lookupbutton-location {
+    background: var(--detail-buttonBackground);
+    color: var(--detail-buttonColor);
+    border: var(--detail-buttonBorder);
+    border-radius: var(--detail-buttonRadius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(var(--detail-gap) * 0.5);
+    transition: var(--detail-transition);
+    font-size: var(--detail-buttonSize);
+    padding: var(--detail-buttonPadding);
+}
+
+/* Location button hover state */
+.col-1.cc-lookup-service-lookupbutton-location:hover {
+    background: var(--detail-buttonBackgroundHover);
+    color: var(--detail-buttonColorHover);
+    border: var(--detail-buttonBorderHover);
+}
+
+/* Location icon color */
+span.icon-drop.coStandard:before {
+    color: var(--detail-buttonColor);
+    transition: var(--detail-transition);
+}
+
+.col-1.cc-lookup-service-lookupbutton-location:hover span.icon-drop.coStandard:before {
+    color: var(--detail-buttonColorHover);
+}
+
+/* ==================== Input Field Styles ==================== */
+/* General input styling */
+input[type="text"],
+input.text-center,
+.col-1.zflex-s.pos-rel.cc-lookup-service-entry {
+    border: var(--detail-border) !important;
+    border-radius: var(--detail-buttonRadius);
+}
+
+.add-to-cart-area-dropdown-qty input[type="text"] {
+    border-radius: var(--detail-radius);
+}
+
+/* ==================== Add to Cart Area Styles ==================== */
+/* Cart area spacing */
+.add-to-cart-area-1 {
+    margin-bottom: var(--detail-margin) !important;
+}
+
+/* Remove borders and adjust spacing */
+.col-1.add-to-cart-area-2 {
+    border: none;
+    padding-inline: calc(var(--detail-padding) * 0.5);
+    margin: 0;
+}
+
+/* Add to cart button styling */
+.add-to-cart-area-button.bgStandard {
+    background: var(--detail-addToCart-background);
+    color: var(--detail-addToCart-color);
+    border: var(--detail-addToCart-border);
+    border-radius: var(--detail-buttonRadius);
+    width: 100%;
+    padding: var(--detail-buttonPadding);
+    transition: var(--detail-transition);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0;
+}
+
+/* Add to cart button hover */
+.add-to-cart-area-button.bgStandard:hover {
+    background: var(--detail-addToCart-backgroundHover);
+    color: var(--detail-addToCart-colorHover);
+    border: var(--detail-addToCart-borderHover);
+}
+
+/* Cart area message containers */
+.col-1.add-to-cart-area-msg-stock,
+.col-1.add-to-cart-area-msg-handling {
+    /* border: none; */
+    display: flex;
+    align-items: center;
+}
+
+/* Cart area row spacing */
+.col-1.zflex-s.add-to-cart-area-1-row-2 {
+    margin-top: calc(var(--detail-margin) * 0.5);
+}
+
+/* ==================== Product Name Styles ==================== */
+/* Product name container */
+h1#devProductName {
+    padding-inline: calc(var(--detail-padding) * 0.5);
+    text-align: left;
+    font-size: var(--detail-nameSize);
+    padding-left: 0;
+    color: var(--detail-titleColor);
+    font-family: 'citrfontboldalt';
+    font-weight: 700;
+}
+
+.col-1.zflex-s.pos-rel.cc-lookup-service-entry {
+    border: none !important;
+    gap: calc(var(--detail-gap) * 0.3);
+}
+
+.add-to-cart-area-msg-stock:after {
+    text-align: left;
+    width: fit-content;
+}
+
+.add-to-cart-area-msg-stock:before {
+    width: var(--detail-stockLabelWidth);
+    text-align: left !important;
+    margin-right: calc(var(--detail-margin) * 0.5);
+    border-right: var(--detail-border);
+    padding-right: calc(var(--detail-padding) * 0.5);
+    font-family: 'citrfontreg';
+}
+
+.add-to-cart-area-msg-handling:after {
+    text-align: left !important;
+}
+
+.add-to-cart-area-msg-handling:before {
+    width: var(--detail-stockLabelWidth);
+    text-align: left !important;
+    margin-right: calc(var(--detail-margin) * 0.5);
+    border-right: var(--detail-border);
+    padding-right: calc(var(--detail-padding) * 0.5);
+    font-family: 'citrfontreg';
+}
+
+a#Brand {
+    padding-inline: calc(var(--detail-padding) * 0.5);
+    text-align: left;
+    font-size: var(--detail-brandBadge-size);
+    color: var(--detail-brandBadge-color);
+    background: var(--detail-brandBadge-background);
+    width: fit-content;
+    border-radius: var(--detail-radius);
+    font-family: 'citrfontbold';
+}
+
+.col-1.flex-grow1.add-to-cart-area-msg {
+    border-top: none;
+}
+
+div#detailMiv {
+    outline: none;
+}
+
+div#detailMivThumb {
+    margin: calc(var(--detail-margin) * 0.5);
+    gap: calc(var(--detail-gap) * 0.5);
+}
+
+.imgCtr {
+    border-radius: var(--detail-radius);
+}
+
+.col-1.dark.imgCtr {
+    background: var(--detail-brandBadge-background);
+}
+
+.productColourPicker {
+    order: -1;
+    display: flex;
+    justify-content: flex-start;
+    gap: calc(var(--detail-gap) * 0.5);
+    background: var(--detail-background);
+    border-radius: var(--detail-radius);
+    padding: var(--detail-padding) !important;
+    border: var(--detail-border);
+}
+
+.productColourPicker:before {
+    content: "Other Colours Available: ";
+    font-size: var(--detail-textSize);
+    margin-top: 0 !important;
+}
+
+.productColourPicker img {
+    border-radius: var(--detail-radius);
+}
+
+div#sizingInformationPane .col-12 {
+    width: 100%;
+}
+
+/* ==================== Cart Area Styles ==================== */
+/* Quantity row layout */
+.add-to-cart-area-1-row-2>div {
+    flex-flow: row;
+    gap: calc(var(--detail-gap) * 0.5);
+    display: flex;
+    align-items: center;
+}
+
+/* Quantity label styling */
+.add-to-cart-area-dropdown-qty-label.bgStandard {
+    background: transparent;
+    border: none;
+    color: var(--detail-textColor);
+    width: auto;
+}
+
+/* Quantity input styling */
+input.text-center {
+    margin: 0;
+    border: var(--detail-border);
+}
+
+/* Add to cart button alignment */
+.add-to-cart-area-button {
+    text-align: center;
+}
+
+
+/* Custom */
+
+/* Large Screen - Custom */
+
+/* --- Product Detail Layout --- */
+@media screen and (min-width: 1720px) {
+  .MIVicon {
+    top: 1.5rem;
+    left: 1.5rem;
+  }
+
+  #brand-logo-area {
+    padding: 1rem;
+  }
+
+  /* Main content split */
+  #prodInfoLeft {
+    display: flex;
+    align-items: flex-start;
+    border-right: var(--detail-border);
+    width: 60%;
+    gap: 1rem;
+  }
+
+  #prodInfoRight {
+    width: 40%;
+  }
+
+  /* Thumbnail section */
+  #detailMivThumb {
+    display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem !important;
+        max-width: fit-content;
+        order: -1;
+        position: sticky;
+        align-items: flex-start;
+        flex-flow: column;
+  }
+
+  #detailMivThumb > a,
+  #detailMivThumb > div {
+    width: 96px;
+    flex: 0 0 auto; /* no flex-grow */
+  }
+
+  /* Main image / viewer */
+  #detailMiv {
+    flex: 1;
+    height: 100%;
+    border-left: var(--detail-border);
+    width: 100%;
+  }
+
+  /* Product images cleanup */
+  #prodInfoLeft div[class*="css-image"] {
+    height: auto;
+    background-position: top center !important;
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
+  /* Page container */
+  div#webdes_pdp .productPageTop .maxInner {
+    max-width: var(--global-NavFooterWidth);
+    padding-inline: 1rem;
+  }
+}
+
+/* Product Short Desc */
+
+#prodInfoRight #firstdetails > div[data-hideshow="false"] {
+    order: -1;
+    display: block !important;
+    margin-block: 0;
+    border-top: var(--detail-border);
+    font-size: var(--detail-textSize);
+    padding-top: .5rem;
+    display: none !important;
+}
+
+/* platform BG */
+
+.bgeb{
+    background: transparent;
+}
+
+
+/* Layout */
+
+.detailOrder{
+    display: flex;
+    flex-direction: column;
+}
+
+/* Breadcrumbs */
+
+span.breadcrumbs {order: -1;
+                  margin-bottom: var(--detail-margin);
+                 }
+
+/* Finance */
+
+div#financeTopPanel {
+    padding: calc(var(--detail-padding) * 0.3);
+    text-align: center;
+    background: var(--detail-finance-background);
+    border: var(--detail-finance-border);
+    border-radius: var(--detail-radius);
+}
+
+#financeTopPanel a{
+    text-decoration: none;
+    color: var(--detail-finance-color);
+}
+
+/* Background */
+.productPageTop .container{
+       background: var(--detail-pdpTopBackground);
+}
+
+/* Product Size Position */
+
+.col-1:has(.productSize){
+    order: -1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Dynamic Currency Pane*/
+
+.productPrices .productPrices:has(#dynamicCurrencyPane) {
+    display: none !important;
+}

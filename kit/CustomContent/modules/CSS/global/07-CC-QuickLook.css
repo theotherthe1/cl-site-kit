@@ -1,0 +1,185 @@
+/* CC-QuickLook.css - Templeton Jones */
+
+/* Quick Look Variables */
+:root {
+    --quicklook-titleSize: var(--fontSize-lg);
+    --quicklook-textSize: var(--fontSize-base);
+    --quicklook-countSize: var(--fontSize-xs);
+    --quicklook-background: var(--background);
+    --quicklook-titleColor: var(--brand-dark);
+    --quicklook-textColor: var(--text);
+    --quicklook-countColor: var(--brand);
+    --quicklook-hoverColor: var(--brand-link);
+    --quicklook-padding: var(--global-padding);
+    --quicklook-margin: var(--global-margin);
+    --quicklook-gap: var(--global-gap);
+    --quicklook-radius: var(--global-radius);
+    --quicklook-buttonRadius: var(--global-buttonRadius);
+    --quicklook-transition: var(--global-transition);
+    --quicklook-border: var(--global-border);
+    --quicklook-borderRadius: var(--global-radius);
+    --quicklook-buttonSize: var(--global-buttonSize);
+    --quicklook-buttonColor: var(--global-buttonColor);
+    --quicklook-buttonBorder: var(--global-buttonBorder);
+    --quicklook-buttonBackground: var(--global-buttonBackground);
+    --quicklook-buttonPadding: var(--global-buttonPadding);
+    --quicklook-buttonBackgroundHover: var(--global-buttonBackgroundHover);
+    --quicklook-buttonColorHover: var(--global-buttonColorHover);
+    --quicklook-buttonBorderHover: var(--global-buttonBorderHover);
+    --quicklook-buttonPaddingHover: var(--global-buttonPaddingHover);
+    --quicklook-buttonTransition: var(--global-buttonTransition);
+    --quicklook-addToCart-background: var(--global-addToCart-background);
+    --quicklook-addToCart-border: var(--global-addToCart-border);
+    --quicklook-addToCart-color: var(--global-addToCart-color);
+    --quicklook-addToCart-backgroundHover: var(--global-addToCart-backgroundHover);
+    --quicklook-addToCart-borderHover: var(--global-addToCart-borderHover);
+    --quicklook-addToCart-colorHover: var(--global-addToCart-colorHover);
+    --quicklook-stockLabelWidth: 135px;
+}
+
+
+/* Quick Look Modal */
+
+.quicklookitem-wrapper[data-state="open"] .quicklookitem-inner {
+    border: var(--quicklook-border);
+    border-radius: var(--quicklook-borderRadius);
+    margin-top: 55px;
+}
+
+/* Close button */
+.quicklookitem-wrapper .quicklookitem-close {
+    border-radius: var(--quicklook-borderRadius);
+}
+
+/* Right-side content layout */
+.quicklookitem-wrapper .quicklookitem-inner-right {
+    display: flex;
+    flex-flow: column;
+    background: var(--quicklook-background);
+}
+
+/* Product name */
+.quicklookitem-wrapper .quicklookitem-inner-right .quicklookitem-inner-right---name {
+    font-size: var(--quicklook-titleSize);
+}
+
+/* Price */
+.quicklookitem-wrapper .quicklookitem-inner-right---prices-price {
+    font-family: 'citrfontbold';
+    font-size: var(--quicklook-titleSize);
+}
+
+/* Was price */
+.quicklookitem-wrapper .quicklookitem-inner-right .quicklookitem-inner-right---prices .quicklookitem-inner-right---prices-wasprice {
+    color: var(--quicklook-hoverColor);
+}
+
+/* View full details link */
+.quicklookitem-wrapper .quicklookitem-inner-right .quicklookitem-inner-right---link {
+    font-size: var(--quicklook-buttonSize);
+    color: var(--quicklook-buttonColor);
+    background: var(--quicklook-buttonBackground);
+    border: var(--quicklook-buttonBorder);
+    border-radius: var(--quicklook-buttonRadius);
+    padding: var(--quicklook-buttonPadding);
+    transition: var(--quicklook-buttonTransition);
+}
+
+.quicklookitem-wrapper .quicklookitem-inner-right .quicklookitem-inner-right---link:hover {
+    background: var(--quicklook-buttonBackgroundHover);
+    color: var(--quicklook-buttonColorHover);
+    border: var(--quicklook-buttonBorderHover);
+    padding: var(--quicklook-buttonPaddingHover);
+}
+
+/* Click and Collect notice */
+.quicklookitem-wrapper .quicklookitem-inner-right .quicklookitem-inner-right---clickcollectnotice {
+    margin-top: auto;
+    background: transparent;
+    border: none;
+    color: var(--quicklook-textColor);
+}
+
+/* Product image spacing */
+.quicklookitem-wrapper .quicklookitem-image > div {
+    margin: var(--quicklook-margin);
+}
+
+
+/* Add to Cart Area */
+
+.add-to-cart-area-1-row-2 > div {
+    gap: .5rem;
+}
+
+/* Quantity label */
+.quicklookitem-wrapper .add-to-cart-area-dropdown-qty-label {
+    background: none;
+    border: 0;
+    color: var(--quicklook-textColor);
+}
+
+/* Quantity input */
+.quicklookitem-wrapper .add-to-cart-area-dropdown-qty input {
+    border: var(--quicklook-border);
+    border-radius: var(--quicklook-borderRadius);
+}
+
+/* Add to cart button: in stock */
+.quicklookitem-wrapper .add-to-cart-area-button.bgStandard {
+    font-size: var(--quicklook-buttonSize);
+    color: var(--quicklook-addToCart-color);
+    background: var(--quicklook-addToCart-background);
+    border: var(--quicklook-addToCart-border);
+    border-radius: var(--quicklook-buttonRadius);
+    padding: var(--quicklook-buttonPadding);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    transition: var(--quicklook-buttonTransition);
+    line-height: normal;
+    align-items: center;
+}
+
+.quicklookitem-wrapper .add-to-cart-area-button.bgStandard:hover {
+    background: var(--quicklook-addToCart-backgroundHover);
+    color: var(--quicklook-addToCart-colorHover);
+    border: var(--quicklook-addToCart-borderHover);
+}
+
+/* Add to cart button: out of stock */
+.quicklookitem-wrapper .add-to-cart-area-button[data-available="false"] {
+    background: var(--quicklook-hoverColor);
+}
+
+/* Stock message */
+.quicklookitem-wrapper .add-to-cart-area-msg-stock:after {
+    text-align: left;
+}
+
+.quicklookitem-wrapper .add-to-cart-area-msg-stock:before {
+    width: var(--quicklook-stockLabelWidth);
+    text-align: left !important;
+    margin-right: calc(var(--quicklook-gap) * 0.5);
+    border-right: var(--quicklook-border);
+    padding-right: calc(var(--quicklook-padding) * 0.5);
+}
+
+/* Handling message */
+.quicklookitem-wrapper .add-to-cart-area-msg-handling:after {
+    text-align: left !important;
+}
+
+.quicklookitem-wrapper .add-to-cart-area-msg-handling:before {
+    width: var(--quicklook-stockLabelWidth);
+    text-align: left !important;
+    margin-right: calc(var(--quicklook-gap) * 0.5);
+    border-right: var(--quicklook-border);
+    padding-right: calc(var(--quicklook-padding) * 0.5);
+}
+
+/* Message container */
+.quicklookitem-wrapper .add-to-cart-area-msg {
+    border-top: none;
+    margin-top: var(--quicklook-margin);
+}
