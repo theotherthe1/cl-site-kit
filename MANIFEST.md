@@ -4,7 +4,7 @@ Every file in `kit/CustomContent/` is one of three kinds. This is what makes
 updating a built site safe: framework files are client-neutral by construction,
 so they can be copied forward wholesale without reading them.
 
-`tools/lint.ps1` parses the table below. Keep the format — one entry per line,
+`tools/lint.ps1` parses the table below. Keep the format - one entry per line,
 `KIND` then whitespace then a path or glob, inside the fenced block.
 
 | Kind | Meaning | On update |
@@ -57,7 +57,7 @@ VERBATIM   google*.html
 the `?v` in the page or browsers serve stale code. There is no build step to do
 this for you.
 
-**`font/**` and `layout/**` are CLIENT** — they are the client's typefaces,
+**`font/**` and `layout/**` are CLIENT** - they are the client's typefaces,
 wordmark and icons. The kit ships a working set so a fresh xcopy renders rather
 than half-failing, but every one of these files is meant to be replaced.
 `font/body.*` and `font/bold.*` must always exist: ~186 platform declarations
@@ -75,7 +75,7 @@ therefore preserved on purpose, not overlooked:
   page works anyway because the platform bundles the `misc/` folder regardless.
   Left alone: deleting the link preserves current behaviour exactly, while
   *fixing* the path would newly load the file a second time later in the cascade
-  — the change with a rendering risk is the one that looks like a fix.
+  - the change with a rendering risk is the one that looks like a fix.
 - `pages/finance/` carries `default-hitachi.aspx` and `default-v12.aspx`
   (876 lines between them) for other finance providers. They pull `/framework.css`
   and `/mobile.css` directly and are not on the token system. Only
@@ -87,6 +87,6 @@ reading.
 
 **Nothing outside `SiteSpecific/CustomContent/` is in scope.** `DetailFast.aspx`
 and `FacetResults.aspx` at the site root were checked and are byte-identical to
-the platform reference site — clients do not customise platform pages. The PDP
+the platform reference site - clients do not customise platform pages. The PDP
 and PLP are re-skinned entirely through `modules/CSS/detail/` and
 `modules/CSS/faf/`, styling markup we do not own.

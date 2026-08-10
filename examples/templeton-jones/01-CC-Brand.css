@@ -4,17 +4,17 @@
    TYPE ROLES
    ---------------------------------------------------------------------------
    The three (optionally four) typographic jobs on the site. Every rule in the
-   kit names a ROLE, never a font — so a reskin repoints a role here and nothing
+   kit names a ROLE, never a font - so a reskin repoints a role here and nothing
    else is edited. The slots themselves (citrfontreg / citrfontbold /
    citrfontboldalt / citrfontaccent) are declared once in 02 and map to the
    files in /font/.
 
      --font-body     running text, inputs, CTA labels
      --font-bold     semantic headings (h1-h6) and bold UI emphasis
-     --font-display  the editorial face — big band statements, feature titles
+     --font-display  the editorial face - big band statements, feature titles
      --font-accent   optional fourth face; leave pointed at body if unused
 
-   HARD CONSTRAINT — font/body.* and font/bold.* are NOT optional.
+   HARD CONSTRAINT - font/body.* and font/bold.* are NOT optional.
    The platform's own stylesheets (Modules/CSS/**, citr-*.css at the site root,
    ~186 declarations) name `citrfontreg` and `citrfontbold` LITERALLY. Those
    rules are outside this tree and cannot be repointed, so both slots must
@@ -22,7 +22,7 @@
    Leave these two role tokens on their matching slots; repointing them only
    splits our typography away from the platform's.
 
-   `citrfontboldalt` (display) and `citrfontaccent` are ours alone — no platform
+   `citrfontboldalt` (display) and `citrfontaccent` are ours alone - no platform
    rule names them, so those slots are genuinely optional.
 
    Templeton Jones supplies one text face for both body and bold (the two files
@@ -54,7 +54,7 @@
     --global-innerRadius: 2px;
     --global-border: 1px solid var(--border-light);
     --global-buttonSize: var(--fontSize-xs);
-    /* CTA type ramp — one typographic voice for every button and link-text.
+    /* CTA type ramp - one typographic voice for every button and link-text.
        Retune here, not in the page CSS. */
     --global-buttonFontFamily: var(--font-body);
     --global-buttonLetterSpacing: 10%;
@@ -122,7 +122,7 @@
    STYLESHEET writes, not content the client edits in the back office.
 
    They exist because the platform emits the element and we cannot re-template
-   it — there is no markup to put words into, so a ::before is the only way in.
+   it - there is no markup to put words into, so a ::before is the only way in.
    That is fine; what is not fine is those words hiding inside a framework file.
    Before this block existed, 06-CC-Footer.css shipped a previous client's
    newsletter blurb about "the latest bikes", and only a matching override
@@ -136,7 +136,7 @@
      --copy-signature       defaults to `none`, which removes the pseudo-element
                             outright. It is a decorative flourish; a client who
                             sets nothing gets no signature line at all.
-     --copy-statementEyebrow  defaults to "" — an EMPTY STRING, not `none`. The
+     --copy-statementEyebrow  defaults to "" - an EMPTY STRING, not `none`. The
                             same ::before also draws the statement stripe's
                             opening hairline via border-top, so `none` would
                             delete the rule and take the hairline with it.
@@ -146,19 +146,19 @@
    =========================================================================== */
 :root {
 
-    /* Footer newsletter — platform-emitted (#modular-footer-wrapper), read by 06 */
+    /* Footer newsletter - platform-emitted (#modular-footer-wrapper), read by 06 */
     --copy-newsletterTitle: "Stay in touch";
     --copy-newsletterBody: "New arrivals from the brands we love, seasonal edits and stories from Shrewsbury, Abersoch and Newport.";
 
-    /* Homepage stripes — no CMS field exists for either of these */
+    /* Homepage stripes - no CMS field exists for either of these */
     --copy-statementEyebrow: "About Us";
     --copy-signature: "Shrewsbury \00A0\00B7\00A0 Abersoch \00A0\00B7\00A0 Newport";
 
-    /* PDP (detail) — platform-emitted product page furniture */
+    /* PDP (detail) - platform-emitted product page furniture */
     --copy-otherColours: "Other Colours Available";
     --copy-rrp: "RRP ";
 
-    /* PLP (faf) — platform-emitted listing furniture and stock states */
+    /* PLP (faf) - platform-emitted listing furniture and stock states */
     --copy-addToCart: "Add To Cart";
     --copy-stockNotification: "Stock Notification";
     --copy-specialOrder: "Special Order";

@@ -1,6 +1,6 @@
-/* ==== 0. SHARED CAROUSEL CHROME — one dash-pagination geometry, quiet arrows ====
+/* ==== 0. SHARED CAROUSEL CHROME - one dash-pagination geometry, quiet arrows ====
    Scoped to [data-splide-opts] so it self-maintains across grid/carousel swaps.
-   Dash dots are the mockup's hero pagination — the SAME geometry runs on every
+   Dash dots are the mockup's hero pagination - the SAME geometry runs on every
    carousel (hero, New-in, Brands); only the inactive colour flips per background. */
 
 [data-splide-opts] .splide__pagination__page {

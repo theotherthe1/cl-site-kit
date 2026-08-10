@@ -1,4 +1,4 @@
-/* ==== 7. hp-statement — band-opening full-width hairline, "About Us" eyebrow
+/* ==== 7. hp-statement - band-opening full-width hairline, "About Us" eyebrow
         beneath it, then the serif declaration over a wide left-aligned
         measure (band 07): "Made for the countryside, chosen for wherever
         the day takes you." ==== */
@@ -15,7 +15,7 @@
     align-items: flex-start;
 }
 
-/* the eyebrow device — the mockup's "About Us" label, sitting beneath the
+/* the eyebrow device - the mockup's "About Us" label, sitting beneath the
    band-opening FULL-WIDTH HAIRLINE it carries as border-top (align-self
    stretch spans the flex column; var(--border) so the rule actually renders) */
 .hp-statement__body::before {

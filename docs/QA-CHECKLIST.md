@@ -1,6 +1,6 @@
 # QA checklist
 
-`tools/lint.ps1` covers what a machine can see. This is the rest — and it is the
+`tools/lint.ps1` covers what a machine can see. This is the rest - and it is the
 only verification that exists, because there is no build and no test suite.
 
 Work through it in a browser at **375, 1024 and 1440**. Those are the widths the
@@ -22,10 +22,10 @@ ceiling at 1440.
 - [ ] Stripes appear in the intended order, and the section numbers in
       `default.aspx` and `CC-Home.css` agree.
 - [ ] **No stripe is missing.** An absent stripe is almost always an unpopulated
-      banner collection or FAF repeater, not broken CSS — the platform hides the
+      banner collection or FAF repeater, not broken CSS - the platform hides the
       control's Panel when nothing binds. On `product-rail` this takes the
       heading with it, because the repeater's Panel *is* the rail grid.
-- [ ] Every stripe scroll-reveals once (`data-animate` → `.inView`).
+- [ ] Every stripe scroll-reveals once (`data-animate` -> `.inView`).
 - [ ] Carousels: autoplay, arrows, pagination, keyboard arrows, and that the
       loop has no drifting gap. A gap means a slide was hidden with CSS instead
       of removed with `data-splide-skip`.
@@ -38,19 +38,24 @@ ceiling at 1440.
 
 ## Navigation
 
-- [ ] **If the homepage opens on a full-bleed image**: the bar is transparent at
-      rest, the image runs under it, and there is no body offset gap.
-- [ ] **If it does not**: `cl-nav-over-hero` has been removed from `<body>` and
-      the bar is solid. An invisible nav over a light stripe is the failure this
-      prevents.
-- [ ] The bar turns solid on scroll past 20px, and **stays legible** — links,
+- [ ] **Default case - no `cl-nav-over-hero` on `<body>`**: the bar is solid in
+      every state and the first stripe starts below it. Nothing should look
+      transparent. This is what most sites get.
+- [ ] **Only if you opted in**: the bar is transparent at rest, the image runs
+      under it, and there is no body offset gap. Check the wordmark and icons are
+      legible against the actual image, not just against a mockup - an invisible
+      nav over a light image is the failure this feature causes.
+- [ ] **If you opted in, note there is no scroll shadow when solid-only.** The
+      scroll blur/shadow is gated on the same class, so a default site gets none.
+      That is consistent, but confirm it is what the design expects.
+- [ ] The bar turns solid on scroll past 20px, and **stays legible** - links,
       icons and the masked wordmark should all flip together, since they read one
       `--navSolid-*` set.
 - [ ] The bar is solid whenever a panel is open: dropdown, mobile hamburger,
       account, search. An open menu hanging off an invisible bar is the specific
       bug the panel-open triggers exist for. Test **all four**.
 - [ ] The wordmark is the right colour in every state, and the three masked icons
-      (bag, account, search) render — not as solid blocks, and not missing.
+      (bag, account, search) render - not as solid blocks, and not missing.
 - [ ] The basket pip and logged-in pip are visible and not clipped by the icon
       masks.
 - [ ] Interior pages have a solid bar in every state.
@@ -75,7 +80,7 @@ Each reads its content from the back office, so an empty section means an
 unpopulated field, not broken code.
 
 - [ ] delivery, returns, privacy policy, click and collect, brands
-- [ ] contact — including the form actually submitting
+- [ ] contact - including the form actually submitting
 - [ ] finance (`pages/finance/default.aspx` is the live route)
 
 ## Footer
@@ -87,12 +92,12 @@ unpopulated field, not broken code.
 
 ## Type and colour
 
-- [ ] All three font faces are actually loading — check the network tab, not your
+- [ ] All three font faces are actually loading - check the network tab, not your
       eyes. A missing file falls back to a system font that can look plausible.
 - [ ] Display headings are comfortable at 375 and match the design at 1440.
 - [ ] Body text is 4.5:1 against its background. Check ink on brand surfaces and
       on accent surfaces too.
-- [ ] No element shows a raw fallback colour or a bland default string — both
+- [ ] No element shows a raw fallback colour or a bland default string - both
       mean a token was never set.
 
 ## Accessibility, briefly
@@ -100,7 +105,7 @@ unpopulated field, not broken code.
 - [ ] Keyboard: tab through the nav, a carousel and the footer form. Off-screen
       carousel slides should not be focusable.
 - [ ] Visible focus states.
-- [ ] Browser zoom to 200% — the type scale uses `rem + vw`, never bare `vw`, so
+- [ ] Browser zoom to 200% - the type scale uses `rem + vw`, never bare `vw`, so
       zoom must still work.
 
 ## Before calling it done

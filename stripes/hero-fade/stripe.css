@@ -1,11 +1,11 @@
-/* ==== 1. hp-hero-fade — full-bleed editorial fade hero; text bottom-left,
+/* ==== 1. hp-hero-fade - full-bleed editorial fade hero; text bottom-left,
         dash pagination bottom-right, minimal white arrows (band 01) ==== */
 
 .hp-hero-fade > .cc-collection {
-    padding: 0; /* deliberate full-bleed — band 01 runs edge to edge */
+    padding: 0; /* deliberate full-bleed - band 01 runs edge to edge */
 }
 
-/* carousel height chain — mockup hero is ~800px on a 1440 canvas; the vw track
+/* carousel height chain - mockup hero is ~800px on a 1440 canvas; the vw track
    runs a touch taller (65vw) and the ceiling is viewport-relative (80vh) so the
    stage never outgrows the fold on short, wide screens */
 .hp-hero-fade .splide {
@@ -19,7 +19,7 @@
 }
 
 /* Band 01: a soft even veil over the whole frame, gathering weight only in the
-   lower third where the text block sits — NOT a heavy flat wash. */
+   lower third where the text block sits - NOT a heavy flat wash. */
 .hp-hero-fade .cc-banner__body {
     justify-content: flex-end;
     align-items: flex-start;
@@ -42,7 +42,7 @@
     text-wrap: balance;
 }
 
-/* Band 01: the desc is BODY COPY beneath the title on a ~474px measure —
+/* Band 01: the desc is BODY COPY beneath the title on a ~474px measure -
    two quiet sans lines, not an eyebrow. */
 .hp-hero-fade .cc-banner__desc {
     font-family: var(--bannerDescFontFamily);
@@ -54,7 +54,7 @@
     max-width: 48ch;
 }
 
-/* PRIMARY CTA — the ghost. White variant for photo bands (band 01 anatomy:
+/* PRIMARY CTA - the ghost. White variant for photo bands (band 01 anatomy:
    1px outline, letterspaced 13px label, quiet). */
 .hp-hero-fade .cc-banner__cta {
     align-self: flex-start;
@@ -72,7 +72,7 @@
     transition: var(--global-transition);
 }
 
-/* hover-reset law — one combined rule, all four properties */
+/* hover-reset law - one combined rule, all four properties */
 .hp-hero-fade .cc-banner:hover .cc-banner__cta {
     background: var(--background);
     border-color: var(--background);
@@ -80,7 +80,7 @@
     color: var(--text);
 }
 
-/* chrome reconciliation: dashes move to bottom-RIGHT (band 01) — the body is
+/* chrome reconciliation: dashes move to bottom-RIGHT (band 01) - the body is
    bottom-LEFT so the two never collide; arrows go minimal white on the photo */
 .hp-hero-fade .splide__pagination {
     left: auto;

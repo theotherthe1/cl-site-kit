@@ -1038,8 +1038,21 @@ body.cl-nav-over-hero .wrapper.masthead.is-scrolled {
    two pieces: the at-rest transparency, and the panel-open cases that have to
    beat it declaration-to-declaration.
 
-   Gated on body.cl-nav-over-hero, set in the page markup. Interior pages
-   never carry it and keep the solid bar in every state.
+   OPT-IN, and OFF BY DEFAULT. Nothing here applies unless a page carries
+   class="cl-nav-over-hero" on <body>, which the kit's default.aspx deliberately
+   does NOT ship. Transparency is a special feature, not a house style: it only
+   works over a full-bleed image, and over a light opening stripe it produces an
+   invisible nav. A site that does not opt in gets the solid bar from
+   --navBackground in every state, which is the correct default.
+
+   Interior pages never carry the class.
+
+   Note what else is gated on it: the Solid State block at the top of this file
+   and the Scrolled Surface block above are BOTH scoped to the same class, so a
+   non-transparent site gets no scroll blur/shadow either. That is consistent -
+   there is no transparency for the scroll to resolve - but it does mean a
+   client who wants a scrolled shadow on a solid bar needs a new switch rather
+   than this class.
 
    ORDER MATTERS AND IS PRESERVED. This block sat in 99 (which loads after
    03-08) as one contiguous run. It is appended at the very END of 03, so its

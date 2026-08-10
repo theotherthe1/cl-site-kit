@@ -7,7 +7,7 @@
                     <!-- the whole band is this one control: FafCustomRepeaterSplide's
                          Panel IS the .faf-product-carousel rail grid, and it emits the
                          text rail (title / description / Shop All link) alongside the
-                         product carousel — all four bound from repeater 1, so nothing
+                         product carousel - all four bound from repeater 1, so nothing
                          here is hardcoded. -->
                     <uc2:FafCustomRepeaterSplide ID="ProductRail" runat="server"
                         numberofitems="12" repeaterid="__REPEATER_ID__" />

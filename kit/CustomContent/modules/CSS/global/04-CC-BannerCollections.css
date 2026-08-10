@@ -11,7 +11,7 @@
     --bannerText: var(--text-inverse);
     --bannerCardBg: var(--background-raised);
     --bannerCardText: var(--text);
-    /* Banner description type ramp — one typographic voice for every
+    /* Banner description type ramp - one typographic voice for every
        .cc-banner__desc. Colour/opacity stay per-band; only type lives here. */
     --bannerDescFontFamily: var(--font-body);
     --bannerDescSize: var(--fontSize-md);
@@ -173,7 +173,7 @@
     z-index: 2;
 }
 
-/* .text-wrap — the title + description wrapper. The two spans used to be
+/* .text-wrap - the title + description wrapper. The two spans used to be
    direct flex children of .cc-banner__body; the wrapper has to reproduce that
    context or they collapse back to inline and run together on one line.
    gap/align-items are pulled from the parent so every band keeps the spacing

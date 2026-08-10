@@ -5,7 +5,7 @@
  *   data-splide-opts='{"type":"loop","perPage":1,"cover":false,...}'
  *
  * Optionally alongside it, data-splide-skip="N" drops the first N slides
- * before the carousel mounts — see trimSlides().
+ * before the carousel mounts - see trimSlides().
  */
 
 class SplideBannerManager {
@@ -68,18 +68,18 @@ class SplideBannerManager {
         splide.mount();
         this.instances.push({ element: splideEl, instance: splide });
 
-        // Remeasure after first paint — float-based layouts may report 0-width
+        // Remeasure after first paint - float-based layouts may report 0-width
         // at DOMContentLoaded but correct dimensions after layout is settled.
         requestAnimationFrame(() => splide.refresh());
     }
 
     /**
-     * data-splide-skip="N" — remove the first N slides before Splide measures
+     * data-splide-skip="N" - remove the first N slides before Splide measures
      * the track. This lets one banner collection serve a band twice over:
      * entry 1 bound as the heading (the 1-item BannerCollectionDisplay inside
      * .CC-HomepageTitles), entries 2.. as the carousel itself. The platform
-     * banner controls only take bannerid + bannerLimit — there is no
-     * server-side offset — so the duplicated first entry has to come out here.
+     * banner controls only take bannerid + bannerLimit - there is no
+     * server-side offset - so the duplicated first entry has to come out here.
      *
      * It must run pre-mount and it must be a real removal: type:loop clones
      * slides and slide widths are derived from the slide count, so hiding the
@@ -96,7 +96,7 @@ class SplideBannerManager {
 
         const slides = [...list.children].filter(el => el.classList.contains('splide__slide'));
 
-        // never empty the track — leave at least one slide standing
+        // never empty the track - leave at least one slide standing
         slides.slice(0, Math.min(skip, slides.length - 1)).forEach(el => el.remove());
     }
 

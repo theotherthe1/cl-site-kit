@@ -5,7 +5,7 @@ description: Build or reskin a Citrus Lime storefront from the cl-sitekit starte
 
 # Build or reskin a Citrus Lime storefront
 
-The kit is at `C:\Users\theo.fapohunda\cl-sitekit`. If it is not there, ask —
+The kit is at `C:\Users\theo.fapohunda\cl-sitekit`. If it is not there, ask -
 do not improvise a substitute.
 
 ## First, establish two things
@@ -19,15 +19,17 @@ do not improvise a substitute.
 | `update` | pulling a newer kit into a built site | every FRAMEWORK and VERBATIM entry in `MANIFEST.md`. **No CLIENT entry, ever** |
 
 **2. A filled brief.** `brand-brief.template.md`. If the user has not filled one,
-do not start guessing values — walk them through sections 2, 3, 4 and 7 (colour,
+do not start guessing values - walk them through sections 2, 3, 4 and 7 (colour,
 type, assets, stripes), which are the blocking ones, and record the answers as a
 brief file. The rest can take framework defaults.
 
 Two questions decide the most downstream work, so settle them early:
 
-- **Does the homepage open on a full-bleed image?** If yes, `<body>` keeps
-  `class="cl-nav-over-hero"`. If no, remove it — otherwise the nav is invisible
-  over a light stripe.
+- **Should the nav float transparent over the opening stripe?** Default is **no**
+  and the template ships without it. Only add `class="cl-nav-over-hero"` to
+  `<body>` if the homepage opens on a full-bleed image dark enough for the
+  wordmark and icons to read against it. Do not add it by habit: over a light
+  opening stripe it produces an invisible nav.
 - **Which stripes, in what order?** Catalogue in `stripes/README.md`.
 
 Read `docs/CONTRACT.md` before editing anything. It states what the platform
@@ -35,7 +37,7 @@ imposes and what you are not allowed to change.
 
 ## Then work through `docs/BUILD.md`
 
-Do not paraphrase it from memory — read it. In outline:
+Do not paraphrase it from memory - read it. In outline:
 
 1. `robocopy kit\CustomContent <site>\SiteSpecific\CustomContent /E` *(fresh only)*
 2. Drop in `font/` and `layout/` assets. `body` and `bold` fonts are **required**
@@ -46,7 +48,7 @@ Do not paraphrase it from memory — read it. In outline:
    composition)*: markup into `default.aspx`, CSS into `CC-Home.css`, same order,
    numbers agreeing, `__BANNER_ID__` / `__REPEATER_ID__` replaced.
 5. Write `99-CC-Custom.css` from scratch. Fill the two `<...>` prose
-   placeholders — they are what tells the next person whether a rule belongs.
+   placeholders - they are what tells the next person whether a rule belongs.
 6. Tell the user exactly which back-office collections and repeaters must be
    populated. You cannot do this, and nothing renders without it.
 
@@ -54,9 +56,9 @@ Do not paraphrase it from memory — read it. In outline:
 
 **Never edit a FRAMEWORK file to achieve a client look.** If you find yourself
 wanting to, you have found either a missing switch or genuine client chrome.
-Missing switch → add the token to the component that owns it (`03` for the bar,
+Missing switch -> add the token to the component that owns it (`03` for the bar,
 `05` for carousels) with a sensible default, and set the value in `01`. Client
-chrome → `99`. Decide with the test in `99`'s header: *could the next client want
+chrome -> `99`. Decide with the test in `99`'s header: *could the next client want
 the opposite and get it by editing `01` alone?*
 
 **Never hardcode a colour, radius, shadow or font size** anywhere but `01`.
@@ -68,7 +70,7 @@ token.
 **Use `--skin-*` for client-local tokens.** Never the client's initials.
 
 **`pages/`, `feed/`, `ReturnsPDFs/` are untouchable.** Byte-identical to the
-share. They contain two known rough edges that are preserved on purpose — see
+share. They contain two known rough edges that are preserved on purpose - see
 `MANIFEST.md`. Do not "fix" them.
 
 **Editing is deploying.** There is no build and no staging. On `reskin` and
@@ -83,11 +85,11 @@ share. They contain two known rough edges that are preserved on purpose — see
 C:\Users\theo.fapohunda\cl-sitekit\tools\lint.ps1 -Path <site>\SiteSpecific\CustomContent -PreviousClient "<name of the client this tree was seeded from>"
 ```
 
-Every failure renders wrong or not at all. Pass `-PreviousClient` — it is what
+Every failure renders wrong or not at all. Pass `-PreviousClient` - it is what
 catches a reskin that left the last client's words behind.
 
 **Write the site's `CLAUDE.md`**, at `<site>\SiteSpecific\CustomContent\CLAUDE.md`.
-Not a copy of the kit docs — a short orientation for future sessions *in that
+Not a copy of the kit docs - a short orientation for future sessions *in that
 site*:
 
 - what this tree is, which client, and that the platform lives outside it
@@ -97,21 +99,21 @@ site*:
   at the kit's `MANIFEST.md` rather than restating it
 - the stripes this homepage uses, in order, and the `bannerid` / `repeaterid`
   each one reads
-- anything genuinely surprising about *this* client — a promoted switch that
+- anything genuinely surprising about *this* client - a promoted switch that
   needed a non-obvious value, a rule in `99` whose reasoning is not self-evident
 - the working constraints: manual cache busting, the 900s homepage output cache,
   editing is deploying
 
 **Hand over the QA list.** Point the user at `docs/QA-CHECKLIST.md` and tell them
-which parts you could not verify — you cannot see the rendered site, and lint
+which parts you could not verify - you cannot see the rendered site, and lint
 cannot see whether it looks right, whether the CMS is populated, or whether a `?v`
 was bumped. Say so plainly rather than implying the build is confirmed.
 
 ## If the design needs a shape the library does not have
 
 Say so rather than forcing an existing stripe into the wrong anatomy. Check first
-whether it is really a retune — a different panel count or aspect ratio usually
-is, and the grid↔carousel swap is free because both control variants emit
+whether it is really a retune - a different panel count or aspect ratio usually
+is, and the grid<->carousel swap is free because both control variants emit
 identical hooks. If it genuinely is a new shape, follow
 `docs/ADDING-A-STRIPE.md`: build it in the site, prove it in a browser at
 375/1024/1440, and only then extract it into `stripes/` with a row added to the

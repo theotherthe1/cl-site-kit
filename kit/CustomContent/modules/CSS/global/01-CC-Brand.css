@@ -116,10 +116,14 @@
     --global-addToCart-colorHover: var(--text-on-accent);
 
     /* ---- Nav bar: SOLID state ------------------------------------------
-       Only relevant where the bar floats transparent over a hero (see
-       --cl-nav-over-hero in the SWITCHES block and the body class of the same
-       name). The bar turns solid two ways - scrolled past 20px, or a panel is
-       open - and BOTH read this one set, so they can never disagree.
+       INERT UNLESS YOU OPT IN. These four only do anything on a page carrying
+       class="cl-nav-over-hero" on <body>, which is off by default. On a normal
+       solid-bar site the bar reads --navBackground in every state and you can
+       ignore this block entirely.
+
+       Where you have opted in: the bar floats transparent at rest and turns
+       solid two ways - scrolled past 20px, or a panel is open - and BOTH read
+       this one set, so they can never disagree.
 
        Only two things to think about:
            --navSolid-background   the fill

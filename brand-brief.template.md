@@ -1,7 +1,7 @@
-# Brand brief — <CLIENT NAME>
+# Brand brief - <CLIENT NAME>
 
 Copy this file, fill it in, and hand it to `/new-site`. Fill it from a Figma
-file, a flat mockup, a brand guide or a phone call — the source does not matter,
+file, a flat mockup, a brand guide or a phone call - the source does not matter,
 but the build starts from a completed sheet so that everything downstream is
 deterministic.
 
@@ -22,14 +22,14 @@ skip. Anything marked **required** blocks the build.
 **Visual language, in two or three sentences.** What the canvas is, what the type
 does, what the chrome vocabulary is. This becomes the header of
 `99-CC-Custom.css` and is what tells the next person whether a new rule belongs
-there. Be concrete — "one white canvas, ink type, hairline rules, ghost
+there. Be concrete - "one white canvas, ink type, hairline rules, ghost
 1px-outline chrome" is useful; "clean and modern" is not.
 
-> …
+> ...
 
 ---
 
-## 2. Colour — **required**
+## 2. Colour - **required**
 
 Raw values only. Everything else (shades, borders, overlays, shadows, text
 hierarchy) is derived from these with `oklch()` in `02`, so do not supply ramps.
@@ -48,15 +48,15 @@ hierarchy) is derived from these with `oklch()` in `02`, so do not supply ramps.
 | `--text-on-brand` | | ink sitting on `--brand` |
 | `--text-on-accent` | | ink sitting on `--brand-accent` |
 
-Contrast check — state the ratio for each pair, or flag it: `--text` on
+Contrast check - state the ratio for each pair, or flag it: `--text` on
 `--background`, `--text-on-brand` on `--brand`, `--text-on-accent` on
 `--brand-accent`. 4.5:1 minimum for body text.
 
 ---
 
-## 3. Type — **required**
+## 3. Type - **required**
 
-Three font files minimum. `body` and `bold` are **not optional** — around 186
+Three font files minimum. `body` and `bold` are **not optional** - around 186
 platform declarations outside our tree name those two families literally, so
 both slots must hold a real file. A client with one text face supplies it twice.
 
@@ -64,7 +64,7 @@ both slots must hold a real file. A client with one text face supplies it twice.
 |---|---|---|
 | `font/body.woff2` (+ `.ttf`) | | running text, inputs, CTA labels |
 | `font/bold.woff2` (+ `.ttf`) | | headings, bold UI |
-| `font/display.woff2` (+ `.ttf`) | | the editorial face — big stripe statements |
+| `font/display.woff2` (+ `.ttf`) | | the editorial face - big stripe statements |
 | `font/accent.*` | optional | fourth face, if any |
 
 woff2 preferred, ttf accepted, both ideal. Supplying only ttf costs one cheap
@@ -78,13 +78,13 @@ woff2 preferred, ttf accepted, both ideal. Supplying only ttf costs one cheap
 
 ---
 
-## 4. Assets — **required**
+## 4. Assets - **required**
 
 Replace the files; the paths are fixed kit vocabulary.
 
 | Path | Supplied |
 |---|---|
-| `layout/generalLyout/logo.svg` | (single-colour silhouette — it is painted as a **mask** filled with `currentColor`, so it must not carry its own colours) |
+| `layout/generalLyout/logo.svg` | (single-colour silhouette - it is painted as a **mask** filled with `currentColor`, so it must not carry its own colours) |
 | `layout/generalLyout/icons/bag.svg` | |
 | `layout/generalLyout/icons/account.svg` | |
 | `layout/generalLyout/icons/search.svg` | |
@@ -102,7 +102,7 @@ Leave a row blank to accept the neutral default shown.
 | `--copy-newsletterTitle` | "Join Our Newsletter" | |
 | `--copy-newsletterBody` | "Sign up for news and offers." | |
 | `--copy-statementEyebrow` | *(empty)* | only if using the `statement` stripe |
-| `--copy-signature` | *(none — no line rendered)* | optional closing flourish |
+| `--copy-signature` | *(none - no line rendered)* | optional closing flourish |
 | `--copy-addToCart` | "Add To Cart" | |
 | `--copy-stockNotification` | "Stock Notification" | |
 | `--copy-specialOrder` | "Special Order" | |
@@ -117,15 +117,15 @@ Leave a row blank to accept the neutral default shown.
 
 | Decision | Options | This client |
 |---|---|---|
-| Bar floats transparent over the first stripe? | yes / no | (yes requires the homepage to open on a full-bleed image) |
-| Solid-state bar | light / dark — sets the four `--navSolid-*` | |
+| Bar floats transparent over the first stripe? | **no (default)** / yes | Special feature. Yes needs a full-bleed opening image dark enough for the wordmark and icons to read against |
+| Solid-state bar | light / dark - sets the four `--navSolid-*` | |
 | Accent seam under the bar | keep (2px brand-light) / none | |
 | Underline-draw hover on nav links | keep / none | |
 | Platform CTA strip above the bar | show / hide | |
 
 ---
 
-## 7. Homepage stripes — **required**
+## 7. Homepage stripes - **required**
 
 List the stripes in display order. Catalogue: `stripes/README.md`.
 Available: `hero-fade`, `product-rail`, `panels-3`, `logo-strip`,
@@ -144,7 +144,7 @@ its heading and is dropped client-side). `panels-3` and `split-feature` want
 exactly 3 entries. Any banner acting as a heading still needs a **non-empty
 ImagePath** or it renders nothing at all, even though its image is hidden.
 
-If the design needs a shape that is not in the library, say so here — it becomes
+If the design needs a shape that is not in the library, say so here - it becomes
 a new stripe, authored per `docs/ADDING-A-STRIPE.md` and proven in a browser
 before it enters the library.
 
@@ -164,9 +164,9 @@ before it enters the library.
 The build cannot create this, and an unpopulated collection makes a stripe vanish
 entirely rather than render empty. Confirm each is populated before QA:
 
-- [ ] every banner collection listed in §7, with images
-- [ ] every FAF repeater listed in §7, including its title / description / link
+- [ ] every banner collection listed in section 7, with images
+- [ ] every FAF repeater listed in section 7, including its title / description / link
 - [ ] Home Page Text (only if using the `statement` stripe)
 - [ ] Delivery description, Returns policy, Privacy policy, opening times,
-      address, phone, email — the interior pages read all of these from
+      address, phone, email - the interior pages read all of these from
       `CitrusStoreConfiguration` and carry no hardcoded prose

@@ -1,4 +1,4 @@
-/* ==== 3. hp-panels-3 — full-bleed triptych, 10px gaps, bottom-up gradient,
+/* ==== 3. hp-panels-3 - full-bleed triptych, 10px gaps, bottom-up gradient,
         serif white title + ghost CTA bottom-left per panel (band 03) ==== */
 
 .hp-panels-3 {
@@ -17,7 +17,7 @@
     aspect-ratio: 4 / 5; /* ~477x600 panels in the render */
 }
 
-/* bottom-up gradient only where the text lives — the upper frame stays clean */
+/* bottom-up gradient only where the text lives - the upper frame stays clean */
 .hp-panels-3 > .cc-collection .cc-banner__body {
     justify-content: flex-end;
     align-items: flex-start;
@@ -39,7 +39,7 @@
     max-width: 16ch;
 }
 
-/* desc kept quiet, body-copy role — the mockup panels carry title + CTA only,
+/* desc kept quiet, body-copy role - the mockup panels carry title + CTA only,
    but a CMS-filled desc must stay legible on the photo */
 .hp-panels-3 > .cc-collection .cc-banner__desc {
     font-family: var(--bannerDescFontFamily);
@@ -51,7 +51,7 @@
     max-width: 34ch;
 }
 
-/* PRIMARY CTA — ghost, white variant (photo band) */
+/* PRIMARY CTA - ghost, white variant (photo band) */
 .hp-panels-3 > .cc-collection .cc-banner__cta {
     align-self: flex-start;
     background: transparent;
@@ -75,7 +75,7 @@
     color: var(--text);
 }
 
-/* hover: overlay tint deepens + the platform's gentle image scale —
+/* hover: overlay tint deepens + the platform's gentle image scale -
    never the zoom alone */
 .hp-panels-3 > .cc-collection .cc-banner:hover .cc-banner__body {
     background: linear-gradient(

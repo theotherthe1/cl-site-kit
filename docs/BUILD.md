@@ -1,6 +1,6 @@
 # Building a site
 
-The whole job, in order. `/new-site` automates steps 2–7; this is what it does
+The whole job, in order. `/new-site` automates steps 2-7; this is what it does
 and what you check.
 
 Read `CONTRACT.md` first if you have not. Nothing below makes sense without it.
@@ -10,14 +10,16 @@ Read `CONTRACT.md` first if you have not. Nothing below makes sense without it.
 ## 1. Fill the brief
 
 Copy `brand-brief.template.md`, fill it in, save it beside the project. Sections
-2, 3, 4 and 7 (colour, type, assets, stripes) block the build — the rest can
+2, 3, 4 and 7 (colour, type, assets, stripes) block the build - the rest can
 take defaults.
 
 The two questions that actually need answering before anything else:
 
-- **Does the homepage open on a full-bleed image?** If yes, the nav floats
-  transparent over it and `<body>` keeps `class="cl-nav-over-hero"`. If no,
-  remove that class or the bar will be invisible.
+- **Should the nav float transparent over the opening stripe?** Default is **no**,
+  and no is right unless the homepage opens on a full-bleed image dark enough for
+  the wordmark and icons to read against. If yes, add `class="cl-nav-over-hero"`
+  to `<body>` in `default.aspx` and set the four `--navSolid-*` tokens for the
+  scrolled and panel-open state.
 - **Which stripes, in what order?** Everything downstream follows from the list.
 
 ## 2. Copy the kit
@@ -33,11 +35,11 @@ robocopy kit\CustomContent <site>\SiteSpecific\CustomContent /E
 
 | Where | What |
 |---|---|
-| `font/body.woff2` + `.ttf` | text face — **required** |
-| `font/bold.woff2` + `.ttf` | bold face — **required**, even if it duplicates body |
+| `font/body.woff2` + `.ttf` | text face - **required** |
+| `font/bold.woff2` + `.ttf` | bold face - **required**, even if it duplicates body |
 | `font/display.woff2` + `.ttf` | editorial face |
 | `font/accent.*` | optional |
-| `layout/generalLyout/logo.svg` | single-colour silhouette — it is painted as a **mask** |
+| `layout/generalLyout/logo.svg` | single-colour silhouette - it is painted as a **mask** |
 | `layout/generalLyout/icons/{bag,account,search}.svg` | |
 
 `body` and `bold` are not optional: around 186 platform declarations outside this
@@ -45,22 +47,22 @@ tree name `citrfontreg` and `citrfontbold` literally, and we cannot repoint them
 A client with one text face ships it twice.
 
 The logo must be a flat silhouette. It is used as a CSS mask filled with
-`currentColor`, so any colour inside the SVG is discarded — which is exactly what
+`currentColor`, so any colour inside the SVG is discarded - which is exactly what
 lets one file work over a photo, a white bar and a dark bar.
 
 ## 4. Fill `01-CC-Brand.css`
 
-Four blocks, in order. Every `<<< SET THIS` must go — lint fails while one
+Four blocks, in order. Every `<<< SET THIS` must go - lint fails while one
 remains.
 
-1. **TYPE ROLES** — normally leave alone. Only change if a role should point at a
+1. **TYPE ROLES** - normally leave alone. Only change if a role should point at a
    different slot.
-2. **BRAND** — the raw colours, radius and the button ramp. Do not add derived
+2. **BRAND** - the raw colours, radius and the button ramp. Do not add derived
    values; `02` generates shades, borders, overlays, shadows and the text
    hierarchy from these with `oklch()`.
-3. **COPY** — the words CSS writes onto platform elements. Leave a token unset to
+3. **COPY** - the words CSS writes onto platform elements. Leave a token unset to
    accept its neutral default.
-4. **SWITCHES** — ships commented out. Uncomment only what the design asks for.
+4. **SWITCHES** - ships commented out. Uncomment only what the design asks for.
    Every switch's default lives with the component that owns it (`03` for the
    bar, `05` for carousels) and is documented there.
 
@@ -79,7 +81,7 @@ For each stripe in the brief's order:
 - replace `__BANNER_ID__` / `__REPEATER_ID__` with the real back-office ids
 - keep only the `<%@ Register %>` lines the chosen stripes need
 
-Then fill the two `<...>` prose placeholders — the client's visual language in
+Then fill the two `<...>` prose placeholders - the client's visual language in
 `99`'s header and the homepage description in `CC-Home.css`'s preamble. They are
 not decoration: they are what tells the next person whether a new rule belongs.
 
@@ -87,7 +89,7 @@ not decoration: they are what tells the next person whether a new rule belongs.
 
 Only this client's taste. Before every rule, apply the test: *could the next
 client want the opposite and get it by editing `01` alone?* If yes, it is a
-switch — put the token in the framework instead.
+switch - put the token in the framework instead.
 
 Use `--skin-*` for any local token. Never the client's initials.
 `examples/templeton-jones/99-CC-Custom.css` is a fully worked version, including
@@ -98,7 +100,7 @@ two blocks that were deliberately **not** promoted and the reasoning for each.
 The build cannot do this and nothing renders without it.
 
 - each banner collection from the brief, **with images**
-- each FAF repeater, including its title / description / link — on
+- each FAF repeater, including its title / description / link - on
   `product-rail` those are the stripe's own heading
 - Home Page Text, if using `statement`
 - delivery, returns, privacy, opening times, address, phone, email
@@ -137,7 +139,7 @@ unlike a stray colour a stray rule cannot be found by searching for a token.
 
 `MANIFEST.md` is the whole mechanism. Copy every `FRAMEWORK` and `VERBATIM` entry
 forward; touch no `CLIENT` entry. That is safe because framework files are
-client-neutral by construction — if one ever names a client, the update model is
+client-neutral by construction - if one ever names a client, the update model is
 broken, which is why lint checks for it.
 
 Record the kit commit in the site's `CLAUDE.md` so the next update knows where it

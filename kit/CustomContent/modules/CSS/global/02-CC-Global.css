@@ -19,14 +19,14 @@ body {
 /* Font slots
    ---------------------------------------------------------------------------
    FOUR physical slots. The family names below are fixed kit vocabulary and are
-   never edited — no rule anywhere names them directly. A reskin swaps the FILES
+   never edited - no rule anywhere names them directly. A reskin swaps the FILES
    in /font/ and points the ROLE TOKENS in 01-CC-Brand.css at whichever slots it
    needs; every rule in the kit uses var(--font-body|bold|display|accent).
 
    woff2 is listed first and ttf second, so a client may hand over either format
    and the browser takes the first it understands. A slot no role token names is
    never downloaded, so an unused slot costs nothing and its files may simply be
-   absent — which is how a two-face client works (point --font-bold at the same
+   absent - which is how a two-face client works (point --font-bold at the same
    family as --font-body rather than shipping a duplicate font).
 
      slot              intended role              files
@@ -116,7 +116,7 @@ body {
 
        The display end (mdl..3xl) is FLUID. Each ramp hits its floor at a 375px
        viewport and its ceiling at 1440px, and every ceiling is the size this
-       scale used to be pinned at — so nothing changes at 1440px and wider, and
+       scale used to be pinned at - so nothing changes at 1440px and wider, and
        below that headings come down to something a phone can hold instead of
        staying at a flat 48px.
 

@@ -7,7 +7,7 @@ control inside it pulling content from the back office, and a matching
 
 This folder is a **parts bin**, not a site. Nothing here is served. A build picks
 the stripes a design needs and assembles them into the site's single
-`default.aspx` and single `modules/CSS/home/CC-Home.css` — the platform bundles
+`default.aspx` and single `modules/CSS/home/CC-Home.css` - the platform bundles
 that folder and serves one page, so a real site always ends up with one markup
 file and one CSS file.
 
@@ -18,13 +18,13 @@ only what Templeton Jones happened to put there.
 
 ## Assembling
 
-1. `_shared/stripe.css` is **mandatory** — include it first, always.
+1. `_shared/stripe.css` is **mandatory** - include it first, always.
 2. Paste each chosen stripe's `markup.aspx` into `default.aspx` in display order,
    inside `<skm:form>` and after `<uc1:topbanner>`.
 3. Paste each chosen stripe's `stripe.css` into `CC-Home.css` in the **same
    order**, after the preamble and after `_shared`.
-4. Number the section comments `1.`, `2.`, `3.`… as they now fall. The numbers
-   are documentation only — every rule keys off the class name, so renumbering
+4. Number the section comments `1.`, `2.`, `3.`... as they now fall. The numbers
+   are documentation only - every rule keys off the class name, so renumbering
    can never break styling, but the two files must agree or the next person
    loses the map.
 5. Replace every `__BANNER_ID__` and `__REPEATER_ID__` with the real back-office
@@ -36,14 +36,14 @@ only what Templeton Jones happened to put there.
 
 | Stripe | Shape | Controls | CMS needs |
 |---|---|---|---|
-| `_shared` | Carousel chrome — pagination geometry and arrow placement shared by every carousel stripe | — | none |
-| `hero-fade` | Full-bleed image carousel, text bottom-left, slow crossfade | `BannerCollectionSplide` | 1 banner collection, 3–5 entries with images |
+| `_shared` | Carousel chrome - pagination geometry and arrow placement shared by every carousel stripe | - | none |
+| `hero-fade` | Full-bleed image carousel, text bottom-left, slow crossfade | `BannerCollectionSplide` | 1 banner collection, 3-5 entries with images |
 | `product-rail` | Text rail left, product cards right | `FafCustomRepeaterSplide` | 1 FAF repeater; **title, description and link all come from the repeater** |
 | `panels-3` | Full-bleed triptych, gradient overlay, title + CTA per panel | `BannerCollectionDisplay` | 1 collection, exactly 3 entries |
 | `logo-strip` | Heading row above a drifting logo carousel | `BannerCollectionDisplay` + `BannerCollectionSplideBrands` | 1 collection: **entry 1 is the heading, entries 2.. are logos** |
 | `split-feature` | Tall panel left, two stacked right | `BannerCollectionDisplay` | 1 collection, exactly 3 entries |
 | `icon-strip` | Three icons, one line of copy each | `BannerCollectionDisplay` | 1 collection, 3 entries; images are contained icons, not photos |
-| `statement` | Eyebrow + hairline + large declaration | none — reads `CitrusStoreConfiguration.HomePageText` | the Home Page Text field |
+| `statement` | Eyebrow + hairline + large declaration | none - reads `CitrusStoreConfiguration.HomePageText` | the Home Page Text field |
 | `cta-close` | Centred closing call to action, no image | `BannerCollectionDisplay` | 1 collection, 1 entry; its image is deliberately hidden |
 
 ## Things that will catch you out
@@ -56,7 +56,7 @@ the whole stripe with it, heading included, because the repeater's own Panel
 
 **`logo-strip` needs `bannerLimit` = logos + 1.** Both halves read the same
 collection and divide it by position, but the controls take only `bannerid` +
-`bannerLimit` with no server-side offset — so the carousel also fetches entry 1
+`bannerLimit` with no server-side offset - so the carousel also fetches entry 1
 (the heading) and `data-splide-skip="1"` drops that slide before mount. The skip
 has to be a removal rather than a CSS hide: `type:loop` clones slides and slide
 widths derive from the slide count, so a hidden slot leaves a gap drifting
@@ -77,10 +77,13 @@ height set on `.splide` has to be passed down to `.splide__track`, `__list` and
 `__slide` explicitly. `hero-fade` does this; the content-height stripes
 (`product-rail`, `logo-strip`) deliberately do not.
 
-**`hero-fade` expects `cl-nav-over-hero` on `<body>`.** That class is what makes
-the nav float transparent over the image and removes the body offset so the photo
-runs under the bar. A homepage that does *not* open on a full-bleed image should
-omit the class, or it will have an invisible nav over a white stripe.
+**`hero-fade` can pair with a transparent nav, but does not need one.** Adding
+`class="cl-nav-over-hero"` to `<body>` floats the nav over the image and removes
+the body offset so the photo runs under the bar. It is **off by default** - a
+special feature, not a house style. Opt in only if the opening image is dark
+enough, or carries enough overlay, for the wordmark and icons to read against it.
+Without it `hero-fade` renders perfectly normally: a full-bleed image carousel
+sitting below a solid bar.
 
 **`data-animate` drives the scroll reveal.** An `IntersectionObserver` in
 `default.aspx` adds `.inView` when a stripe enters the viewport. Keep the

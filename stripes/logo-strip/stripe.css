@@ -1,4 +1,4 @@
-/* ==== 4. hp-logo-strip — header anatomy per band 04: band-opening full-width
+/* ==== 4. hp-logo-strip - header anatomy per band 04: band-opening full-width
         hairline, eyebrow label beneath it top-left, serif H2 left +
         VIEW ALL right on the same row, greyscale logo drift below ==== */
 
@@ -10,7 +10,7 @@
    Top spacing owned by the section; zero bottom (gap owned by the strip).
    Selectors carry .cc-collection so they outrank the baseline's
    .CC-HomepageTitles .cc-collection rules on every property (the baseline's
-   text-align:center was leaking through — the centred-desc bug). */
+   text-align:center was leaking through - the centred-desc bug). */
 .hp-logo-strip .CC-HomepageTitles {
     align-items: flex-start;
     text-align: left;
@@ -42,7 +42,7 @@
     display: contents;
 }
 
-/* the eyebrow — row 1, spanning the band, sitting beneath the band-opening
+/* the eyebrow - row 1, spanning the band, sitting beneath the band-opening
    FULL-WIDTH HAIRLINE it carries as border-top (bands/04: the rule runs
    above the "Brands" label; var(--border) so it actually renders) */
 .hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__desc {
@@ -72,7 +72,7 @@
     max-width: none;
 }
 
-/* QUIET CTA — the arrow-link (band 04's VIEW ALL, sans the banned underline) */
+/* QUIET CTA - the arrow-link (band 04's VIEW ALL, sans the banned underline) */
 .hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__cta {
     grid-column: 2;
     grid-row: 2;
@@ -111,7 +111,7 @@
     transform: translateX(0.35em);
 }
 
-/* the logo drift — greyscale at rest, brand colour breathes back on hover.
+/* the logo drift - greyscale at rest, brand colour breathes back on hover.
    Content-height strip (logo row): NO fixed splide height chain here. */
 .hp-logo-strip > .cc-collection {
     padding: clamp(2.5rem, 4vw, 3.5rem) var(--gutter) 0;

@@ -1,4 +1,4 @@
-/* ==== 6. hp-icon-strip — compressed service strip: small icon above one sans line,
+/* ==== 6. hp-icon-strip - compressed service strip: small icon above one sans line,
         three across, pure whitespace separation (band 06) ==== */
 
 .hp-icon-strip {
@@ -20,7 +20,7 @@
     overflow: visible;
 }
 
-/* the banner image IS the line icon — small, contained, centred */
+/* the banner image IS the line icon - small, contained, centred */
 .hp-icon-strip > .cc-collection .cc-banner__img {
     display: flex;
     justify-content: center;
@@ -82,12 +82,12 @@
     color: var(--brand-link);
 }
 
-/* hover: the icon lifts a breath — no bounce */
+/* hover: the icon lifts a breath - no bounce */
 .hp-icon-strip > .cc-collection .cc-banner:hover .cc-banner__img img {
     transform: translateY(-3px);
 }
 
-/* reveal: pure fade stagger — stiller than the photo bands */
+/* reveal: pure fade stagger - stiller than the photo bands */
 .hp-icon-strip > .cc-collection .cc-banner {
     opacity: 0;
     transition: opacity 0.9s ease, transform 0.4s ease;

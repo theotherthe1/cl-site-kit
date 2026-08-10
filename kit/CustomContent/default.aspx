@@ -27,11 +27,20 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="<%= CitrusStore.SystemBase.CitrusStoreConfiguration.StoreName() %>" />
 </HEAD>
-<!-- cl-nav-over-hero makes the nav float transparent over the first stripe and
-     removes the body offset so a full-bleed image runs under the bar. KEEP it
-     if the homepage opens on a full-bleed hero; REMOVE it otherwise, or the bar
-     will be invisible over a light stripe. Interior pages never carry it. -->
-<body runat="server" class="cl-nav-over-hero">
+<!-- OPT-IN: add class="cl-nav-over-hero" to float the nav transparent over the
+     first stripe, removing the body offset so a full-bleed image runs under the
+     bar. It is OFF by default because it only works over a full-bleed image - on
+     a light opening stripe it produces an invisible nav.
+
+     Add it only when ALL of these are true:
+       - the homepage opens on a full-bleed image or video stripe
+       - that image is dark enough, or carries enough overlay, for the wordmark
+         and icons to read against it
+       - the four --navSolid-* tokens in 01 are set for the scrolled/panel-open
+         state, which is what the bar changes to
+
+     Interior pages never carry it. -->
+<body runat="server">
     <skm:form id="form2" method="post" runat="server">
         <%-- Platform scaffolding. Every .aspx must keep all of this: both
              ScriptManagers, the two AJAX stubs (the platform's AJAX layer calls

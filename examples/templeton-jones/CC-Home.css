@@ -1,29 +1,29 @@
 /* ============================================================================
-   CC-Home.css — Templeton Jones (tj)
+   CC-Home.css - Templeton Jones (tj)
    Layout-model replication of TJ Design.png. One white canvas; rhythm from
    full-bleed photography bands vs contained, hairline-ruled text bands.
    Motif: the hairline (section rules, 1px ghost CTAs, dash pagination).
    Signature: the three-town lockup (Shrewsbury / Abersoch / Newport) echoed
    in the closing band; the About declaration set as the large serif statement.
-   All colour/shadow/radius values are semantic var(--token) refs — the
+   All colour/shadow/radius values are semantic var(--token) refs - the
    colours-only run supplies the actual brand values.
-   Fix pass 2026-08-03: brands header anatomy (band-opening hairline → label →
+   Fix pass 2026-08-03: brands header anatomy (band-opening hairline -> label ->
    H2/VIEW ALL row), about label hairline, new-in nested-control guards.
-   Full-width hairlines use var(--border) — var(--border-light) computes too
+   Full-width hairlines use var(--border) - var(--border-light) computes too
    faint to render as a visible rule on this canvas.
    Rhythm pass 2026-08-04: the per-band padding tiers (strip / content / airy,
-   each its own clamp) are retired in favour of ONE flat value — every band
+   each its own clamp) are retired in favour of ONE flat value - every band
    pads padding-block: var(--section-padding-sm), top and bottom. The single
    exception is hp-hero-fade, which carries no section padding at all so the
    full-bleed photo still runs flush to the nav. Retune the rhythm in
-   02-CC-Global.css, not here — --section-padding-lg is still declared there
+   02-CC-Global.css, not here - --section-padding-lg is still declared there
    but no homepage band currently uses it.
    ============================================================================ */
 
 
-/* ==== 0. SHARED CAROUSEL CHROME — one dash-pagination geometry, quiet arrows ====
+/* ==== 0. SHARED CAROUSEL CHROME - one dash-pagination geometry, quiet arrows ====
    Scoped to [data-splide-opts] so it self-maintains across grid/carousel swaps.
-   Dash dots are the mockup's hero pagination — the SAME geometry runs on every
+   Dash dots are the mockup's hero pagination - the SAME geometry runs on every
    carousel (hero, New-in, Brands); only the inactive colour flips per background. */
 
 [data-splide-opts] .splide__pagination__page {
@@ -67,14 +67,14 @@
 }
 
 
-/* ==== 1. hp-hero-fade — full-bleed editorial fade hero; text bottom-left,
+/* ==== 1. hp-hero-fade - full-bleed editorial fade hero; text bottom-left,
         dash pagination bottom-right, minimal white arrows (band 01) ==== */
 
 .hp-hero-fade > .cc-collection {
-    padding: 0; /* deliberate full-bleed — band 01 runs edge to edge */
+    padding: 0; /* deliberate full-bleed - band 01 runs edge to edge */
 }
 
-/* carousel height chain — mockup hero is ~800px on a 1440 canvas; the vw track
+/* carousel height chain - mockup hero is ~800px on a 1440 canvas; the vw track
    runs a touch taller (65vw) and the ceiling is viewport-relative (80vh) so the
    stage never outgrows the fold on short, wide screens */
 .hp-hero-fade .splide {
@@ -88,7 +88,7 @@
 }
 
 /* Band 01: a soft even veil over the whole frame, gathering weight only in the
-   lower third where the text block sits — NOT a heavy flat wash. */
+   lower third where the text block sits - NOT a heavy flat wash. */
 .hp-hero-fade .cc-banner__body {
     justify-content: flex-end;
     align-items: flex-start;
@@ -111,7 +111,7 @@
     text-wrap: balance;
 }
 
-/* Band 01: the desc is BODY COPY beneath the title on a ~474px measure —
+/* Band 01: the desc is BODY COPY beneath the title on a ~474px measure -
    two quiet sans lines, not an eyebrow. */
 .hp-hero-fade .cc-banner__desc {
     font-family: var(--bannerDescFontFamily);
@@ -123,7 +123,7 @@
     max-width: 48ch;
 }
 
-/* PRIMARY CTA — the ghost. White variant for photo bands (band 01 anatomy:
+/* PRIMARY CTA - the ghost. White variant for photo bands (band 01 anatomy:
    1px outline, letterspaced 13px label, quiet). */
 .hp-hero-fade .cc-banner__cta {
     align-self: flex-start;
@@ -141,7 +141,7 @@
     transition: var(--global-transition);
 }
 
-/* hover-reset law — one combined rule, all four properties */
+/* hover-reset law - one combined rule, all four properties */
 .hp-hero-fade .cc-banner:hover .cc-banner__cta {
     background: var(--background);
     border-color: var(--background);
@@ -149,7 +149,7 @@
     color: var(--text);
 }
 
-/* chrome reconciliation: dashes move to bottom-RIGHT (band 01) — the body is
+/* chrome reconciliation: dashes move to bottom-RIGHT (band 01) - the body is
    bottom-LEFT so the two never collide; arrows go minimal white on the photo */
 .hp-hero-fade .splide__pagination {
     left: auto;
@@ -228,7 +228,7 @@
 }
 
 
-/* ==== 2. hp-product-rail — the grid-break: asymmetric text rail (1fr) + product
+/* ==== 2. hp-product-rail - the grid-break: asymmetric text rail (1fr) + product
         carousel (3.2fr); hairline rules the rail top; arrows live bottom-left
         of the rail, never over the cards (band 02) ==== */
 
@@ -236,7 +236,7 @@
     padding-block: var(--section-padding-sm);
 }
 
-/* the rail grid. This is FafCustomRepeaterSplide's own Panel — the band holds
+/* the rail grid. This is FafCustomRepeaterSplide's own Panel - the band holds
    nothing else, so the control's two children ARE the two columns:
    .faf-header (the text rail) and .faf-splide-container (the cards).
    Kept as a direct-child selector: the control nests no second
@@ -252,19 +252,19 @@
     position: relative;      /* arrows anchor to the whole band */
 }
 
-/* graceful empty state — the platform hides the Panel entirely when repeater 1
+/* graceful empty state - the platform hides the Panel entirely when repeater 1
    binds nothing, but a bound-yet-cardless render would still reserve the arrow
    row, so stand it down (no dead space beneath the rail) */
 .hp-product-rail > .faf-product-carousel:not(:has(.faf-product-card)) {
     padding-bottom: 0;
 }
 
-/* the rail — the control's own header, bound from repeater 1 (repeaterTitle /
+/* the rail - the control's own header, bound from repeater 1 (repeaterTitle /
    repeaterDesc / the Shop All link's detailLink). Hairline motif rules its top
    edge, exactly as band 02 draws it.
    NOTE the control does NOT wrap title+desc in a .text-wrap the way the banner
    controls do, so all three children sit in one flex column: the gap here is
-   the tight title↔desc value and the CTA pushes itself off with margin-top,
+   the tight title<->desc value and the CTA pushes itself off with margin-top,
    which reproduces band 02's two-tier spacing. */
 .hp-product-rail .faf-header {
     display: flex;
@@ -298,7 +298,7 @@
     margin: calc(var(--text-block-wrap) - var(--text-wrap)) 0 0;
 }
 
-/* PRIMARY CTA — the same ghost, ink recolour for the white band */
+/* PRIMARY CTA - the same ghost, ink recolour for the white band */
 .hp-product-rail .faf-view-more {
     display: inline-block;
     background: transparent;
@@ -323,7 +323,7 @@
     color: var(--text-inverse);
 }
 
-/* product cards — image on a light tile, name + price beneath (band 02).
+/* product cards - image on a light tile, name + price beneath (band 02).
    FAF carousels are content-height: the image aspect sizes the card. */
 .hp-product-rail .faf-product-card {
     background: transparent;
@@ -348,7 +348,7 @@
 }
 
 .hp-product-rail .faf-product-card:hover .faf-product-image {
-    transform: scale(1.03); /* gentle — the luxury register, no bounce */
+    transform: scale(1.03); /* gentle - the luxury register, no bounce */
 }
 
 .hp-product-rail .faf-product-info {
@@ -382,7 +382,7 @@
     color: var(--brand-link);
 }
 
-/* quiet quick-buy — present and usable, deferential to the editorial card */
+/* quiet quick-buy - present and usable, deferential to the editorial card */
 .hp-product-rail .faf-quick-buy-btn {
     background: transparent;
     border: 1px solid var(--border);
@@ -406,7 +406,7 @@
     color: var(--text-inverse);
 }
 
-/* chrome reconciliation — the mockup's arrows sit bottom-left IN the rail
+/* chrome reconciliation - the mockup's arrows sit bottom-left IN the rail
    column: re-anchor them to the whole band (static splide, relative band) */
 .hp-product-rail .faf-splide-container,
 .hp-product-rail .faf-splide {
@@ -457,7 +457,7 @@
 }
 
 
-/* ==== 3. hp-panels-3 — full-bleed triptych, 10px gaps, bottom-up gradient,
+/* ==== 3. hp-panels-3 - full-bleed triptych, 10px gaps, bottom-up gradient,
         serif white title + ghost CTA bottom-left per panel (band 03) ==== */
 
 .hp-panels-3 {
@@ -476,7 +476,7 @@
     aspect-ratio: 4 / 5; /* ~477x600 panels in the render */
 }
 
-/* bottom-up gradient only where the text lives — the upper frame stays clean */
+/* bottom-up gradient only where the text lives - the upper frame stays clean */
 .hp-panels-3 > .cc-collection .cc-banner__body {
     justify-content: flex-end;
     align-items: flex-start;
@@ -498,7 +498,7 @@
     max-width: 16ch;
 }
 
-/* desc kept quiet, body-copy role — the mockup panels carry title + CTA only,
+/* desc kept quiet, body-copy role - the mockup panels carry title + CTA only,
    but a CMS-filled desc must stay legible on the photo */
 .hp-panels-3 > .cc-collection .cc-banner__desc {
     font-family: var(--bannerDescFontFamily);
@@ -510,7 +510,7 @@
     max-width: 34ch;
 }
 
-/* PRIMARY CTA — ghost, white variant (photo band) */
+/* PRIMARY CTA - ghost, white variant (photo band) */
 .hp-panels-3 > .cc-collection .cc-banner__cta {
     align-self: flex-start;
     background: transparent;
@@ -534,7 +534,7 @@
     color: var(--text);
 }
 
-/* hover: overlay tint deepens + the platform's gentle image scale —
+/* hover: overlay tint deepens + the platform's gentle image scale -
    never the zoom alone */
 .hp-panels-3 > .cc-collection .cc-banner:hover .cc-banner__body {
     background: linear-gradient(
@@ -580,7 +580,7 @@
 }
 
 
-/* ==== 4. hp-logo-strip — header anatomy per band 04: band-opening full-width
+/* ==== 4. hp-logo-strip - header anatomy per band 04: band-opening full-width
         hairline, eyebrow label beneath it top-left, serif H2 left +
         VIEW ALL right on the same row, greyscale logo drift below ==== */
 
@@ -592,7 +592,7 @@
    Top spacing owned by the section; zero bottom (gap owned by the strip).
    Selectors carry .cc-collection so they outrank the baseline's
    .CC-HomepageTitles .cc-collection rules on every property (the baseline's
-   text-align:center was leaking through — the centred-desc bug). */
+   text-align:center was leaking through - the centred-desc bug). */
 .hp-logo-strip .CC-HomepageTitles {
     align-items: flex-start;
     text-align: left;
@@ -624,7 +624,7 @@
     display: contents;
 }
 
-/* the eyebrow — row 1, spanning the band, sitting beneath the band-opening
+/* the eyebrow - row 1, spanning the band, sitting beneath the band-opening
    FULL-WIDTH HAIRLINE it carries as border-top (bands/04: the rule runs
    above the "Brands" label; var(--border) so it actually renders) */
 .hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__desc {
@@ -654,7 +654,7 @@
     max-width: none;
 }
 
-/* QUIET CTA — the arrow-link (band 04's VIEW ALL, sans the banned underline) */
+/* QUIET CTA - the arrow-link (band 04's VIEW ALL, sans the banned underline) */
 .hp-logo-strip .CC-HomepageTitles .cc-collection .cc-banner__cta {
     grid-column: 2;
     grid-row: 2;
@@ -693,7 +693,7 @@
     transform: translateX(0.35em);
 }
 
-/* the logo drift — greyscale at rest, brand colour breathes back on hover.
+/* the logo drift - greyscale at rest, brand colour breathes back on hover.
    Content-height strip (logo row): NO fixed splide height chain here. */
 .hp-logo-strip > .cc-collection {
     padding: clamp(2.5rem, 4vw, 3.5rem) var(--gutter) 0;
@@ -757,7 +757,7 @@
 }
 
 
-/* ==== 5. hp-split-feature — three full-bleed panels on a two-column split:
+/* ==== 5. hp-split-feature - three full-bleed panels on a two-column split:
         one tall feature panel down the left, two stacked panels right
         (band 05, per the contract's layout model); the triptych's
         deliberate echo, differing in scale, gradient depth, wipe reveal
@@ -771,7 +771,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, minmax(0, 1fr));
-    gap: 10px;  /* the same seam as the triptych — the structural echo */
+    gap: 10px;  /* the same seam as the triptych - the structural echo */
     padding: 0; /* deliberate full-bleed */
 }
 
@@ -785,10 +785,10 @@
 
 .hp-split-feature > .cc-collection .cc-banner:first-child .cc-banner__img,
 .hp-split-feature > .cc-collection .cc-banner:first-child .cc-banner__img img {
-    aspect-ratio: 3 / 4; /* tall feature crop — statelier than the triptych */
+    aspect-ratio: 3 / 4; /* tall feature crop - statelier than the triptych */
 }
 
-/* the stacked pair take their height from the row, so no ratio of their own —
+/* the stacked pair take their height from the row, so no ratio of their own -
    each lands at roughly 3/2 against the feature's 3/4 */
 .hp-split-feature > .cc-collection .cc-banner:nth-child(n+2),
 .hp-split-feature > .cc-collection .cc-banner:nth-child(n+2) .cc-banner__img {
@@ -827,7 +827,7 @@
     max-width: 40ch;
 }
 
-/* PRIMARY CTA — ghost, white variant (photo band) */
+/* PRIMARY CTA - ghost, white variant (photo band) */
 .hp-split-feature > .cc-collection .cc-banner__cta {
     align-self: flex-start;
     background: transparent;
@@ -851,7 +851,7 @@
     color: var(--text);
 }
 
-/* hover: hairline frame draws inward — the motif made interactive
+/* hover: hairline frame draws inward - the motif made interactive
    (full four-side inset frame, all edges at once) */
 .hp-split-feature > .cc-collection .cc-banner:hover {
     box-shadow: inset 0 0 0 10px var(--white-30);
@@ -878,7 +878,7 @@
 }
 
 @media (max-width: 900px) {
-    /* the trio stacks — each panel keeps presence, none carries the split */
+    /* the trio stacks - each panel keeps presence, none carries the split */
     .hp-split-feature > .cc-collection {
         grid-template-columns: 1fr;
         grid-template-rows: none;
@@ -901,7 +901,7 @@
 }
 
 
-/* ==== 6. hp-icon-strip — compressed service strip: small icon above one sans line,
+/* ==== 6. hp-icon-strip - compressed service strip: small icon above one sans line,
         three across, pure whitespace separation (band 06) ==== */
 
 .hp-icon-strip {
@@ -923,7 +923,7 @@
     overflow: visible;
 }
 
-/* the banner image IS the line icon — small, contained, centred */
+/* the banner image IS the line icon - small, contained, centred */
 .hp-icon-strip > .cc-collection .cc-banner__img {
     display: flex;
     justify-content: center;
@@ -985,12 +985,12 @@
     color: var(--brand-link);
 }
 
-/* hover: the icon lifts a breath — no bounce */
+/* hover: the icon lifts a breath - no bounce */
 .hp-icon-strip > .cc-collection .cc-banner:hover .cc-banner__img img {
     transform: translateY(-3px);
 }
 
-/* reveal: pure fade stagger — stiller than the photo bands */
+/* reveal: pure fade stagger - stiller than the photo bands */
 .hp-icon-strip > .cc-collection .cc-banner {
     opacity: 0;
     transition: opacity 0.9s ease, transform 0.4s ease;
@@ -1016,7 +1016,7 @@
 }
 
 
-/* ==== 7. hp-statement — band-opening full-width hairline, "About Us" eyebrow
+/* ==== 7. hp-statement - band-opening full-width hairline, "About Us" eyebrow
         beneath it, then the serif declaration over a wide left-aligned
         measure (band 07): "Made for the countryside, chosen for wherever
         the day takes you." ==== */
@@ -1033,7 +1033,7 @@
     align-items: flex-start;
 }
 
-/* the eyebrow device — the mockup's "About Us" label, sitting beneath the
+/* the eyebrow device - the mockup's "About Us" label, sitting beneath the
    band-opening FULL-WIDTH HAIRLINE it carries as border-top (align-self
    stretch spans the flex column; var(--border) so the rule actually renders) */
 .hp-statement__body::before {
@@ -1064,7 +1064,7 @@
 }
 
 
-/* ==== 8. hp-cta-close — centred serif close, one quiet sans line, and
+/* ==== 8. hp-cta-close - centred serif close, one quiet sans line, and
         the three-town lockup as the page's signing-off mark (band 08 +
         the signature: Shrewsbury / Abersoch / Newport) ==== */
 
@@ -1072,7 +1072,7 @@
     padding-block: var(--section-padding-sm);
 }
 
-/* the mockup band is pure type — the banner's PHOTO stands down here
+/* the mockup band is pure type - the banner's PHOTO stands down here
    (the image only; all three body fields stay live for the CMS) */
 .hp-cta-close > .cc-collection .cc-banner__img {
     display: none;
@@ -1111,7 +1111,7 @@
     max-width: 52ch;
 }
 
-/* PRIMARY CTA — ghost, ink recolour (white band); shows when the CMS fills it */
+/* PRIMARY CTA - ghost, ink recolour (white band); shows when the CMS fills it */
 .hp-cta-close > .cc-collection .cc-banner__cta {
     align-self: center;
     background: transparent;
@@ -1135,7 +1135,7 @@
     color: var(--text-inverse);
 }
 
-/* the SIGNATURE — the three towns sign the page off, tiny and letterspaced,
+/* the SIGNATURE - the three towns sign the page off, tiny and letterspaced,
    echoing the wordmark lockup that opens it. No competitor ships these towns. */
 .hp-cta-close > .cc-collection .cc-banner__body::after {
     content: var(--copy-signature, none);

@@ -1,4 +1,4 @@
-/* ==== 8. hp-cta-close — centred serif close, one quiet sans line, and
+/* ==== 8. hp-cta-close - centred serif close, one quiet sans line, and
         the three-town lockup as the page's signing-off mark (band 08 +
         the signature: Shrewsbury / Abersoch / Newport) ==== */
 
@@ -6,7 +6,7 @@
     padding-block: var(--section-padding-sm);
 }
 
-/* the mockup band is pure type — the banner's PHOTO stands down here
+/* the mockup band is pure type - the banner's PHOTO stands down here
    (the image only; all three body fields stay live for the CMS) */
 .hp-cta-close > .cc-collection .cc-banner__img {
     display: none;
@@ -45,7 +45,7 @@
     max-width: 52ch;
 }
 
-/* PRIMARY CTA — ghost, ink recolour (white band); shows when the CMS fills it */
+/* PRIMARY CTA - ghost, ink recolour (white band); shows when the CMS fills it */
 .hp-cta-close > .cc-collection .cc-banner__cta {
     align-self: center;
     background: transparent;
@@ -69,7 +69,7 @@
     color: var(--text-inverse);
 }
 
-/* the SIGNATURE — the three towns sign the page off, tiny and letterspaced,
+/* the SIGNATURE - the three towns sign the page off, tiny and letterspaced,
    echoing the wordmark lockup that opens it. No competitor ships these towns. */
 .hp-cta-close > .cc-collection .cc-banner__body::after {
     content: var(--copy-signature, none);

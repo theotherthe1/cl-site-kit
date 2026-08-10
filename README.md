@@ -7,7 +7,7 @@ layer, QA. The framework is the part you never touch.
 Extracted from the Templeton Jones build, which remains the worked example.
 
 ```
-brand-brief.template.md   the intake sheet — every build starts from a filled copy
+brand-brief.template.md   the intake sheet - every build starts from a filled copy
 MANIFEST.md               every file marked FRAMEWORK / CLIENT / VERBATIM
 kit/CustomContent/        the tree you copy into a new site
 stripes/                  parts bin: 8 pickable homepage stripes + mandatory _shared
@@ -18,7 +18,7 @@ tools/lint.ps1            the only automated check that exists here
 
 ## Start here
 
-| I want to… | Read |
+| I want to... | Read |
 |---|---|
 | understand what I'm allowed to change | `docs/CONTRACT.md` |
 | build or reskin a site | `docs/BUILD.md` |
@@ -33,7 +33,7 @@ Six entries, all marked `CLIENT` in `MANIFEST.md`:
 | | |
 |---|---|
 | `modules/CSS/global/01-CC-Brand.css` | the reskin surface: type roles, brand, copy, switches |
-| `modules/CSS/global/99-CC-Custom.css` | this client's taste — **rewritten from scratch**, never edited |
+| `modules/CSS/global/99-CC-Custom.css` | this client's taste - **rewritten from scratch**, never edited |
 | `modules/CSS/home/CC-Home.css` | the homepage, assembled from `stripes/` |
 | `default.aspx` | the homepage markup |
 | `font/` | three (or four) typefaces |
@@ -49,8 +49,8 @@ overwritten wholesale without being read. `lint.ps1` checks that property holds.
 name `var(--font-display)`, `var(--brand)`, `var(--copy-addToCart)`; `01` decides
 what those resolve to. A reskin repoints; it does not rewrite.
 
-**Switches, not overrides.** Choices between known options — nav seam, link case,
-underline hover, CTA strip, pagination shape, arrow feel — are values in `01`,
+**Switches, not overrides.** Choices between known options - nav seam, link case,
+underline hover, CTA strip, pagination shape, arrow feel - are values in `01`,
 not blocks of CSS in the client layer. The default lives with the component that
 owns it and is documented there. Turning one off is deleting a line.
 
@@ -63,7 +63,7 @@ reorderable.
 
 - **The refactored framework has not yet rendered in a browser.** It was derived
   from a tree that renders, with equivalence checked change by change and rule
-  order preserved deliberately — but the retrofit onto a live site is the proof,
+  order preserved deliberately - but the retrofit onto a live site is the proof,
   and it has not happened yet. See `CHANGELOG.md` for what is verified how.
 - **There is no build and no test suite.** Editing a file deploys it. `lint.ps1`
   plus `QA-CHECKLIST.md` is the entire safety net.

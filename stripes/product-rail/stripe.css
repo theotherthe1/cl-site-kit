@@ -1,4 +1,4 @@
-/* ==== 2. hp-product-rail — the grid-break: asymmetric text rail (1fr) + product
+/* ==== 2. hp-product-rail - the grid-break: asymmetric text rail (1fr) + product
         carousel (3.2fr); hairline rules the rail top; arrows live bottom-left
         of the rail, never over the cards (band 02) ==== */
 
@@ -6,7 +6,7 @@
     padding-block: var(--section-padding-sm);
 }
 
-/* the rail grid. This is FafCustomRepeaterSplide's own Panel — the band holds
+/* the rail grid. This is FafCustomRepeaterSplide's own Panel - the band holds
    nothing else, so the control's two children ARE the two columns:
    .faf-header (the text rail) and .faf-splide-container (the cards).
    Kept as a direct-child selector: the control nests no second
@@ -22,19 +22,19 @@
     position: relative;      /* arrows anchor to the whole band */
 }
 
-/* graceful empty state — the platform hides the Panel entirely when repeater 1
+/* graceful empty state - the platform hides the Panel entirely when repeater 1
    binds nothing, but a bound-yet-cardless render would still reserve the arrow
    row, so stand it down (no dead space beneath the rail) */
 .hp-product-rail > .faf-product-carousel:not(:has(.faf-product-card)) {
     padding-bottom: 0;
 }
 
-/* the rail — the control's own header, bound from repeater 1 (repeaterTitle /
+/* the rail - the control's own header, bound from repeater 1 (repeaterTitle /
    repeaterDesc / the Shop All link's detailLink). Hairline motif rules its top
    edge, exactly as band 02 draws it.
    NOTE the control does NOT wrap title+desc in a .text-wrap the way the banner
    controls do, so all three children sit in one flex column: the gap here is
-   the tight title↔desc value and the CTA pushes itself off with margin-top,
+   the tight title<->desc value and the CTA pushes itself off with margin-top,
    which reproduces band 02's two-tier spacing. */
 .hp-product-rail .faf-header {
     display: flex;
@@ -68,7 +68,7 @@
     margin: calc(var(--text-block-wrap) - var(--text-wrap)) 0 0;
 }
 
-/* PRIMARY CTA — the same ghost, ink recolour for the white band */
+/* PRIMARY CTA - the same ghost, ink recolour for the white band */
 .hp-product-rail .faf-view-more {
     display: inline-block;
     background: transparent;
@@ -93,7 +93,7 @@
     color: var(--text-inverse);
 }
 
-/* product cards — image on a light tile, name + price beneath (band 02).
+/* product cards - image on a light tile, name + price beneath (band 02).
    FAF carousels are content-height: the image aspect sizes the card. */
 .hp-product-rail .faf-product-card {
     background: transparent;
@@ -118,7 +118,7 @@
 }
 
 .hp-product-rail .faf-product-card:hover .faf-product-image {
-    transform: scale(1.03); /* gentle — the luxury register, no bounce */
+    transform: scale(1.03); /* gentle - the luxury register, no bounce */
 }
 
 .hp-product-rail .faf-product-info {
@@ -152,7 +152,7 @@
     color: var(--brand-link);
 }
 
-/* quiet quick-buy — present and usable, deferential to the editorial card */
+/* quiet quick-buy - present and usable, deferential to the editorial card */
 .hp-product-rail .faf-quick-buy-btn {
     background: transparent;
     border: 1px solid var(--border);
@@ -176,7 +176,7 @@
     color: var(--text-inverse);
 }
 
-/* chrome reconciliation — the mockup's arrows sit bottom-left IN the rail
+/* chrome reconciliation - the mockup's arrows sit bottom-left IN the rail
    column: re-anchor them to the whole band (static splide, relative band) */
 .hp-product-rail .faf-splide-container,
 .hp-product-rail .faf-splide {
