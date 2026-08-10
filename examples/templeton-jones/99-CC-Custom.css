@@ -1,0 +1,221 @@
+/* ==================== 99-CC-Custom.css ====================================
+   THE CLIENT CHROME LAYER. Loads last, wins over every framework file.
+   REWRITE THIS FILE FROM SCRATCH FOR EACH NEW CLIENT - stale rules here will
+   override the next skin, and unlike a stray colour a stray rule cannot be
+   found by searching for a token.
+
+   WHAT BELONGS HERE
+   Rule-level treatments that are this client's TASTE and nothing else: the
+   specific way their dropdowns are framed, the shape of their search control,
+   the devices that make their footer theirs.
+
+   WHAT NO LONGER BELONGS HERE - and must not come back
+   Mechanism every client needs, and choices between known options. Those are
+   in the framework now, driven from 01-CC-Brand.css:
+
+     the masked wordmark and nav icons ......... 03, Brand Assets
+     transparent-over-hero nav ................. 03, Transparent-over-hero
+     nav bar seam / link case / link tracking .. 03, --navBorderBottom,
+                                                 --navItems*
+     nav underline hover device ................ 03, --navUnderline-display
+     platform CTA strip visibility ............. 03, --ctaStrip-display
+     carousel pagination shape and arrow feel .. 05, --splidePagination*,
+                                                 --splideArrowHover*
+     every word the CSS writes ................. 01, --copy-*
+     the page canvas ........................... 02
+
+   Before adding a rule here, ask whether a token could express it. If one
+   could, add the token to the owning framework file instead. The test that
+   keeps this file honest: could the NEXT client want the opposite of this
+   rule and get it by editing 01 alone? If yes, it is a switch, not chrome.
+
+   Tokens declared here use the --skin-* prefix, never the client's initials.
+   A --tj-* vocabulary is how one client's assumptions survive into the next
+   build unnoticed.
+
+   ---------------------------------------------------------------------------
+   THIS CLIENT: Templeton Jones - a quiet English country outfitter. One white
+   canvas, ink type, hairline rules, ghost 1px-outline chrome, a transparent
+   nav over the hero and solid ink elsewhere, dash carousel pagination.
+   =========================================================================== */
+
+:root {
+    --skin-hairline: 1px solid oklch(from var(--text) l c h / 0.2);
+    --skin-hairlineInverse: 1px solid oklch(from var(--text-inverse) l c h / 0.4);
+    --skin-dropdownShadow: var(--shadow-md);
+
+    /* The house tracking for typed small caps. Applied to the footer column
+       headings, the newsletter heading, its submit and every banner CTA, so
+       the device reads as one decision rather than four coincidences. */
+    --skin-trackingCaps: 0.12em;
+
+    /* Height of the single-row bar below. Local to this file on purpose: the
+       framework's own height chain (02's body offset, 03's 75px/115px desktop
+       heights) is NOT tokenised, so this value only governs the override block
+       and must be kept consistent with it by hand. Tokenising that whole chain
+       is a worthwhile job but a separate one - it spans three files and two
+       media queries, and is exactly the kind of change that looks right and
+       renders wrong. */
+    --skin-navHeight: 73px;
+}
+
+
+/* ==================== Nav (03 overrides) ==================== */
+
+/* --- Single-row nav: wordmark left, links centre, icons right in ONE bar.
+   The platform default stacks the links into a second row. Desktop only -
+   mobile keeps the platform hamburger pattern.
+
+   Stays client chrome rather than becoming a framework switch, deliberately.
+   It is not expressible as a value: besides the height it re-points #navi,
+   re-centres the link row, reverses 03's scroll-state fade and runs a
+   pointer-events dance. A --navRows token could not carry any of that. If a
+   second client wants the same bar, promote the whole block then - with a
+   name - rather than half-tokenising it now. --- */
+@media screen and (min-width: 1024px) {
+    .wrapper.masthead,
+    .wrapper.masthead.active {
+        height: var(--skin-navHeight);
+    }
+
+    body {
+        padding-top: var(--skin-navHeight) !important;
+    }
+
+    /* Links row rides in the same band; the pointer-events dance keeps the
+       full-width fixed layer from blocking logo/icon clicks */
+    #navi {
+        top: 0;
+        height: auto;
+        align-items: center;
+        pointer-events: none;
+    }
+
+    #navi .NodeLevel0 {
+        pointer-events: auto;
+    }
+
+    .wrapper.masthead .ctrNavigation > .CSSFacetNavModules {
+        justify-content: center;
+    }
+
+    /* Dropdowns open at the bottom edge of the bar (platform default: 115px) */
+    .wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active {
+        top: var(--skin-navHeight);
+    }
+
+    .wrapper.masthead .loginCtr.tbcnt.tbcntOpen {
+        top: var(--skin-navHeight);
+    }
+
+    /* 03's scroll state fades the links row out (a two-row shrink device);
+       with a single row the links must stay visible and in place */
+    .wrapper.masthead.active .CSSFacetNavModules {
+        opacity: 1;
+    }
+
+    .wrapper.masthead.active .NodeLevel0 > .CSSFacetNavModules.active {
+        top: var(--skin-navHeight) !important;
+    }
+
+    /* Sticky PLP filter tracks the shorter bar (platform default: 109px) */
+    .sticky.sticknow .FAFoptionsContainer {
+        top: var(--skin-navHeight) !important;
+    }
+}
+
+/* --- Search: a collapsed hairline pill in the icon zone rather than an
+   exposed bar. CSS-only expand on hover/focus, so search stays functional
+   with no JS dependency. Desktop only. --- */
+@media screen and (min-width: 1024px) {
+    #search.srchCtr {
+        position: fixed;
+        top: 0;
+        left: auto;
+        right: 140px;
+        height: var(--skin-navHeight);
+        align-items: center;
+        padding: 0;
+        max-width: none;
+        width: auto;
+    }
+
+    #TopBanner1_clSearch1_containerSearch {
+        width: auto;
+    }
+
+    .srchCtr.tbcnt .searchBoxForm,
+    .srchCtr.tbcnt .searchBoxForm:focus {
+        width: 44px;
+        border: var(--skin-hairlineInverse);
+        border-radius: 999px;
+        transition: width 0.3s ease;
+    }
+
+    #search.srchCtr:hover .searchBoxForm,
+    #search.srchCtr:focus-within .searchBoxForm {
+        width: 240px;
+    }
+}
+
+
+/* --- Dropdown surfaces: an ink canvas seamless with the bar, floating on a
+   soft shadow; area panels are white cards framed by a hairline --- */
+.wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active {
+    border: 0;
+    border-radius: 0;
+    box-shadow: var(--skin-dropdownShadow);
+}
+
+.wrapper.masthead .NodeLevel1 {
+    border: var(--skin-hairline);
+    border-radius: 0;
+}
+
+.wrapper.masthead .loginCtr.tbcnt.tbcntOpen {
+    border: var(--skin-hairline);
+    border-top: none;
+    border-radius: 0;
+    box-shadow: var(--skin-dropdownShadow);
+}
+
+
+/* ==================== Footer (06 overrides) ==================== */
+
+/* Full-width hairline seam where the white footer meets the white page - the
+   brand's rule vocabulary, used here as a border-top divider */
+#modular-footer-wrapper {
+    border-top: var(--skin-hairline);
+}
+
+/* Letterspaced small column headings over the platform hairline rule */
+#modular-footer-wrapper .modular-footer-retaillinks .modular-footer-retaillinks-container .modular-footer-retaillinks-container-inner h4 {
+    letter-spacing: var(--skin-trackingCaps);
+}
+
+/* Footer wordmark: ink silhouette on the white band (nav copy is white) */
+.modular-footer-socials:after {
+    filter: brightness(0);
+}
+
+/* Newsletter heading tracking. The COPY is not overridden here: 06 reads
+   --copy-newsletterTitle / --copy-newsletterBody from 01-CC-Brand.css, so this
+   client's words live in the reskin surface with every other string. */
+#modular-footer-wrapper > div.modular-footer-socials::before {
+    letter-spacing: var(--skin-trackingCaps);
+}
+
+/* Ghost newsletter input: a quiet hairline, not the button border 06 wires */
+#modular-footer-wrapper .modular-footer-socials .modular-footer-newsletter .modular-footer-newsletter---container > .modular-footer-newsletter---container-inner input {
+    border: var(--skin-hairline) !important;
+}
+
+/* Ghost CTAs read as typed letterspaced caps - the footer submit and every
+   banner/title CTA track the same way, so the device carries through */
+#modular-footer-wrapper .modular-footer-socials .modular-footer-newsletter .modular-footer-newsletter---container > .modular-footer-newsletter---container-inner #newsletter-footer-submit {
+    letter-spacing: var(--skin-trackingCaps);
+}
+
+.cc-banner .cc-banner__cta {
+    letter-spacing: var(--skin-trackingCaps);
+}

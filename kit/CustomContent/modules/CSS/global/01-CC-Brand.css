@@ -1,20 +1,41 @@
-/* CC-Brand.css - Templeton Jones */
+/* ==================== 01-CC-Brand.css ======================================
+   THE RESKIN SURFACE. This is the file you fill in to make a new client.
+
+   It loads first. Everything after it - 02's derived ramps, 03-08's component
+   tokens, the homepage stripes, the PLP and PDP - reads from here. Nothing here
+   reads from anywhere else, which is what makes it safe to rewrite wholesale.
+
+   FOUR BLOCKS, in the order you fill them:
+     TYPE ROLES   which font file does which job
+     BRAND        the raw colour, radius and button values
+     COPY         every word the stylesheets write
+     SWITCHES     choices between known options (only the differences)
+
+   Values below marked  <<< SET THIS  are placeholders and will look wrong until
+   replaced. Everything else is a sane default you may leave alone.
+
+   RULES
+   - Raw values only. No selectors, no rules. If you need a rule, it belongs in
+     99-CC-Custom.css, and read that file's header first.
+   - Never hardcode a colour, radius, shadow or font size anywhere else. If a
+     value is missing, add a token to the component that owns it, not here.
+   - tools/lint.ps1 fails while any <<< SET THIS placeholder remains.
+   =========================================================================== */
+
 
 /* ===========================================================================
-   TYPE ROLES
+   1. TYPE ROLES
    ---------------------------------------------------------------------------
-   The three (optionally four) typographic jobs on the site. Every rule in the
-   kit names a ROLE, never a font — so a reskin repoints a role here and nothing
-   else is edited. The slots themselves (citrfontreg / citrfontbold /
-   citrfontboldalt / citrfontaccent) are declared once in 02 and map to the
-   files in /font/.
+   The three (optionally four) typographic jobs. Every rule in the kit names a
+   ROLE, never a font, so a reskin repoints a role here and nothing else is
+   edited. The slots themselves are declared in 02 and map to files in /font/.
 
      --font-body     running text, inputs, CTA labels
      --font-bold     semantic headings (h1-h6) and bold UI emphasis
-     --font-display  the editorial face — big band statements, feature titles
+     --font-display  the editorial face - big stripe statements, feature titles
      --font-accent   optional fourth face; leave pointed at body if unused
 
-   HARD CONSTRAINT — font/body.* and font/bold.* are NOT optional.
+   HARD CONSTRAINT - font/body.* and font/bold.* are NOT optional.
    The platform's own stylesheets (Modules/CSS/**, citr-*.css at the site root,
    ~186 declarations) name `citrfontreg` and `citrfontbold` LITERALLY. Those
    rules are outside this tree and cannot be repointed, so both slots must
@@ -22,40 +43,54 @@
    Leave these two role tokens on their matching slots; repointing them only
    splits our typography away from the platform's.
 
-   `citrfontboldalt` (display) and `citrfontaccent` are ours alone — no platform
+   `citrfontboldalt` (display) and `citrfontaccent` are ours alone - no platform
    rule names them, so those slots are genuinely optional.
 
-   Templeton Jones supplies one text face for both body and bold (the two files
-   are byte-identical). That duplication is required, not waste: the platform
-   will apply `citrfontbold` regardless of what we point --font-bold at.
+   A client with one text face for both body and bold ships that file twice, as
+   font/body.* and font/bold.*. The duplication is required, not waste.
    =========================================================================== */
 :root {
     --font-body:    'citrfontreg';
     --font-bold:    'citrfontbold';
     --font-display: 'citrfontboldalt';
-    --font-accent:  var(--font-body);   /* unused on this client */
+    --font-accent:  var(--font-body);
 }
 
-/* Reskin Controls */
+
+/* ===========================================================================
+   2. BRAND
+   ---------------------------------------------------------------------------
+   Raw values. 02-CC-Global.css derives shade, opacity, border, overlay and
+   shadow ramps from these with oklch(), so you set a handful of colours and the
+   whole system follows. Do not add derived values here.
+   =========================================================================== */
 :root {
+    /* Core palette                                          <<< SET THIS */
     --brand: #1E1E1E;
     --brand-dark: var(--brand-focus);
     --brand-accent: #1E1E1E;
     --brand-link: #1E1E1E;
     --brand-focus: #191937;
     --sale: #c8102e;
+
+    /* Ink on brand surfaces                                 <<< SET THIS */
     --text-on-brand: #FFFFFF;
     --text-on-accent: #FFFFFF;
+
+    /* Canvas and ink                                        <<< SET THIS */
     --background: #FFFFFF;
     --background-raised: #F5F4F2;
     --text: #1E1E1E;
     --text-inverse: #FFFFFF;
+
+    /* Geometry */
     --global-radius: 3px;
     --global-innerRadius: 2px;
     --global-border: 1px solid var(--border-light);
+
+    /* CTA type ramp - one typographic voice for every button and link-text.
+       Retune here, not in page CSS. */
     --global-buttonSize: var(--fontSize-xs);
-    /* CTA type ramp — one typographic voice for every button and link-text.
-       Retune here, not in the page CSS. */
     --global-buttonFontFamily: var(--font-body);
     --global-buttonLetterSpacing: 10%;
     --global-buttonLineHeight: 1.2;
@@ -71,6 +106,8 @@
     --global-buttonPaddingHover: 0.65rem 2.2rem;
     --global-buttonRadiusHover: var(--global-radius);
     --global-buttonTransition: var(--global-transition);
+
+    /* Add-to-cart, which usually wants the accent rather than the brand */
     --global-addToCart-background: var(--brand-accent);
     --global-addToCart-border: none;
     --global-addToCart-color: var(--text-on-accent);
@@ -78,20 +115,17 @@
     --global-addToCart-borderHover: none;
     --global-addToCart-colorHover: var(--text-on-accent);
 
-    /* nav link type, seam, underline device and the rest of the bar's chrome
-       are switches now - see the SWITCHES block at the foot of this file. */
-
-    /* ---- Nav bar: SOLID state (HOMEPAGE ONLY) ----------------------------
-       On the homepage the bar floats transparent over the hero. It turns
-       solid two ways, and BOTH read this one set, so they can never disagree:
-           the page is scrolled past 20px
-           a panel is open - dropdown, mobile hamburger, account, search
+    /* ---- Nav bar: SOLID state ------------------------------------------
+       Only relevant where the bar floats transparent over a hero (see
+       --cl-nav-over-hero in the SWITCHES block and the body class of the same
+       name). The bar turns solid two ways - scrolled past 20px, or a panel is
+       open - and BOTH read this one set, so they can never disagree.
 
        Only two things to think about:
            --navSolid-background   the fill
-           the other three         everything sitting on it - links, their
-                                   hover, the icons, and the masked wordmark
-                                   (which follows --navSolid-linksHover)
+           the other three         everything sitting on it: links, their hover,
+                                   the icons, and the masked wordmark (which
+                                   follows --navSolid-linksHover)
 
        To invert to a DARK solid bar, change these four and nothing else:
            --navSolid-background: var(--brand-dark);
@@ -99,15 +133,12 @@
            --navSolid-linksHover: var(--text-inverse);
            --navSolid-icons:      var(--text-inverse);
 
-       Wired in 03 (Navigation Solid State), which re-points --navBackground /
-       --navLinks / --navLinks-hover / --navIcons at these four.
+       Values must name RAW colours, never var(--navLinks) and friends: 03 sets
+       --navLinks: var(--navSolid-links), so pointing back would be a cyclic
+       reference and both sides would resolve to invalid.
 
-       Values must name RAW colours, never var(--navLinks) and friends: 03
-       sets --navLinks: var(--navSolid-links), so pointing back would be a
-       cyclic reference and both sides would resolve to invalid.
-
-       Interior pages are NOT affected by any of this - they use
-       --navBackground (03) in every state. */
+       Interior pages are NOT affected by any of this - they use --navBackground
+       (03) in every state. */
     --navSolid-background: var(--text-inverse);
     --navSolid-links: oklch(from var(--brand-focus) l c h / 0.85);
     --navSolid-linksHover: var(--brand-focus);
@@ -116,49 +147,47 @@
 
 
 /* ===========================================================================
-   COPY
+   3. COPY
    ---------------------------------------------------------------------------
    Every word the CSS puts on the page. Read that twice: these are strings the
    STYLESHEET writes, not content the client edits in the back office.
 
    They exist because the platform emits the element and we cannot re-template
-   it — there is no markup to put words into, so a ::before is the only way in.
+   it - there is no markup to put words into, so a ::before is the only way in.
    That is fine; what is not fine is those words hiding inside a framework file.
    Before this block existed, 06-CC-Footer.css shipped a previous client's
    newsletter blurb about "the latest bikes", and only a matching override
-   buried in 99 stopped it reaching production. Now every string is here, in
-   the one file a build already edits, where a wrong one is impossible to miss.
+   buried in the client layer stopped it reaching production.
 
    Each consumer reads var(--copy-x, "<neutral default>"), so a token you leave
    unset degrades to something bland and correct rather than blank.
 
    TWO tokens intentionally default to nothing rather than to words:
-     --copy-signature       defaults to `none`, which removes the pseudo-element
-                            outright. It is a decorative flourish; a client who
-                            sets nothing gets no signature line at all.
-     --copy-statementEyebrow  defaults to "" — an EMPTY STRING, not `none`. The
-                            same ::before also draws the statement stripe's
-                            opening hairline via border-top, so `none` would
-                            delete the rule and take the hairline with it.
+     --copy-signature         defaults to `none`, removing the pseudo-element
+                              outright. Decorative; unset means no line at all.
+     --copy-statementEyebrow  defaults to "" - an EMPTY STRING, not `none`. The
+                              same ::before also draws the statement stripe's
+                              opening hairline via border-top, so `none` would
+                              delete the rule and take the hairline with it.
 
    Anything a client should be able to edit themselves belongs in a banner
-   collection or an FAF repeater in the back office, NOT here.
+   collection or an FAF repeater, NOT here.
    =========================================================================== */
 :root {
 
-    /* Footer newsletter — platform-emitted (#modular-footer-wrapper), read by 06 */
-    --copy-newsletterTitle: "Stay in touch";
-    --copy-newsletterBody: "New arrivals from the brands we love, seasonal edits and stories from Shrewsbury, Abersoch and Newport.";
+    /* Footer newsletter - platform-emitted, read by 06     <<< SET THIS */
+    --copy-newsletterTitle: "Join Our Newsletter";
+    --copy-newsletterBody: "Sign up for news and offers.";
 
-    /* Homepage stripes — no CMS field exists for either of these */
-    --copy-statementEyebrow: "About Us";
-    --copy-signature: "Shrewsbury \00A0\00B7\00A0 Abersoch \00A0\00B7\00A0 Newport";
+    /* Homepage stripes - no CMS field exists for either    <<< SET THIS */
+    --copy-statementEyebrow: "";
+    --copy-signature: none;
 
-    /* PDP (detail) — platform-emitted product page furniture */
+    /* PDP - platform-emitted product page furniture */
     --copy-otherColours: "Other Colours Available";
     --copy-rrp: "RRP ";
 
-    /* PLP (faf) — platform-emitted listing furniture and stock states */
+    /* PLP - platform-emitted listing furniture and stock states */
     --copy-addToCart: "Add To Cart";
     --copy-stockNotification: "Stock Notification";
     --copy-specialOrder: "Special Order";
@@ -168,51 +197,61 @@
 
 
 /* ===========================================================================
-   SWITCHES
+   4. SWITCHES
    ---------------------------------------------------------------------------
-   Choices between known options. Every one of these was a rule-level override
-   in the client layer before; each is now a value, so the opposite choice is
-   one line here rather than a block of CSS somewhere else.
+   Choices between known options. Each was a rule-level override in a client
+   layer before; each is now a value, so the opposite choice is one line here
+   rather than a block of CSS somewhere else.
 
-   Only DIFFERENCES from the framework default need to appear. The defaults
-   live with the component that owns them - 03 for the bar, 05 for carousels -
-   and each is documented there. Deleting a line here returns that decision to
-   the framework default; it does not break anything.
+   Only DIFFERENCES from the framework default need to appear. The defaults live
+   with the component that owns them - 03 for the bar, 05 for carousels - and
+   each is documented there. Deleting a line here returns that decision to the
+   framework default; it does not break anything.
+
+   The block below is COMMENTED OUT: a fresh build starts on framework defaults
+   and switches on only what the design actually asks for. Uncomment what you
+   need.
    =========================================================================== */
 :root {
 
     /* --- Nav bar (defaults in 03) ---------------------------------------- */
 
-    /* No accent seam: the ink bar, or the hero photo on the homepage,
-       provides its own edge. Framework default is a 2px brand-light rule. */
-    --navBorderBottom: 0;
+    /* No accent seam under the bar. Default is a 2px brand-light rule. */
+    /* --navBorderBottom: 0; */
 
-    /* Small, letterspaced, uppercase nav links. Framework default is
-       --fontSize-sm at normal tracking with the CMS author's own case. */
-    --nav-fontSize: var(--fontSize-xs);
-    --navItemsLetterSpacing: 0.1em;
-    --navItemsTextTransform: uppercase;
+    /* Nav link type. Defaults: --fontSize-sm, normal tracking, and the CMS
+       author's own capitalisation. */
+    /* --nav-fontSize: var(--fontSize-xs); */
+    /* --navItemsLetterSpacing: 0.1em; */
+    /* --navItemsTextTransform: uppercase; */
 
-    /* House rule: no underline devices anywhere. Hover feedback comes from the
-       --navLinks -> --navLinks-hover contrast instead. */
-    --navUnderline-display: none;
+    /* Disable the underline-draw hover device on nav links. Hover feedback
+       then comes from the --navLinks -> --navLinks-hover contrast. */
+    /* --navUnderline-display: none; */
 
-    /* This client's design has no CTA strip above the bar. */
-    --ctaStrip-display: none;
+    /* Hide the platform CTA strip above the bar (TopSubBanner.ascx). */
+    /* --ctaStrip-display: none; */
+
+    /* Brand assets are PATHS, defaulted in 03. A reskin normally just replaces
+       the files under /layout/generalLyout/. Repoint only if the client's asset
+       layout differs. */
+    /* --logo: url('/layout/generalLyout/logo.svg'); */
+    /* --icon-bag: url('/layout/generalLyout/icons/bag.svg'); */
+    /* --icon-account: url('/layout/generalLyout/icons/account.svg'); */
+    /* --icon-search: url('/layout/generalLyout/icons/search.svg'); */
+    /* --navIconSize: 22px; */
 
     /* --- Carousels (defaults in 05) -------------------------------------- */
 
-    /* Thin dashes rather than dots, widening when active. */
-    --splidePaginationWidth: 1.5rem;
-    --splidePaginationHeight: 2px;
-    --splidePaginationRadius: 0;
-    --splidePaginationWidthActive: 2.5rem;
+    /* Dashes instead of dots. Defaults are an 8px marker that widens active. */
+    /* --splidePaginationWidth: 1.5rem; */
+    /* --splidePaginationHeight: 2px; */
+    /* --splidePaginationRadius: 0; */
+    /* --splidePaginationWidthActive: 2.5rem; */
 
-    /* Quiet arrows: no fill and NO BOUNCE - scale 1 is the house motion rule.
-       Hover feedback is a gentle dim of the line arrow, so the hover colour is
-       the same as the rest state. */
-    --splideArrowHoverColor: var(--splideArrowColor);
-    --splideArrowHoverOpacity: 0.55;
-    --splideArrowHoverScale: 1;
+    /* Quiet arrows with no bounce. Scale 1 disables the hover scale; the
+       hover colour matching the rest state makes hover a gentle dim. */
+    /* --splideArrowHoverColor: var(--splideArrowColor); */
+    /* --splideArrowHoverOpacity: 0.55; */
+    /* --splideArrowHoverScale: 1; */
 }
-
