@@ -29,7 +29,7 @@
    are byte-identical). That duplication is required, not waste: the platform
    will apply `citrfontbold` regardless of what we point --font-bold at.
    =========================================================================== */
-:root {
+:root:root {
     --font-body:    'citrfontreg';
     --font-bold:    'citrfontbold';
     --font-display: 'citrfontboldalt';
@@ -37,7 +37,7 @@
 }
 
 /* Reskin Controls */
-:root {
+:root:root {
     --brand: #1E1E1E;
     --brand-dark: var(--brand-focus);
     --brand-accent: #1E1E1E;
@@ -144,7 +144,7 @@
    Anything a client should be able to edit themselves belongs in a banner
    collection or an FAF repeater in the back office, NOT here.
    =========================================================================== */
-:root {
+:root:root {
 
     /* Footer newsletter - platform-emitted (#modular-footer-wrapper), read by 06 */
     --copy-newsletterTitle: "Stay in touch";
@@ -179,7 +179,7 @@
    and each is documented there. Deleting a line here returns that decision to
    the framework default; it does not break anything.
    =========================================================================== */
-:root {
+:root:root {
 
     /* --- Nav bar (defaults in 03) ---------------------------------------- */
 

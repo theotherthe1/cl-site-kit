@@ -67,6 +67,40 @@ verified.
 - **Bundle order between CSS folders is not guaranteed.** `CC-Home.css` beats
   `05` on specificity, never on order.
 
+### Fixed - the switches were inert (found via a second client)
+
+**Thirteen switches never worked.** `01-CC-Brand.css` loads FIRST; the component
+files that declare a token's default (`03` nav, `05` carousels) load AFTER it. Two
+`:root` declarations of the same token have identical specificity, so the later one
+wins - meaning every value set in the SWITCHES block was silently overridden by the
+default it was meant to replace.
+
+On Templeton Jones that shipped as eight live regressions: the CTA strip showing,
+the nav seam back, nav links neither uppercase nor letterspaced, the underline-draw
+hover returned, carousel dots instead of dashes, and the arrow bounce restored.
+
+Refactor F verified that the switch VALUES matched. It never verified the
+declaration could be REACHED. Value equivalence is not cascade equivalence, and
+nothing in a CSS pipeline reports this: no error, no warning, just the wrong value.
+
+Fixed structurally rather than with thirteen patches, so tokens added later cannot
+inherit the bug: every token block in `01` now uses `:root:root`, which is (0,2,0)
+and beats a component's `:root` at (0,1,0) regardless of load order. It does not
+disturb the nav state machinery, whose body-level selectors are (0,4,1) and above.
+Applied to the kit template, the worked example, and both live sites.
+
+Found only because a second client wanted the opposite of a default. One client
+cannot reveal an inert switch, because a switch that does nothing looks exactly
+like a default that happens to be right.
+
+Also fixed:
+- lint matched the SET THIS instruction prose in `01`'s own header, so a correctly
+  filled brand file could never pass. The header now describes the marker without
+  reproducing it.
+- lint's stripe-header regex was line-anchored, so an indented `==== N. ====`
+  header made it report a stripe as having no CSS. Now tolerates leading space.
+- lint's client-name check skipped `.js` and read comment-stripped lines - two
+  gaps that between them hid a previous client's name in a comment in a JS file.
 ### Changed
 
 - **Transparent nav is now OPT-IN and off by default.** It was shipping enabled

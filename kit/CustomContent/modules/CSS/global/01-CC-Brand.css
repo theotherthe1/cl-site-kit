@@ -11,15 +11,40 @@
      COPY         every word the stylesheets write
      SWITCHES     choices between known options (only the differences)
 
-   Values below marked  <<< SET THIS  are placeholders and will look wrong until
-   replaced. Everything else is a sane default you may leave alone.
+   Lines tagged with a SET THIS marker are placeholders and will look wrong until
+   replaced. Everything else is a sane default you may leave alone. Delete the
+   marker once you have set the values under it - that is how you signal the
+   decision was made rather than skipped.
+
+   (This paragraph deliberately does not reproduce the marker exactly. Lint
+   matches the arrowed form, and prose that spelled it out made the check fire on
+   its own instructions, so a correctly filled file could never pass.)
 
    RULES
    - Raw values only. No selectors, no rules. If you need a rule, it belongs in
      99-CC-Custom.css, and read that file's header first.
    - Never hardcode a colour, radius, shadow or font size anywhere else. If a
      value is missing, add a token to the component that owns it, not here.
-   - tools/lint.ps1 fails while any <<< SET THIS placeholder remains.
+   - tools/lint.ps1 fails while any SET THIS marker remains.
+
+   WHY EVERY BLOCK BELOW USES `:root:root`, NOT `:root`
+   This file loads FIRST (01), and the component files that declare a token's
+   default load AFTER it (03 nav, 05 carousels). Two `:root` declarations of the
+   same token have identical specificity, so the LATER one wins - which means a
+   plain `:root` here would be silently overridden by the very default it is
+   meant to replace. Thirteen switches shipped inert that way before this was
+   caught, each one a real visual regression that no error message reported.
+
+   `:root:root` is (0,2,0) and beats a component's `:root` at (0,1,0) regardless
+   of load order, so the reskin surface wins by construction. It is deliberately
+   the ONE place in the kit that plays a specificity trick, and it is confined to
+   token declarations.
+
+   It does not disturb the nav state machinery: the Solid State and
+   transparent-over-hero blocks in 03 are body-level selectors at (0,4,1) and
+   above, so they still re-point nav tokens per state exactly as before.
+
+   Keep `:root:root` on any block you add. lint.ps1 checks for it.
    =========================================================================== */
 
 
@@ -49,7 +74,7 @@
    A client with one text face for both body and bold ships that file twice, as
    font/body.* and font/bold.*. The duplication is required, not waste.
    =========================================================================== */
-:root {
+:root:root {
     --font-body:    'citrfontreg';
     --font-bold:    'citrfontbold';
     --font-display: 'citrfontboldalt';
@@ -64,7 +89,7 @@
    shadow ramps from these with oklch(), so you set a handful of colours and the
    whole system follows. Do not add derived values here.
    =========================================================================== */
-:root {
+:root:root {
     /* Core palette                                          <<< SET THIS */
     --brand: #1E1E1E;
     --brand-dark: var(--brand-focus);
@@ -177,7 +202,7 @@
    Anything a client should be able to edit themselves belongs in a banner
    collection or an FAF repeater, NOT here.
    =========================================================================== */
-:root {
+:root:root {
 
     /* Footer newsletter - platform-emitted, read by 06     <<< SET THIS */
     --copy-newsletterTitle: "Join Our Newsletter";
@@ -216,7 +241,7 @@
    and switches on only what the design actually asks for. Uncomment what you
    need.
    =========================================================================== */
-:root {
+:root:root {
 
     /* --- Nav bar (defaults in 03) ---------------------------------------- */
 

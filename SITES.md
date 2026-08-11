@@ -14,6 +14,7 @@ site's own file is the truth and this table is stale.
 | Site | Path | Kit commit | Last pushed | Notes |
 |---|---|---|---|---|
 | Templeton Jones | `\\dev-ecom-sofs\Websites\TEMP.dev.citruslime.com\SiteSpecific\CustomContent` | `a3a91e0` | 2026-08-10 | The site the kit was extracted from, and the only one on it so far. Opts in to the transparent nav, so it is the worked example of that switch. Two blocks in its `99` are deliberately not promoted (single-row nav, search pill). Banner `ImagePath` values point at files that are not in `/images/`, and FAF repeater 1 is empty, so `hp-product-rail` does not render and every image-dependent QA check is still outstanding. Lint passes; browser QA not yet done. |
+| Riverside (RVCL) | `Z:\RVCL\RVCL.dev.citruslime.com\SiteSpecific\CustomContent` | partial | 2026-08-11 | IN PROGRESS, and being actively edited - do not push to it without checking first. Light nav bar with dark ink, the inverse of the framework default, so all four nav colour tokens are set in its `01`. Uses a PNG wordmark: it is painted as a mask, so only the alpha channel is used and it must be a transparent cutout. Has a NEW stripe, `hp-accent-split`, not yet in the library. Still carries local framework edits in `03` (`--navMenuPosition`, nav menu `top: 76px`, `padding-inline: 1.5rem`, removed `.logo` max-width) which a kit push WILL wipe - promote them before updating. `01` section labels and the `99`/`CC-Home` prose are not yet filled. |
 
 ## Adding a site
 

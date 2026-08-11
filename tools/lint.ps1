@@ -266,7 +266,7 @@ if ($page -and $homeCss) {
     $pageText = Get-Content $page.Full -Raw
     $pageStripes = [regex]::Matches($pageText, 'class="col-1 (hp-[\w-]+)"?') | ForEach-Object { $_.Groups[1].Value }
     $cssText = Get-Content $homeCss.Full -Raw
-    $cssStripes = [regex]::Matches($cssText, '(?m)^/\* ==+ \d+\.\s+(hp-[\w-]+)') | ForEach-Object { $_.Groups[1].Value }
+    $cssStripes = [regex]::Matches($cssText, '(?m)^\s*/\* ==+ \d+\.\s+(hp-[\w-]+)') | ForEach-Object { $_.Groups[1].Value }
     if ($pageStripes.Count -eq 0) {
         Warn 'stripes' "default.aspx contains no stripes yet"
     } else {
