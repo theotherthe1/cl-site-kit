@@ -138,14 +138,28 @@ The design names **three** families with named styles. Quoted verbatim:
 | *(unnamed)* | **Apfel Grotezk** | 400 | 20px / 120% | product card title |
 | *(unnamed)* | **Apfel Grotezk** | 500 | 20px / 120% | product card price |
 
-### Slot mapping - **DECIDED. Files still outstanding, and they BLOCK the build.**
+### Slot mapping - **DECIDED, AND THE FILES ARE INSTALLED.**
 
-| Slot | Face | Note |
-|---|---|---|
-| `font/body.woff2` | **DM Sans 400** | **required** - about 186 platform declarations outside our tree name this family literally |
-| `font/bold.woff2` | **DM Sans 700** | **required.** A real Bold, not the design's 500. Everything the platform bolds and we cannot re-template - basket totals, validation errors, table headers - needs to actually look bold |
-| `font/display.woff2` | **Sentient 300** | `--font-heading` repoints here, as Williams Cycles did. Variable woff2, or a static Light instance |
-| `font/accent.woff2` | **DM Sans 500** | **a departure**, but a cheaper one than planned - see below |
+| Slot | File installed | Format | Note |
+|---|---|---|---|
+| `font/body.ttf` | `DMSans-Regular.ttf` (400) | ttf only | **required** - about 186 platform declarations outside our tree name this family literally |
+| `font/bold.ttf` | `DMSans-Bold.ttf` (700) | ttf only | **required.** A real Bold, not the design's 500. Everything the platform bolds and we cannot re-template - basket totals, validation errors, table headers - needs to actually look bold |
+| `font/display.woff2` + `.ttf` | `Sentient-Light` (300) | **both** | `--font-heading` repoints here, as Williams Cycles did |
+| `font/accent.ttf` | `DMSans-Medium.ttf` (500) | ttf only | **a departure**, but a cheaper one than planned - see below |
+
+**Sentient: the STATIC Light, not the variable.** `Sentient-Variable.woff2` was
+available and was deliberately not used. `02` declares every slot with
+`font-weight: normal !important`, so a variable font would render at its default
+instance rather than at 300 - the static Light gives the drawn weight with no
+`font-variation-settings` plumbing.
+
+**Three of the four slots are ttf-only, which lint warns about and which is
+fine.** Google's DM Sans download ships static `.ttf` only, and no woff2
+converter was available on the build machine - Python is the Windows Store stub
+and there is no fonttools. This is the kit's documented progressive contract:
+`02` lists woff2 first, so each of these three costs **one cheap 404 per cold
+load** and about 40% extra bytes until someone converts them. Worth doing, not
+worth blocking on.
 
 **Two recorded departures from the design, both deliberate:**
 
@@ -180,17 +194,15 @@ The design names **three** families with named styles. Quoted verbatim:
    has not landed would drop CTA labels and prices to the browser default rather
    than to the body face.
 
-**Sourcing: the client supplies all four files.** Confirmed - not fetched by me,
-because I have read none of these licences and should not make that call. What is
-believed but **unverified**: DM Sans is open-source and on Google Fonts; Sentient
-is Fontshare / Indian Type Foundry and may be free for commercial use. Verify
-before go-live. Apfel Grotezk exists as woff2 at
-`Z:\WILLCL\WILLCL.dev.citruslime.com\SiteSpecific\CustomContent\font\`, but
-reusing it on a second client site may not be covered - moot now that it is
-dropped.
+**Sourcing: the client supplied all files.** Installed from
+`Downloads\Sentient_Complete\...\Fonts\WEB\fonts` and `Downloads\DM_Sans.zip`.
+Licences were **not** read or verified by the build - that remains the client's
+call. What is believed but unverified: DM Sans is open-source (its zip carries
+`OFL.txt`); Sentient is Fontshare / Indian Type Foundry. Confirm before go-live.
 
-woff2 preferred, ttf accepted, both ideal. ttf-only costs one cheap 404 per slot
-on cold load until converted.
+Apfel Grotezk exists as woff2 in the WILLCL tree if the drop is ever reversed,
+though reusing it on a second client site may not be licensed - moot while it
+stays dropped.
 
 | | |
 |---|---|
@@ -209,8 +221,8 @@ same shape of answer Williams Cycles needed.
 
 | Path | Status |
 |---|---|
-| `layout/generalLyout/logo.png` | **`?` file outstanding - BLOCKS the build.** Two-tone transparent PNG, `--logo` repointed at it and the mask overridden. See below |
-| `layout/generalLyout/logo.svg` | leave the kit file in place so `03`'s default `--logo` still resolves - the same thing JESR does. Never point `--logo` at it |
+| `layout/generalLyout/logo.svg` | **INSTALLED.** The client's own Illustrator export, cleaned. `--logo` points here with a `?v1` cache bust, and `99` overrides the mask so it paints in its own two colours |
+| `layout/generalLyout/logo.png` | **replaced with a 68-byte transparent 1x1, on purpose** - see below |
 | `layout/generalLyout/icons/bag.svg` | **kit default** - decided. 587 bytes, 24x24, single path, built for masking |
 | `layout/generalLyout/icons/account.svg` | **kit default** - decided. 1281 bytes, 24x24 |
 | `layout/generalLyout/icons/search.svg` | **kit default** - decided. 783 bytes, 24x24 |
@@ -232,35 +244,50 @@ Illustrator export, with a style block of `.st1{fill:#F5BB60}`,
 only the alpha channel. Both files therefore flatten to one colour, losing the
 white/green split.
 
-**Decided: a two-tone transparent PNG, painted rather than masked.**
+**RESOLVED: the client's SVG, painted rather than masked.**
 
-Note carefully, because it caught this interview out too: **choosing PNG does not
+The plan was a two-tone PNG. When the actual file arrived it turned out to be
+**clean vector art with real fills** - not the raster-wrapper trap WILLCL hit -
+so painting the SVG directly is strictly better: no rasterising step, and it
+stays sharp at any size where a 119px-wide PNG would not on a retina screen. **A
+PNG was never produced**, and could not have been: there is no ImageMagick,
+Inkscape, rsvg or usable Python on the build machine. If a PNG is preferred
+later, drop it in and repoint `--logo`; `99` needs no change.
+
+Note the thing that caught this interview out: **choosing a file format does not
 by itself escape the mask.** `03` consumes `--logo` inside `mask:` whatever the
-file type, so a two-tone PNG pointed at `--logo` still flattens. PNG solves the
-*alpha* problem - the live SVG's `fill:#FFFFFF` knockouts - but the *two-tone*
-problem needs `99` to replace the mask with a `background-image` so the PNG's own
-colours paint through. Both changes are required; either alone gives a
-single-colour wordmark.
+file type. Both a repoint *and* a mask override are required; either alone gives
+a single-colour wordmark.
 
-What `99` has to do, drawn from what JESR and WILLCL both had to discover:
+**The mark has TWO failure modes under a mask, not one.** Beyond losing the green
+"remedy", the **white cross inside the badge disappears** - it is drawn as a hole
+in the green starburst with a white rounded rect showing through, so once every
+fill collapses to one colour the cross fills in and the badge becomes a solid
+blob. That second failure is the stronger argument against masking.
 
-- repoint `--logo` at the `.png`, and **never** at an SVG wrapper - an
-  embedded-raster SVG renders nothing, which makes an **empty mask**, which
-  silently hides the container *and* the platform background image behind it
-- override `mask` with `background-image` so the colours survive
-- give the empty `<a class="logo">` an explicit box, because `03` overrides the
-  platform container width with `auto`
-- the ink knob is `.wrapper.masthead .logoContainer` at specificity (0,3,0), so a
-  bare `.logoContainer` in `99` **loses**
+**What the file turned out to contain.** 12 paths: 5 white (the badge field plus
+`b`,`i`,`k`,`e`) and 7 green (`r`,`e`,`m`,`e`,`d`,`y` plus the starburst).
+Cleaning removed an **unreferenced `<pattern id="Polka_Dot_Pattern">`** that was
+**89% of the file** - 48,760 bytes down to 5,155 - and which carried the only use
+of `#F5BB60`, explaining why that amber appears nowhere on the mark. The artwork
+paths themselves are unaltered. XML validated.
 
-Leave the kit's `logo.svg` in place so `03`'s default `--logo` still resolves,
-which is what JESR does. Design size is 119 x 24.8px; supply at 2x or better.
+`99` carries two rules, both about this wordmark, with the four traps recorded
+inline: the empty-mask trap, the (0,3,0) specificity of
+`.wrapper.masthead .logoContainer`, the empty anchor needing an explicit box, and
+clearing **both** the prefixed and unprefixed `mask`.
 
-**Trade-off accepted:** the alternative was a flat single-colour white PNG kept
-under the mask - no `99` rules, no failure modes, and colour would follow
-`--navLinks-hover` for free - at the cost of losing the green half of the lockup.
-Two-tone was chosen as design-faithful. If the wordmark misbehaves on the first
-render, that flat variant is the fallback, and it is one token change.
+**`logo.png` is now a 68-byte transparent 1x1.** It cannot be deleted - `06:468`
+is a FRAMEWORK file naming it, and lint fails on a CSS reference to a missing
+file - but it could not be left either, because the kit's placeholder is the
+**Citrus Lime logo**, and one deleted line in `99` would have put another
+company's mark in this client's footer. A transparent pixel fails visibly instead
+of plausibly.
+
+**Fallback if the two-tone misbehaves in a browser:** supply a flat
+single-colour version, delete the `99` nav block, and let the mask do its job -
+colour then follows `--navLinks-hover` for free. Cost: the green half and the
+white cross.
 
 ---
 
@@ -379,14 +406,25 @@ standard footer bar**, confirmed, so nothing is missing from the design:
 - **USP / icon strip** - not in the new design. The platform CTA strip switch is
   a separate decision (§6).
 
-**KNOWN DEFECT, accepted, on the QA list.** `06` paints the footer wordmark as a
-plain background image on a **white** ground. The wordmark is white "bike" plus
-green "remedy", so **the white half will be invisible in the footer.** This is
-predicted from the CSS, not suspected - it is not a maybe.
+**Two separate footer problems. One was fixed; one is accepted and on the QA
+list. Do not conflate them.**
 
-Raised during the interview and the decision was to **leave it and flag it**
-rather than fix it now. Recorded so the next person does not think it was missed.
-The two fixes considered, either of which is cheap later:
+**FIXED - the footer was showing the Citrus Lime logo.** `06:468` hardcodes
+`url(/layout/generalLyout/logo.png)`, and that path was still the kit's
+placeholder, which is *Citrus Lime's own mark*. A client site was going to ship
+with another company's logo in its footer. `99` now repoints it at `var(--logo)`,
+and `logo.png` itself was replaced with a transparent 1x1 so the failure mode
+cannot come back if that rule is ever deleted. Unlike the nav, `06` already
+**paints** rather than masks, so the two-tone needed no further work - only the
+URL was wrong.
+
+**ACCEPTED, still outstanding - the white half will be invisible.** `06` puts
+the wordmark on a **white** ground, and this mark's "bike" half plus its badge
+field are `#FFFFFF`. Predicted from the CSS, not suspected. Raised during the
+interview and the decision was to **leave it and flag it** rather than fix it
+now, so the footer could be looked at as a whole later. Recorded so the next
+person does not think it was missed. The two fixes considered, either of which is
+cheap later:
 
 1. Take the footer dark - `#11110F` ground, `#FFFFFF` ink - which also bookends
    the page against the bar. WILLCL lists the exact token set for this in its
@@ -486,7 +524,9 @@ this problem after JESR and WILLCL. Commit the kit and re-stamp all three rows.
 | `01-CC-Brand.css` | CLIENT | complete - palette, type roles, geometry, button ramp, 4 nav colours, and the switches for the seam, CTA strip, exposed search, dash pagination and circle arrows |
 | `default.aspx` | CLIENT | complete - 5 stripes, `cl-search-exposed` on `<body>`, 4 control registrations |
 | `CC-Home.css` | CLIENT | complete - shared chrome plus 5 sections in page order |
-| `99-CC-Custom.css` | CLIENT | 3 `--skin-*` tokens and the wordmark block, **held commented** |
+| `99-CC-Custom.css` | CLIENT | 3 `--skin-*` tokens and **two live rules**, both about the wordmark |
+| `font/` | CLIENT | **real files installed** - DM Sans 400/500/700, Sentient Light 300 |
+| `layout/` | CLIENT | **wordmark installed and cleaned**; kit icons kept; `logo.png` neutralised |
 | `CLAUDE.md` | - | written, in the site tree |
 
 Every switch the design needed already existed in `01` - nothing was promoted
@@ -496,22 +536,34 @@ in the existing token vocabulary.
 
 ### Lint warnings, and why each is acceptable
 
-- **4x `font/<slot>.ttf` has no `.woff2` sibling** - the tree is on kit
-  placeholders. Clears when the real fonts land.
+**5 warnings, 0 errors.**
+
+- **3x `font/<slot>.ttf` has no `.woff2` sibling** (`body`, `bold`, `accent`) -
+  DM Sans ships ttf-only from Google and no converter was available. Costs one
+  cheap 404 per slot on cold load. `display` has both, so it does not warn.
 - **2x hardcoded colour outside 01** (`CC-faf.css:138`,
   `08-CC-MiniBasket.css:34`) - both in **FRAMEWORK** files, pre-existing in the
   kit, not this site's to fix.
 
 ### Outstanding, in priority order
 
-1. **`layout/generalLyout/logo.png`** - two-tone transparent PNG. Blocks the
-   wordmark, which is currently the kit placeholder. `99` has the sequence.
-2. **Four woff2 files** - DM Sans 400/500/700, Sentient 300. File copy only.
-3. **Five back-office ids** - all unconfirmed guesses.
-4. **CMS data** - 3 banner collections, 2 FAF repeaters.
-5. **Section 5's heading** - from repeater B.
-6. **Favicons** - site root, and a square mark needs drawing.
-7. **Real copy** - every design string is placeholder, and from clothing retail.
+Assets and fonts are **done**. What is left is data, other people's tasks, and
+one nice-to-have.
+
+1. **Five back-office ids** - all unconfirmed sequential guesses. The highest
+   risk item on the list: a wrong id makes a whole section vanish silently.
+2. **CMS data** - 3 banner collections (4 / 4 / 1 entries), 2 FAF repeaters
+   (5+ / exactly 4). Nothing renders without it.
+3. **Section 5's heading** - comes from repeater B, not from CSS.
+4. **Favicons** - site root, outside this tree. The wordmark is a wide
+   horizontal lockup and will not reduce to a square; a mark needs drawing.
+   The badge alone is the obvious candidate.
+5. **Real copy** - every design string is placeholder, and from clothing retail.
+6. **Convert the three DM Sans faces to woff2** - clears the last three
+   warnings, saves ~40% of the bytes and three cold-load 404s. Needs fonttools
+   with brotli on a machine that has a working Python.
+7. **A real `logo.png`** - would let `99`'s footer rule be deleted, since `06`
+   already paints rather than masks. Optional; the SVG override works.
 
 ### Departures from the design, all deliberate and all recorded
 
@@ -533,8 +585,11 @@ in the existing token vocabulary.
 2. **`hp-split-hero`.** A new shape that has never rendered. Its height chain
    and the `min-height`/`height:100%` pair that serves both the carousel and
    static variants are reasoned, not observed.
-3. **The wordmark**, still the placeholder, and silently broken at WILLCL on its
-   first pass.
+3. **The wordmark.** Now real, but it is the one place this build fights the
+   framework rather than configuring it, and the same element rendered wrong on
+   the first pass at WILLCL. Check both ends: the nav (should be two-tone with a
+   white cross in the badge) and the footer (will show only the green half on
+   the white ground - that is the accepted defect, not a new bug).
 
 ### New stripes not yet in the library
 
