@@ -329,14 +329,42 @@ Bar anatomy - 113px tall, two rows inside `padding: 20px 40px`, content width 13
   glyphs (account, bag). Right-hand group is 343px.
 - **Row 2** (16px): the six nav links, left-aligned, 20px gaps - Men, Women,
   Children, Pets, Gifts & Homeware, Brands.
-- **Search field**: 255px wide, `max-width: 800px`, 41px tall,
+- **Search field, as drawn**: 255px wide, `max-width: 800px`, 41px tall,
   `background: #1E1E1E`, `border: 1px solid rgba(255,255,255,0.2)`,
   **`border-radius: 0`**, `padding: 1px 10px 1px 19px`, placeholder "Search" in
   DM Sans 400 16px white, 24px glyph at the **right**.
 
 That geometry is very close to what Williams Cycles already measured for the same
-switch (800px max, 41px tall, square, hairline white at 20%, glyph right), which
-is a good sign the switch will take it without local edits.
+switch (800px max, 41px tall, square, hairline white at 20%, glyph right).
+
+**AS BUILT, THE SEARCH FIELD DEPARTS FROM THE DESIGN - deliberately, after
+seeing it rendered.** It is **centred**, not pinned right, and much wider:
+
+| Token | Design / first build | As built now |
+|---|---|---|
+| position | pinned right, beside the icon cluster | **centred** |
+| `--searchWidth` | `16rem` (the design's 255px) | **`32rem`** |
+| `--searchMaxWidth` | `800px` | **`1460px`** |
+| `--searchPadding` left inset | `1.1875rem` (19px) | **`2.5rem`** |
+
+Height, radius and border are unchanged from the design.
+
+The design's right-pinned geometry never mapped cleanly onto the kit's bar
+anyway: the frame is a two-row layout with the field beside a 68px icon cluster,
+while the kit's bar is one row reserving `--navIconsWidth: 250px`.
+
+Centring is done with `--searchLeft: calc(50% - (var(--searchWidth) / 2))`,
+because `03` makes `#search` `position: absolute` at desktop - there is no
+flexbox centring at that level, and the `justify-content: center` inside the
+exposed-search block centres the input *within* `#search`, not `#search` within
+the bar. Naming `--searchWidth` in the calc rather than a literal `16rem` keeps
+it centred if the width changes again.
+
+**Two silent failure modes, both commented in `01`:** `--searchWidth` must stay
+an explicit length, or `calc()` receives `auto`, the `left` declaration becomes
+invalid and the bar jumps to the left edge; and `--searchMaxWidth` must not fall
+below `--searchWidth`, or the cap wins and the bar sits right of centre by half
+the difference.
 
 **Wordmark is LEFT**, which is the kit default. Note the live site centres it
 absolutely - that is being dropped, correctly.
@@ -577,11 +605,29 @@ one nice-to-have.
 | `--black-80` (0.82) for the card gradient, not the design's 0.9 | closest value on `02`'s ramp, and a token beats a literal |
 | Footer wordmark left broken | raised and accepted at brief time. See §7 |
 
+### Post-build changes, made in the site after this brief was first written
+
+The nav was retuned by hand after the build. Recorded here because two of these
+live in a **FRAMEWORK** file and will be wiped by a kit update:
+
+| Where | Change | Kind |
+|---|---|---|
+| `01` | search field centred, 32rem wide, 1460px cap, 2.5rem left inset | CLIENT - safe |
+| `99` | wordmark box `19rem` x `2.35rem` with `max-width: 150px` (was `7.4375rem` x `1.55rem`) | CLIENT - safe |
+| **`03`** | `--navPadding` `5px` -> `10px 20px`, a 20px-taller bar | **FRAMEWORK - will be wiped.** Already a token: promote the value to `01` and restore `03`. Trivial, no visual change |
+| **`03`** | `.ctrNavigation { top: 50px -> 70px }`, `#navi { top: 73px -> 93px }` | **FRAMEWORK - will be wiped.** Both follow the taller bar. No token exists for the nav menu offset - the same gap Riverside wanted `--navMenuPosition` for |
+| **`03`** | `#navi { position: fixed }` re-enabled, `padding-inline: 2rem` removed | **FRAMEWORK - will be wiped.** Not just a value: the kit deliberately made this menu inline, so this reverses a framework decision. Belongs in `99` or as a real switch |
+| `Feed/promotions.tsv` | edited | VERBATIM - not linted, overwritten by an update |
+
+Promote `--navPadding` first: the other three `03` edits are all downstream of it
+and may be expressible relative to it rather than as fresh magic numbers.
+
 ### Three things most likely to be wrong on first render
 
-1. **The search bar's horizontal position.** The design's bar is two rows with
-   the search pinned beside a 68px icon cluster; the kit's is one row reserving
-   `--navIconsWidth: 250px`. `--searchRight` is a reading, not a measurement.
+1. ~~The search bar's horizontal position.~~ **Now settled by eye** - centred,
+   32rem. Still worth one check: `#search` is `position: absolute`, so it
+   centres against its nearest positioned ancestor rather than necessarily the
+   visible bar. If it reads off-centre, start there.
 2. **`hp-split-hero`.** A new shape that has never rendered. Its height chain
    and the `min-height`/`height:100%` pair that serves both the carousel and
    static variants are reasoned, not observed.
