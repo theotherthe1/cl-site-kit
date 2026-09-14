@@ -97,6 +97,14 @@
     --icon-account: url('/layout/generalLyout/icons/account.svg');
     --icon-search: url('/layout/generalLyout/icons/search.svg');
 
+    /* Wordmark paint mode. These three defaults reproduce the mask exactly, so
+       a site that never touches them is byte-identical in behaviour to before
+       the switch existed. A colour logo flips all three - see Brand Assets at
+       the foot of this file. */
+    --logoMask: var(--logo);
+    --logoImage: none;
+    --logoInk: currentColor;
+
     /* Sale Link Styles */
     --sale-color: var(--text-inverse);
     --sale-background: var(--sale);
@@ -1016,11 +1024,33 @@ body.cl-nav-over-hero .wrapper.masthead.is-scrolled {
 
 /* --- Wordmark ---
    The platform <img> is left in flow so the container keeps exactly the box it
-   already had (sized in the Logo section above); only the PAINT changes. */
+   already had (sized in the Logo section above); only the PAINT changes.
+
+   TWO PAINT MODES. The default is the mask: --logo is filled with currentColor,
+   so one file follows the bar's ink through a reskin, a scroll state and
+   transparent-over-hero. That only works for single-colour artwork, because a
+   mask reads the ALPHA channel and throws the colours away.
+
+   For a colour logo - which is most clients, since most supply a PNG - set all
+   three tokens in 01 and the file paints as an image instead:
+
+       --logoMask: none;
+       --logoImage: var(--logo);
+       --logoInk: transparent;
+
+   All three are required. --logoInk must go transparent or the background
+   colour fills the whole box once the mask stops clipping it, and --logoMask
+   must go none or the artwork is still being cut to its own silhouette.
+
+   The cost of image mode is that the wordmark no longer follows the bar's ink,
+   so a client needing light and dark bars needs two files. That is a real
+   trade, which is why mask remains the default rather than the other way
+   round. */
 .logoContainer {
-    -webkit-mask: var(--logo) left center / contain no-repeat;
-            mask: var(--logo) left center / contain no-repeat;
-    background-color: currentColor;
+    -webkit-mask: var(--logoMask) left center / contain no-repeat;
+            mask: var(--logoMask) left center / contain no-repeat;
+    background: var(--logoImage) left center / contain no-repeat;
+    background-color: var(--logoInk);
 }
 
 /* .logoContainer has no colour of its own -- the masthead only paints

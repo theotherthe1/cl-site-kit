@@ -329,6 +329,20 @@
     /* --icon-search: url('/layout/generalLyout/icons/search.svg'); */
     /* --navIconSize: 22px; */
 
+    /* COLOUR WORDMARK. 03 paints --logo as a mask filled with the bar's ink,
+       which keeps one file correct in every nav state but reads only the ALPHA
+       channel - so any logo with more than one colour comes out flat.
+
+       Most clients supply a colour PNG. Uncomment all three to paint it as an
+       image instead. All three are required: --logoInk must go transparent or
+       the fill covers the whole box once the mask stops clipping it.
+
+       Trade-off: an image does not follow the bar's ink, so a site needing both
+       a light and a dark bar needs two files. */
+    /* --logoMask: none; */
+    /* --logoImage: var(--logo); */
+    /* --logoInk: transparent; */
+
     /* --- Carousels (defaults in 05) -------------------------------------- */
 
     /* Dashes instead of dots. Defaults are an 8px marker that widens active. */
