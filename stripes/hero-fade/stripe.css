@@ -5,11 +5,31 @@
     padding: 0; /* deliberate full-bleed - band 01 runs edge to edge */
 }
 
+/* Stage height, BOTH variants. Set --heroHeight in 01 to change it; the
+   fallback is the original literal, so a site that never sets it is unchanged.
+
+   The mockup hero is ~800px on a 1440 canvas: the vw track runs a touch taller
+   at 65vw and the ceiling is viewport-relative so the stage never outgrows the
+   fold on short, wide screens. */
+.hp-hero-fade {
+    --hero-h: var(--heroHeight, clamp(30rem, 65vw, 80vh));
+}
+
 /* carousel height chain - mockup hero is ~800px on a 1440 canvas; the vw track
    runs a touch taller (65vw) and the ceiling is viewport-relative (80vh) so the
    stage never outgrows the fold on short, wide screens */
 .hp-hero-fade .splide {
-    height: clamp(30rem, 65vw, 80vh);
+    height: var(--hero-h);
+}
+
+/* The STATIC variant has no .splide, so the chain above never matches and the
+   band was sized by whatever aspect the uploaded image happened to have. Height
+   goes on the image instead, which is the other half of 04's documented height
+   model. Gated on :not(:has(.splide)) so the carousel path is untouched. */
+.hp-hero-fade:not(:has(.splide)) .cc-banner__img,
+.hp-hero-fade:not(:has(.splide)) .cc-banner__img img {
+    height: var(--hero-h);
+    object-fit: cover;
 }
 
 .hp-hero-fade .splide__track,
