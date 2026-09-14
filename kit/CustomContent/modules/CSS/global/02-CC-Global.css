@@ -78,6 +78,38 @@ body {
 }
 
 
+/* Page container
+   ---------------------------------------------------------------------------
+   One optional wrapper that holds a run of homepage stripes to a maximum
+   measure and centres it. The kit's default page is edge to edge: every stripe
+   is full-bleed and takes its own horizontal inset from --gutter. A design that
+   sits on a fixed measure instead wraps that run in <div class="cc-container">
+   in default.aspx and sets --container-maxWidth in 01.
+
+   THE DEFAULTS ARE A NO-OP. --container-maxWidth is `none` and
+   --container-gutter is 0, so the element is a transparent pass-through and
+   adding the div changes nothing until a client sets a value. That is what
+   makes it safe to carry in the page template and to copy onto a built site.
+
+   The gutter defaults to 0 and NOT to --gutter deliberately. Stripes already
+   apply --gutter to their own content, so a container that padded as well would
+   inset the same text twice and the two insets would not stay in step. A client
+   that wants the container to carry the inset instead sets it here and the
+   stripes' own --gutter then measures from the container edge.
+
+   A stripe that must stay full-bleed inside a contained page goes OUTSIDE the
+   container: close the div before it and open a new one after. The absence of a
+   breakout rule is deliberate. The usual `margin-inline: calc(50% - 50vw)`
+   trick measures 100vw INCLUDING the scrollbar, so it overflows the page by the
+   scrollbar width on every desktop browser that shows one. Splitting the
+   container has no such failure mode and needs no CSS at all. */
+.cc-container {
+    max-width: var(--container-maxWidth);
+    margin-inline: auto;
+    padding-inline: var(--container-gutter);
+}
+
+
 /* Design Tokens
    Brand tokens (--brand, --brand-dark, --brand-accent, etc.)
    live in CC-Brand.css. That file must load before this one --
@@ -137,11 +169,36 @@ body {
     --fontSize-2xl:  clamp(1.8rem,  1.554rem + 1.052vw, 2.5rem);
     --fontSize-3xl:  clamp(2rem,    1.648rem + 1.502vw, 3rem);
 
+    /* Heading face -- read by the h1-h6 rule further down. Defaults to
+       --font-bold, so a file that never sets it renders exactly as it did when
+       that rule named --font-bold directly.
+
+       It exists so the two jobs --font-bold used to do can come apart. That one
+       role carried both semantic headings AND bold UI emphasis - nav links,
+       prices, stock labels, form labels, button text - so there was no way to
+       ask for a regular-weight interface while keeping headings bold. Now
+       --font-heading serves the headings and --font-bold serves the emphasis,
+       and 01 repoints either without disturbing the other.
+
+       The default is deliberately var(--font-bold) rather than a slot name: it
+       keeps the token invisible until a client wants the split, and a site whose
+       01 predates the token needs no edit to keep its current headings. */
+    --font-heading: var(--font-bold);
+
     /* Content gutter -- the inline padding every full-bleed stripe holds its
        text off the viewport edge with. This exact clamp was repeated verbatim
        in eight places in CC-Home.css; it is one token now so the stripes cannot
        drift apart. */
     --gutter: clamp(1.25rem, 2.8vw, 3rem);
+
+    /* Page container -- read by the .cc-container rule above, which is where
+       the reasoning lives. Both values are a no-op by design: `none` leaves the
+       wrapper full-width, and 0 leaves the horizontal inset to the stripes
+       themselves, so a page that carries the div but sets neither renders
+       exactly as it did before. Set --container-maxWidth in 01 to hold the
+       homepage to a measure. */
+    --container-maxWidth: none;
+    --container-gutter: 0;
 
 
 
@@ -261,11 +318,13 @@ body {
     }
 }
 
+/* The only rule in the kit that paints a heading face. Everything else that
+   wants weight names --font-bold, which is emphasis, not headings. */
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6,
 .current, .bannerTitle, .mainFont,
 .ctaTitle, .boldfont {
-    font-family: var(--font-bold);
+    font-family: var(--font-heading);
     font-weight: 300;
     font-style: normal;
 }

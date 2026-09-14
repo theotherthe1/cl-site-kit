@@ -3,8 +3,10 @@
 Read this before changing anything in this repository. It is the operating manual
 for working on cl-sitekit and for building sections with it.
 
-If you are building or reskinning a whole site, invoke `/new-site`. This file is
-about working on the kit itself and authoring sections.
+If you are building or reskinning a whole site, invoke `/new-site`. It interviews
+the user one question at a time and writes the brief itself - it does not hand
+anyone a form. This file is about working on the kit itself and authoring
+sections.
 
 ## The mental model
 
@@ -188,6 +190,15 @@ stylesheets. Reach for specificity scoping first.
   minutes; CSS is unaffected. Wait before debugging.
 - **This repo is the only version history in the ecosystem.** Client sites have no
   git. Commit messages are the design record; write them for the next reader.
+- **Builds happen on a build server over RDP, so the kit lives in two working
+  trees.** Everything a build depends on is therefore in this repo, including the
+  `/new-site` skill (`.claude/skills/`) and every filled brief (`briefs/`). Pull
+  before you build, push what you learned, and never leave a build artefact on
+  one machine. `tools/bootstrap.ps1` sets a machine up; `docs/PORTING.md` is the
+  loop.
+- **Resolve the kit path from `$env:CL_SITEKIT`, never a literal.** A hardcoded
+  `C:\Users\<someone>\cl-sitekit` in a doc or a skill is wrong on the other
+  machine, which is where the building actually happens.
 
 ## Where the rest lives
 
@@ -197,6 +208,9 @@ stylesheets. Reach for specificity scoping first.
 | `docs/CONTRACT.md` | full architecture and platform constraints |
 | `docs/ADDING-A-STRIPE.md` | authoring a new section |
 | `docs/EVOLVING-THE-KIT.md` | upstreaming improvements, pushing to built sites |
+| `docs/PORTING.md` | setting up another machine, and keeping the two in step |
+| `.claude/skills/new-site/INTERVIEW.md` | how `/new-site` conducts the intake |
+| `briefs/` | one filled brief per built site |
 | `docs/QA-CHECKLIST.md` | what to check in a browser |
 | `MANIFEST.md` | which files are which kind |
 | `SITES.md` | which site is on which kit commit |

@@ -10,11 +10,16 @@ Read `CONTRACT.md` before doing anything unusual.
 
 ---
 
-## 1. Fill the brief
+## 1. Get the brief
 
-Copy `brand-brief.template.md`, fill it in, save it beside the project. Sections
-2, 3, 4 and 7 (colour, type, assets, stripes) block the build - the rest can
-take defaults.
+Run `/new-site` and answer its questions - it interviews you one question at a
+time and writes `briefs/<SITECODE>.md` as it goes. If you would rather work on
+paper, fill `brand-brief.template.md` by hand and hand it over; the skill reads
+an existing brief and only asks about the gaps.
+
+Either way the output is the same file, in the same shape, committed to
+`briefs/`. Sections 2, 3, 4 and 7 (colour, type, assets, stripes) block the
+build - the rest can take defaults.
 
 The two questions that actually need answering before anything else:
 

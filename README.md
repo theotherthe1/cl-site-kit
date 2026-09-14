@@ -1,29 +1,37 @@
 # cl-sitekit
 
-A starter kit for Citrus Lime storefronts. A new site should be: fill a brief,
-copy the kit, set one CSS file, pick your homepage stripes, write the taste
-layer, QA. The framework is the part you never touch.
+A starter kit for Citrus Lime storefronts. A new site should be: answer some
+questions, copy the kit, set one CSS file, pick your homepage stripes, write the
+taste layer, QA. The framework is the part you never touch.
 
 Extracted from the Templeton Jones build, which remains the worked example.
 
 ```
-brand-brief.template.md   the intake sheet - every build starts from a filled copy
+.claude/skills/new-site/  the /new-site skill and its interview script
+briefs/                   one filled brief per built site - the durable record
+brand-brief.template.md   the schema those briefs are written in
 MANIFEST.md               every file marked FRAMEWORK / CLIENT / VERBATIM
 kit/CustomContent/        the tree you copy into a new site
 stripes/                  parts bin: 8 pickable homepage stripes + mandatory _shared
 examples/templeton-jones/ a finished skin, for reference
 docs/                     START-HERE first; then CONTRACT, BUILD, ADDING-A-STRIPE, QA-CHECKLIST
+tools/bootstrap.ps1       makes a fresh machine ready - run once after cloning
 tools/lint.ps1            checks a built tree for the mistakes this codebase makes
 tools/update-site.ps1     pushes framework fixes into an already-built site
 CLAUDE.md                 operating manual, loaded automatically by Claude Code
 SITES.md                  which site is on which kit commit
 ```
 
+Everything a build depends on is in here, on purpose: builds happen on a server
+over RDP, so anything left on one machine is effectively lost. Clone, run
+`tools\bootstrap.ps1`, work.
+
 ## Start here
 
 | I want to... | Read |
 |---|---|
 | **build a site, and I have not used this before** | **`docs/START-HERE.md`** |
+| set the kit up on another machine | `docs/PORTING.md` |
 | understand what I'm allowed to change | `docs/CONTRACT.md` |
 | build or reskin a site | `docs/BUILD.md` |
 | pick homepage stripes | `stripes/README.md` |

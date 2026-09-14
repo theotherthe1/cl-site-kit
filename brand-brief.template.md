@@ -1,9 +1,18 @@
 # Brand brief - <CLIENT NAME>
 
-Copy this file, fill it in, and hand it to `/new-site`. Fill it from a Figma
-file, a flat mockup, a brand guide or a phone call - the source does not matter,
-but the build starts from a completed sheet so that everything downstream is
-deterministic.
+**You do not normally fill this in by hand.** Run `/new-site` and it interviews
+you, one question at a time, writing the answers into `briefs/<SITECODE>.md` in
+this shape as it goes. This file is the schema, and reading it is a good way to
+know what you are about to be asked.
+
+Fill it by hand if you prefer working on paper, or if you are recording a brief
+after the fact. Hand a filled copy to `/new-site` and it will only ask about the
+gaps. Fill it from a Figma file, a flat mockup, a brand guide or a phone call -
+the source does not matter, but the build starts from a completed sheet so that
+everything downstream is deterministic.
+
+Finished briefs live in `briefs/` and are committed. They are the only record of
+a build that survives the machine it was built on.
 
 Anything left as `?` is a question to resolve before building, not a blank to
 skip. Anything marked **required** blocks the build.

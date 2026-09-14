@@ -53,7 +53,10 @@ site after it needs `99` to fight back.
 
 ### 3. Make the change in the kit
 
-Work in `C:\Users\theo.fapohunda\cl-sitekit`, not in a client site.
+Work in the kit checkout - `$env:CL_SITEKIT`, set by `tools/bootstrap.ps1` - not
+in a client site. If you are building over RDP, the kit on the build server is a
+second working tree: pull before you change it and push when you are done, or
+the improvement stays on one machine. See `PORTING.md`.
 
 - adding a switch: declare the token **with a sensible default** in the component
   that owns it (`03` nav, `05` carousels, `06` footer), document the default right

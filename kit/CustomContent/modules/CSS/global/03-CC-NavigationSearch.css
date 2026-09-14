@@ -7,6 +7,7 @@
     --login-titleSize: var(--fontSize-md);
     --login-linkSize: var(--fontSize-sm);
     --search-inputSize: var(--fontSize-base);
+    --navPadding: 5px 20px;
 
     /* Mobile Typography */
     --mobile-navLinkSize: var(--fontSize-base);
@@ -45,6 +46,38 @@
     --navItemsTextTransform: none;
     --navUnderline-display: block;
     --ctaStrip-display: block;
+
+    /* Exposed search bar. These size the bar that the "Search Bar (Exposed)"
+       block further down draws, and they only do anything on a page whose
+       <body> carries class="cl-search-exposed" - see that block for why the
+       mode is gated on a class rather than on a display token. */
+    --searchMaxWidth: 600px;
+    --searchHeight: 40px;
+    --searchRadius: var(--global-radius);
+    --searchBorder: var(--global-border);
+    /* leaves room for the icon, which sits at the LEFT end by default */
+    --searchPadding: 0 0 0 var(--searchHeight);
+
+    /* Desktop placement of the exposed bar. #search is absolutely positioned in
+       the Layout block below, and by default it is CENTRED - which is what the
+       left value expresses: half the bar's own width back from the midline.
+
+       That calc used to be a literal `calc(50% - 300px)`, silently coupled to
+       the 600px default. Any site that changed --searchMaxWidth was left
+       off-centre by half the difference, with nothing to point at. It is
+       derived now, so the two cannot disagree.
+
+       To pin the bar to the RIGHT instead, next to the icon cluster, set
+       --searchLeft: auto and give --searchRight a value - offsetting from
+       --navIconsWidth keeps it clear of the icons without a magic number. Give
+       --searchWidth an explicit value when you do: an absolutely positioned box
+       with `left: auto` shrink-to-fits, and a width settles it. */
+    --searchLeft: calc(50% - (var(--searchMaxWidth) / 2));
+    --searchRight: auto;
+    --searchWidth: auto;
+
+    /* width of the right-hand icon cluster (.menu-icons-header) on desktop */
+    --navIconsWidth: 250px;
 
     /* Masked brand assets -- see the Brand Assets section at the foot of this
        file. These are PATHS, deliberately defaulted rather than left unset: a
@@ -109,7 +142,7 @@
        so a :root indirection would bake in :root's white and never see the
        Solid State's body-level re-point. The solid value is set alongside the
        other four in that block instead. */
-    --mobileHamburgerColor: var(--text-inverse);
+    --mobileHamburgerColor: var(--navIcons);
     --mobileNavOverlay: var(--black-50);
     --mobileNavBlur: blur(3px);
 
@@ -515,46 +548,76 @@ body.cl-nav-over-hero:has(#search.srchCtr:focus-within) {
 }
 
 /* ==================== Search Bar (Exposed) ====================
+   OPT-IN, off by default. The platform normally hides search behind the
+   magnifier toggle in .menu-icons-header; this block instead lays the input out
+   inline in the bar and hides that toggle.
 
-.menu-icons-header > .icon-search {
+   Turn it on by adding class="cl-search-exposed" to <body>, exactly as
+   cl-nav-over-hero is added. Tune it with the --search* tokens at the top of
+   this file.
+
+   WHY A BODY CLASS AND NOT A --searchExposed-display TOKEN
+   The obvious shape - `.icon-search { display: var(--searchToggle-display,
+   block) }` - is wrong here, because the DEFAULT would then force a display
+   value onto the toggle on every site that never opted in. The platform styles
+   that element outside this tree and we do not know what it sets; forcing
+   `block` risks moving the icon on sites that asked for nothing. Gating on a
+   class means that with no class NONE of these rules match and behaviour is
+   byte-identical to this block not existing, which is the only safe default.
+
+   Specificity note, as elsewhere in this file: `body.cl-search-exposed` adds
+   (0,1,0) over each selector's own weight. Nothing here needs to beat the
+   Solid State block, which re-points colour tokens rather than layout.
+   ============================================================================ */
+
+body.cl-search-exposed .menu-icons-header > .icon-search {
     display: none;
 }
 
-#search.srchCtr {
+body.cl-search-exposed #search.srchCtr {
     display: flex;
     justify-content: center;
-    padding: .5rem;
-    max-width: 600px;
+    padding: var(--navPadding);
+    max-width: var(--searchMaxWidth);
     z-index: 999999;
 }
 
-#TopBanner1_clSearch1_containerSearch {
+body.cl-search-exposed #TopBanner1_clSearch1_containerSearch {
     display: flex;
     justify-content: center;
-    max-width: 600px;
+    max-width: var(--searchMaxWidth);
     width: 100%;
+    /* the icon is positioned against this box by platform CSS */
     position: relative;
 }
 
-.srchCtr.tbcnt .icon-search {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    min-width: 40px;
+body.cl-search-exposed .srchCtr.tbcnt .icon-search {
+    width: var(--searchHeight);
+    height: var(--searchHeight);
+    line-height: var(--searchHeight);
+    min-width: var(--searchHeight);
+    /* the whole pill is the click target; the glyph must not swallow it */
     pointer-events: none;
     top: -1px;
 }
 
-.srchCtr.tbcnt .searchBoxForm,
-.srchCtr.tbcnt .searchBoxForm:focus {
-    padding: 0 0 0 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: var(--global-radius);
-    border: var(--global-border);
+body.cl-search-exposed .srchCtr.tbcnt .searchBoxForm,
+body.cl-search-exposed .srchCtr.tbcnt .searchBoxForm:focus {
+    padding: var(--searchPadding);
+    height: var(--searchHeight);
+    line-height: var(--searchHeight);
+    border-radius: var(--searchRadius);
+    border: var(--searchBorder);
     width: 100%;
 }
- */
+
+/* below the desktop bar the strip has no room to cap the width */
+@media screen and (max-width: 1024px) {
+    body.cl-search-exposed #search.srchCtr,
+    body.cl-search-exposed #TopBanner1_clSearch1_containerSearch {
+        max-width: none;
+    }
+}
 
 
 
@@ -576,12 +639,13 @@ body {
     
 
     .logoContainer {
-        width: 130px !important;
+        width: auto !important;
     }
 
+    /*
     .logo {
         max-width: 110px !important;
-    }
+    } */
 
     body {
         padding-top: 103px !important;
@@ -602,7 +666,11 @@ body {
         position: absolute;
         top: calc(-90px + 1.5rem);
         z-index: 1;
-        left: calc(50% - 300px);
+        /* centred by default; set --searchLeft:auto + --searchRight to pin it
+           beside the icon cluster instead. See the tokens at the top. */
+        left: var(--searchLeft);
+        right: var(--searchRight);
+        width: var(--searchWidth);
     }
 
     .wrapper.masthead .loginCtr.tbcnt.tbcntOpen {
@@ -615,7 +683,7 @@ body {
     }
 
     .menu-icons-header {
-        width: 250px;
+        width: var(--navIconsWidth);
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -676,7 +744,8 @@ body {
 /* ==================== Logo ==================== */
 
 .logoContainer {
-    width: 200px;
+    width: auto;
+    padding: 0px
 }
 
 /* ==================== CTA Bar ==================== */
@@ -887,7 +956,7 @@ body.cl-nav-over-hero .wrapper.masthead.is-scrolled {
 
     .masthead .fixed .navIcons {
         position: relative;
-        padding: 0px 10px 0px 20px;
+        padding: var(--navPadding);
     }
 
     .navIcons {

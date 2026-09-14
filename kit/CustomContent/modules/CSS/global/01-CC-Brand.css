@@ -51,22 +51,47 @@
 /* ===========================================================================
    1. TYPE ROLES
    ---------------------------------------------------------------------------
-   The three (optionally four) typographic jobs. Every rule in the kit names a
+   The four (optionally five) typographic jobs. Every rule in the kit names a
    ROLE, never a font, so a reskin repoints a role here and nothing else is
    edited. The slots themselves are declared in 02 and map to files in /font/.
 
      --font-body     running text, inputs, CTA labels
-     --font-bold     semantic headings (h1-h6) and bold UI emphasis
+     --font-heading  semantic headings only - the h1-h6 rule in 02, nothing else
+     --font-bold     bold UI emphasis: nav links, prices, stock and form labels,
+                     button text, facet headers, banner and section titles
      --font-display  the editorial face - big stripe statements, feature titles
-     --font-accent   optional fourth face; leave pointed at body if unused
+     --font-accent   optional fifth face; leave pointed at body if unused
+
+   --font-heading AND --font-bold ARE A SPLIT OF ONE OLD ROLE.
+   --font-bold used to serve both, which meant a regular-weight interface was
+   not expressible: dropping the weight took the headings with it. The h1-h6
+   rule in 02 now names --font-heading and the other 30 rules keep --font-bold,
+   so the two move independently. 02 defaults --font-heading to var(--font-bold),
+   which is byte-identical to the old behaviour, so a site whose 01 predates the
+   token needs no edit.
+
+   THIS KIT SHIPS THE SPLIT SET: --font-bold points at the BODY face, so every
+   emphasis use above renders regular, and only headings carry weight. Point
+   --font-bold back at 'citrfontbold' for the older look where labels, prices and
+   nav links are bold too.
+
+   WHAT THIS DOES NOT REACH. The platform's own stylesheets (Modules/CSS/**,
+   citr-*.css at the site root, ~186 declarations) name `citrfontreg` and
+   `citrfontbold` LITERALLY. Those rules are outside this tree and cannot be
+   repointed from here, so platform-rendered bold text - basket, checkout,
+   account pages - stays bold no matter what these tokens say. Repointing
+   --font-bold splits our typography from the platform's on purpose; on pages the
+   platform styles heavily that split is visible.
+
+   To go single-weight EVERYWHERE, including those 186 declarations, do it in the
+   assets instead: ship the regular face as font/bold.* as well as font/body.*,
+   which makes the `citrfontbold` slot itself regular. Then leave --font-bold on
+   'citrfontbold' and point --font-heading at var(--font-display), because the
+   bold slot no longer has any weight to give a heading.
 
    HARD CONSTRAINT - font/body.* and font/bold.* are NOT optional.
-   The platform's own stylesheets (Modules/CSS/**, citr-*.css at the site root,
-   ~186 declarations) name `citrfontreg` and `citrfontbold` LITERALLY. Those
-   rules are outside this tree and cannot be repointed, so both slots must
-   always contain a real font file or platform-styled text loses its face.
-   Leave these two role tokens on their matching slots; repointing them only
-   splits our typography away from the platform's.
+   Both slots must always contain a real font file, whatever the roles above say,
+   or platform-styled text loses its face entirely.
 
    `citrfontboldalt` (display) and `citrfontaccent` are ours alone - no platform
    rule names them, so those slots are genuinely optional.
@@ -76,7 +101,8 @@
    =========================================================================== */
 :root:root {
     --font-body:    'citrfontreg';
-    --font-bold:    'citrfontbold';
+    --font-heading: 'citrfontbold';
+    --font-bold:    var(--font-body);
     --font-display: 'citrfontboldalt';
     --font-accent:  var(--font-body);
 }
@@ -243,6 +269,21 @@
    =========================================================================== */
 :root:root {
 
+    /* --- Page container (defaults in 02) --------------------------------- */
+
+    /* Hold the homepage to a measure instead of running edge to edge. The
+       WRAPPER is markup, not a token: <div class="cc-container"> around the
+       stripes it should hold, in default.aspx. Default is `none`, which is the
+       edge-to-edge page every stripe is designed for, so the div does nothing
+       until you set a width here.
+
+       --container-gutter is the inset the CONTAINER carries and defaults to 0,
+       because each stripe already insets its own content by --gutter. Set it
+       only if you want the measure itself held off the viewport edge on
+       viewports narrower than --container-maxWidth. */
+    /* --container-maxWidth: 1440px; */
+    /* --container-gutter: var(--gutter); */
+
     /* --- Nav bar (defaults in 03) ---------------------------------------- */
 
     /* No accent seam under the bar. Default is a 2px brand-light rule. */
@@ -260,6 +301,24 @@
 
     /* Hide the platform CTA strip above the bar (TopSubBanner.ascx). */
     /* --ctaStrip-display: none; */
+
+    /* Expose the search input inline in the bar instead of behind the
+       magnifier toggle. The MODE is a body class, not a token: add
+       class="cl-search-exposed" to <body> in default.aspx. 03's "Search Bar
+       (Exposed)" block explains why a display token would have been unsafe.
+       Once it is on, these tune it. */
+    /* --searchMaxWidth: 600px; */
+    /* --searchHeight: 40px; */
+    /* --searchRadius: 999px; */
+    /* --searchBorder: 0; */
+    /* icon at the RIGHT end instead of the left: */
+    /* --searchPadding: 0 var(--searchHeight) 0 1.25rem; */
+    /* pin the bar beside the icon cluster instead of centring it. Set all
+       three together: an absolutely positioned box with left:auto shrink-to-
+       fits, so it needs an explicit width. */
+    /* --searchLeft: auto; */
+    /* --searchRight: calc(var(--navIconsWidth) + 1.5rem); */
+    /* --searchWidth: 20rem; */
 
     /* Brand assets are PATHS, defaulted in 03. A reskin normally just replaces
        the files under /layout/generalLyout/. Repoint only if the client's asset

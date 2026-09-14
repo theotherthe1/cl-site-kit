@@ -39,6 +39,12 @@
        - the four --navSolid-* tokens in 01 are set for the scrolled/panel-open
          state, which is what the bar changes to
 
+
+     A SECOND, INDEPENDENT OPT-IN lives on the same element:
+     class="cl-search-exposed" lays the search input out inline in the bar and
+     hides the magnifier toggle. The two are unrelated - use either, both or
+     neither. See 03, "Search Bar (Exposed)", and the --search* tokens in 01.
+
      Interior pages never carry it. -->
 <body runat="server">
     <skm:form id="form2" method="post" runat="server">
@@ -67,7 +73,30 @@
              See ../../stripes/README.md for the catalogue.
         -->
 
-        <!-- === STRIPES GO HERE === -->
+        <!-- === 1. HERO GOES HERE ===
+             Outside the container on purpose: an opening hero is normally
+             full-bleed and runs edge to edge under the nav. Paste it here. -->
+
+
+        <!-- === CONTAINED REGION - everything between the hero and the footer ==
+             .cc-container holds this run to --container-maxWidth and centres it.
+             The token is declared in 02 and DEFAULTS TO `none`, so this div does
+             nothing at all until a client sets a width in 01's switches block -
+             an edge-to-edge design can leave it exactly as it is, or delete it.
+
+             --container-gutter (also 02, default 0) is the inset the container
+             itself carries. Stripes already inset their own content by --gutter,
+             so leave it at 0 unless you want the measure held off the edge too.
+
+             To keep one stripe full-bleed inside a contained page, close this
+             div before it and open a new one after. There is no breakout class;
+             02's .cc-container comment says why. -->
+        <div class="cc-container">
+
+            <!-- === STRIPES GO HERE === -->
+
+        </div>
+        <!-- === END CONTAINED REGION === -->
 
         <%-- Scroll reveal. Adds .inView to any [data-animate] stripe as it
              enters the viewport. Keep this, and keep data-animate on each

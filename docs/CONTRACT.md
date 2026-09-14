@@ -44,7 +44,7 @@ Consequences you cannot design around:
 | File | Kind | Owns |
 |---|---|---|
 | `01-CC-Brand.css` | **CLIENT** | The reskin surface: type roles, brand values, copy, switches. Raw values only, no rules. |
-| `02-CC-Global.css` | FRAMEWORK | Font slots, derived `oklch()` ramps, the type scale, `--gutter`, section rhythm, the `.grirow*` grid, the page canvas. **Depends on 01 loading first.** |
+| `02-CC-Global.css` | FRAMEWORK | Font slots, derived `oklch()` ramps, the type scale, `--gutter`, section rhythm, the `.grirow*` grid, the page canvas, `.cc-container`, and the only heading rule in the kit (`--font-heading`; everything else that wants weight names `--font-bold`). **Depends on 01 loading first.** |
 | `03`-`08` | FRAMEWORK | Per-component structure and tokens: nav/search, banner collections, splide chrome, footer, quick look, mini basket. |
 | `home/CC-Home.css` | **CLIENT** | The homepage, assembled from `stripes/`. |
 | `detail/CC-detail.css` | FRAMEWORK | The **PDP** - product detail page template. |

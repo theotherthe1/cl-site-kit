@@ -24,7 +24,9 @@ and there is a section at the bottom about that.
 
 ## What you need before you start
 
-Get these together first. Chasing them mid-build is what makes builds slow.
+`/new-site` asks for all of these, one at a time, so you do not have to remember
+the list. But get them together first anyway - chasing them mid-interview is
+what makes builds slow.
 
 - [ ] **Colours.** About ten of them: primary, accent, sale, background, text.
       Everything else is worked out from those automatically.
@@ -41,23 +43,34 @@ Get these together first. Chasing them mid-build is what makes builds slow.
 
 # The easy way
 
-**1. Fill in the form.** Copy `brand-brief.template.md`, fill it in, save it.
-Sections 2, 3, 4 and 7 are the ones that matter. Skip the rest and defaults apply.
-
-**2. Run the command.** In the new site's folder:
+**1. Run the command.** In the new site's folder:
 
 ```
 /new-site
 ```
 
-Hand it your filled-in form. It copies the kit, sets everything up, assembles the
-homepage, writes notes for the next person, and checks its own work.
+**2. Answer the questions.** It interviews you, one question at a time, and
+writes the brief itself. There is no form to fill in. It asks the things that
+block the build first - which homepage sections, then colours, fonts, logo - and
+takes sensible defaults for everything else unless you say otherwise.
 
-**3. Do the two things it cannot.** Put the real data in the back office, and look
+If you have a Figma file, a mockup or a brand guide, give it that at the start
+and most of the interview turns into "I read this from your mockup, right?"
+
+If you would rather work on paper, `brand-brief.template.md` is the same sheet
+in form shape. Fill it in, hand it over, and it will only ask about the gaps.
+
+**3. It builds.** Copies the kit, sets everything up, assembles the homepage,
+writes notes for the next person, and checks its own work.
+
+**4. Do the two things it cannot.** Put the real data in the back office, and look
 at the site in a browser.
 
 That is it. The rest of this page is what `/new-site` is doing, in case you want to
 do it by hand or need to fix something.
+
+**First time on this machine?** `docs/PORTING.md` - clone the kit and run
+`tools\bootstrap.ps1` once, which is what puts `/new-site` on the machine at all.
 
 ---
 
@@ -207,3 +220,4 @@ There is no undo. Saving a file on the share publishes it immediately.
 | `docs/BUILD.md` | the same job as this page, in more detail |
 | `docs/CONTRACT.md` | how the whole thing works and what the platform will not let you do. Read it before doing anything unusual |
 | `docs/ADDING-A-STRIPE.md` | when a design needs a section shape the kit does not have |
+| `docs/PORTING.md` | setting the kit up on another machine, and keeping the two in step |

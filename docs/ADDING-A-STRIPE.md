@@ -46,6 +46,10 @@ section, which is what makes stripes reorderable.
   carries none at all, so the image runs flush to the nav.
 - Horizontal inset from `--gutter`. Do not retype the clamp - it was duplicated
   eight times before it was a token.
+- **Size against the parent, not the viewport.** A stripe may be sitting inside
+  `.cc-container`, which holds a run of the homepage to `--container-maxWidth`.
+  Percentages and `--gutter` measure from that container; `vw` does not, so a
+  `100vw` width or a `calc(50% - 50vw)` breakout escapes it and overflows.
 - **Chain the carousel height.** Splide's flex layout flows top-down, so a height
   on `.splide` must be passed down explicitly:
 
