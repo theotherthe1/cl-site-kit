@@ -465,7 +465,11 @@ div#modular-footer-wrapper .fixed {
     display: block;
     height: 40px;
     width: 150px;
-    background: url(/layout/generalLyout/logo.png) center center / contain no-repeat;
+    /* var(--logo), not a hardcoded path. A literal here means a site whose
+       wordmark is not at that exact filename gets someone else's mark, or
+       nothing, from a FRAMEWORK file it must not edit. Three builds have now
+       had to work around it in their client layer. */
+    background: var(--logo) center center / contain no-repeat;
     order: -1;
 }
 
