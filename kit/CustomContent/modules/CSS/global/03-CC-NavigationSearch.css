@@ -107,6 +107,15 @@
        a site that never touches them is byte-identical in behaviour to before
        the switch existed. A colour logo flips all three - see Brand Assets at
        the foot of this file. */
+    /* Width of the wordmark box. `auto` lets the platform img size it, which is
+       the old behaviour. Set a length or a clamp where that box comes out wrong
+       - image mode in particular fits the artwork to this box, so a box the
+       wrong size shows a small or letterboxed wordmark.
+
+       !important because the platform sets a width on this element and beats a
+       plain (0,1,0) rule. The mobile rule below has always done the same; this
+       makes the two breakpoints agree. */
+    --logoWidth: auto;
     --logoMask: var(--logo);
     --logoImage: none;
     --logoInk: currentColor;
@@ -594,9 +603,9 @@ body.cl-nav-over-hero:has(#search.srchCtr:focus-within) {
    The class selector is kept alongside for markup without data-link. Neither
    can reach the glyph inside the field: that is a <span class="icon-search">
    inside #search, outside .menu-icons-header, and it carries no data-link. */
-body.cl-search-exposed .menu-icons-header [data-link="search"],
-body.cl-search-exposed .menu-icons-header .icon-search {
-    display: none;
+body.cl-search-exposed .wrapper.masthead [data-link="search"],
+body.cl-search-exposed .wrapper.masthead .icon-search:not(#search .icon-search) {
+    display: none !important;
 }
 
 body.cl-search-exposed #search.srchCtr {
@@ -769,7 +778,7 @@ body {
 /* ==================== Logo ==================== */
 
 .logoContainer {
-    width: auto;
+    width: var(--logoWidth) !important;
     padding: 0px
 }
 
