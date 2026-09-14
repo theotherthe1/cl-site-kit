@@ -14,7 +14,7 @@
    does again. */
 .hp-product-rail > .faf-product-carousel {
     display: grid;
-    grid-template-columns: minmax(15rem, 1fr) 3.2fr;
+    grid-template-columns: minmax(15rem, 1fr) minmax(0, 3.2fr);
     gap: clamp(1.5rem, 3vw, 3rem);
     align-items: start;
     padding-inline: var(--gutter); /* content gutter */
@@ -181,6 +181,11 @@
 .hp-product-rail .faf-splide-container,
 .hp-product-rail .faf-splide {
     position: static;
+    /* the carousel is a grid ITEM: without this it cannot shrink below its
+       cards' min-content width and overflows the track. The matching
+       minmax(0, 3.2fr) above fixes the TRACK; this fixes the ITEM. Both are
+       needed - either alone still overflows. */
+    min-width: 0;
 }
 
 .hp-product-rail .splide__arrow {
