@@ -85,6 +85,18 @@
     /* width of the right-hand icon cluster (.menu-icons-header) on desktop */
     --navIconsWidth: 250px;
 
+    /* Space between the icons in that cluster. Defaults to 0, which is what a
+       flex row does anyway, so spacing stays whatever the platform gives its
+       icons until a site says otherwise. */
+    --navIconsGap: 0;
+
+    /* Vertical placement of the exposed bar on desktop. #search is absolutely
+       positioned and this offset is measured from its positioned ancestor, not
+       from the bar, so there is no formula that centres it - it is a value to
+       nudge until the field lines up with the icon cluster beside it. The
+       default is the long-standing literal. */
+    --searchTop: calc(-90px + 1.5rem);
+
     /* Masked brand assets -- see the Brand Assets section at the foot of this
        file. These are PATHS, deliberately defaulted rather than left unset: a
        reskin replaces the FILES at these paths, exactly as it does with the
@@ -667,6 +679,7 @@ body {
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        gap: var(--navIconsGap);
     }
     }
 
@@ -698,7 +711,7 @@ body {
 @media screen and (min-width: 1024px) {
     #search {
         position: absolute;
-        top: calc(-90px + 1.5rem);
+        top: var(--searchTop);
         z-index: 1;
         /* centred by default; set --searchLeft:auto + --searchRight to pin it
            beside the icon cluster instead. See the tokens at the top. */
@@ -721,6 +734,7 @@ body {
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        gap: var(--navIconsGap);
     }
 
     #navi {
