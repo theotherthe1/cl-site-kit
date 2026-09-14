@@ -42,6 +42,12 @@
                                  .ctaContainer keeps its own flex layout for
                                  whenever the strip IS shown. */
     --navBorderBottom: 2px solid var(--brand-link-light);
+    /* Nav link FACE. Defaults to the body face, which is what these inherited
+       before the token existed on every site whose platform rules do not name
+       one. Point it at --font-bold or --font-accent for a nav in a different
+       voice from body copy. It exists because a site that needed this had no
+       way to ask for it except by hardcoding a face name into this file. */
+    --navItemsFontFamily: var(--font-body);
     --navItemsLetterSpacing: normal;
     --navItemsTextTransform: none;
     --navUnderline-display: block;
@@ -283,6 +289,7 @@ body.cl-nav-over-hero:has(#search.srchCtr:focus-within) {
     color: var(--navLinks);
     padding: 0;
     font-size: var(--nav-fontSize);
+    font-family: var(--navItemsFontFamily);
     letter-spacing: var(--navItemsLetterSpacing);
     text-transform: var(--navItemsTextTransform);
 }
@@ -578,7 +585,17 @@ body.cl-nav-over-hero:has(#search.srchCtr:focus-within) {
    Solid State block, which re-points colour tokens rather than layout.
    ============================================================================ */
 
-body.cl-search-exposed .menu-icons-header > .icon-search {
+/* The platform toggle, hidden because the field is now in the bar. Keyed on
+   data-link at ANY depth: this was `.menu-icons-header > .icon-search`, which
+   assumed the toggle is a direct child of the cluster. Sites that nest it one
+   level deeper kept a second magnifier sitting beside the field. data-link is
+   what the rest of this file keys icons on, and it states the toggle's JOB.
+
+   The class selector is kept alongside for markup without data-link. Neither
+   can reach the glyph inside the field: that is a <span class="icon-search">
+   inside #search, outside .menu-icons-header, and it carries no data-link. */
+body.cl-search-exposed .menu-icons-header [data-link="search"],
+body.cl-search-exposed .menu-icons-header .icon-search {
     display: none;
 }
 
