@@ -1053,6 +1053,18 @@ body.cl-nav-over-hero .wrapper.masthead.is-scrolled {
     background-color: var(--logoInk);
 }
 
+/* The platform emits an <img> inside this container on some sites and an empty
+   <a> on others. In MASK mode it is clipped to the wordmark silhouette and lost
+   under the currentColor fill, so it has never mattered. In IMAGE mode nothing
+   clips it and it paints OVER --logoImage, ghosting it - which is what a
+   half-masked-looking wordmark actually is.
+
+   visibility, not display: on sites where the img is what gives the container
+   its box, removing it from flow would collapse the wordmark entirely. */
+.logoContainer img {
+    visibility: hidden;
+}
+
 /* .logoContainer has no colour of its own -- the masthead only paints
    --navLinks onto the nav anchors -- so give it the nav's full-strength ink.
    This is the ONE knob: change `color` here and the wordmark follows, over a

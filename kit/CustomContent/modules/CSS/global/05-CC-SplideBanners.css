@@ -13,6 +13,25 @@
     --splideArrowHoverOpacity: 1;
     --splideArrowHoverScale: 1.1;
 
+    /* Arrow shape and GLYPH. --splideArrowRadius defaults to the global radius so
+       arrows follow the site's corner decision; 50% makes them circular
+       independently of it.
+
+       The glyph is OPT-IN and off by default: --splideArrowGlyphContent stays
+       `none`, so no pseudo-element is generated and Splide's own SVG shows,
+       exactly as before this existed. To supply a custom arrow set all four -
+       the content token generates the box, the glyph masks it, the size scales
+       it, and the svg opacity retires Splide's own.
+
+       Masked rather than painted, so the glyph takes --splideArrowColor and
+       follows every hover state for free. ONE asset serves both directions:
+       --prev mirrors the same file. */
+    --splideArrowRadius: var(--global-radius);
+    --splideArrowGlyphContent: none;
+    --splideArrowGlyph: none;
+    --splideArrowGlyphSize: 45%;
+    --splideArrowSvgOpacity: 1;
+
     /* Pagination marker SHAPE. The defaults are dots: a square-ish 8px marker
        that widens when active. Set width/height/radius to get dashes
        (e.g. 1.5rem x 2px, radius 0) or bars, without touching a rule. */
@@ -68,7 +87,7 @@
     background: var(--splideArrowBg);
     color: var(--splideArrowColor);
     border: 0;
-    border-radius: var(--global-radius);
+    border-radius: var(--splideArrowRadius);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -88,6 +107,22 @@
     width: 1.5em;
     height: 1.5em;
     fill: currentColor;
+    opacity: var(--splideArrowSvgOpacity);
+}
+
+/* Custom glyph. Inert while --splideArrowGlyphContent is `none`: content:none
+   generates no pseudo-element at all, so Splide's SVG is untouched. */
+[data-splide-opts] .splide__arrow::before {
+    content: var(--splideArrowGlyphContent);
+    position: absolute;
+    inset: 0;
+    background-color: currentColor;
+    -webkit-mask: var(--splideArrowGlyph) center / var(--splideArrowGlyphSize) no-repeat;
+            mask: var(--splideArrowGlyph) center / var(--splideArrowGlyphSize) no-repeat;
+}
+
+[data-splide-opts] .splide__arrow--prev::before {
+    transform: scaleX(-1);
 }
 
 [data-splide-opts] .splide__arrow--prev { left: var(--bannerPadding); }
