@@ -85,6 +85,12 @@
     /* width of the right-hand icon cluster (.menu-icons-header) on desktop */
     --navIconsWidth: 250px;
 
+    /* total bar height under cl-nav-2row (see below) - row 1 (logo/search/
+       icons) plus row 2 (nav links) plus breathing room. Token-driven rather
+       than a hardcoded literal so a taller logo/link set can be accommodated
+       per brand, same convention as --heroHeight. */
+    --nav2RowHeight: 132px;
+
     /* Space between the icons in that cluster. Defaults to 0, which is what a
        flex row does anyway, so spacing stays whatever the platform gives its
        icons until a site says otherwise. */
@@ -662,6 +668,102 @@ body.cl-search-exposed .srchCtr.tbcnt .searchBoxForm:focus {
     body.cl-search-exposed #search.srchCtr,
     body.cl-search-exposed #TopBanner1_clSearch1_containerSearch {
         max-width: none;
+    }
+}
+
+/* ==================== Nav 2-Row (Search exposed, links on row 2) ====================
+   OPT-IN, off by default, DESKTOP ONLY. Always paired with cl-search-exposed
+   (add both classes to <body>) - this block only handles the row split, it
+   relies on cl-search-exposed above to keep #search visible and in normal
+   flow (that block already neutralises #search's own position:absolute at
+   min-width:1024px, since body.cl-search-exposed #search.srchCtr's
+   display:flex + higher specificity wins over it).
+
+   Mechanism: .navIcons (logo/nav-links/icon-cluster) and .menuOptions
+   (search/login/basket panels) are SIBLING <div>s under one shared .col-1
+   parent. Nothing in this file keys off .menuOptions as a box (only its
+   children's ids/classes are ever targeted), so giving both wrappers
+   display:contents is safe - it flattens their children into one shared
+   layout context, letting a single grid on that shared .col-1 place logo,
+   search, icons and nav-links together without moving any markup.
+
+   SELECTOR NOTE: .navIcons and .menuOptions both also carry the generic
+   .col-1 class themselves (col-1 is reused everywhere as a layout primitive),
+   so the grid rule below targets the OUTER .col-1 via a child combinator
+   from .container - a plain descendant selector would also match .navIcons/
+   .menuOptions and, by specificity, could beat the display:contents rules.
+
+   Both display:contents overrides are themselves scoped through
+   .wrapper.masthead, not just body.cl-nav-2row - .navIcons already has a
+   real rule elsewhere in this file (".wrapper.masthead .navIcons { display:
+   flex; ... }", three classes) that otherwise wins on specificity alone
+   regardless of source order, silently keeping it flex and breaking every
+   grid-area placement inside it (this shipped broken once already - the
+   whole row collapsed back to one line with nav-links absent, because
+   .logoContainer/.menu-icons-header never became real grid items). Matching
+   that rule's own three-class shape here (.wrapper.masthead + .navIcons,
+   plus body.cl-nav-2row) is what actually beats it. */
+@media screen and (min-width: 1024px) {
+    body.cl-nav-2row .wrapper.masthead .container > .col-1 {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas:
+            "logo search icons"
+            "links links links";
+        align-items: center;
+        /* .navIcons normally supplies this padding + ink colour itself;
+           both are lost once it becomes display:contents, so restated here */
+        padding: var(--navPadding);
+        color: var(--navIcons);
+    }
+
+    body.cl-nav-2row .wrapper.masthead .navIcons,
+    body.cl-nav-2row .wrapper.masthead .menuOptions {
+        display: contents;
+    }
+
+    body.cl-nav-2row .logoContainer {
+        grid-area: logo;
+    }
+
+    body.cl-nav-2row #search.srchCtr {
+        /* #search is `position: absolute` unconditionally on desktop (the
+           plain cl-search-exposed block above, id selector) so its
+           containing block is .wrapper.masthead (position: fixed) rather
+           than this grid - grid-area is a no-op on an abspos item whose
+           containing block isn't the grid itself, which is exactly why this
+           shipped floating off the top of the bar (a negative computed y)
+           instead of sitting in its cell. Back to a real in-flow grid item;
+           --searchTop/Left/Right/Width (the plain exposed-search block's own
+           placement knobs) simply don't apply once this class is on. */
+        position: static;
+        grid-area: search;
+        justify-self: center;
+    }
+
+    /* login/basket are triggered popovers anchored to the icon cluster, not
+       persistent bar content - they share its cell rather than needing a
+       placement of their own */
+    body.cl-nav-2row .menu-icons-header,
+    body.cl-nav-2row #login.loginCtr,
+    body.cl-nav-2row #basket.basketCtr {
+        grid-area: icons;
+    }
+
+    body.cl-nav-2row #navi.ctrNavigation {
+        grid-area: links;
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* --nav2RowHeight replaces the plain framework's 115px single-row height
+       (set unconditionally above) with room for both rows */
+    body.cl-nav-2row .wrapper.masthead {
+        height: var(--nav2RowHeight);
+    }
+
+    body.cl-nav-2row {
+        padding-top: var(--nav2RowHeight) !important;
     }
 }
 
