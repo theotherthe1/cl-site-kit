@@ -15,7 +15,8 @@ machine, that is the bug - move it in here rather than copying it across.
 | | Where it lives | Travels how |
 |---|---|---|
 | the kit tree, stripes, docs, tools | this repo | `git clone` |
-| the `/new-site` skill | `.claude/skills/` in this repo | `git clone`, then `bootstrap.ps1` installs it for use outside the kit folder |
+| the skills (`/new-site`, `/figma-stripe`) | `.claude/skills/` in this repo | `git clone`, then `bootstrap.ps1` installs them for use outside the kit folder |
+| `figma-bundle.template.md` | this repo, at the root | `git clone` |
 | the operating manual | `CLAUDE.md` in this repo | loaded automatically when Claude Code starts in the kit |
 | filled briefs | `briefs/` in this repo | `git clone`, and commit new ones |
 | which site is on which commit | `SITES.md` in this repo | `git clone`, and stamp it after every push |

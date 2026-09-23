@@ -210,6 +210,8 @@ stylesheets. Reach for specificity scoping first.
 | `docs/EVOLVING-THE-KIT.md` | upstreaming improvements, pushing to built sites |
 | `docs/PORTING.md` | setting up another machine, and keeping the two in step |
 | `.claude/skills/new-site/INTERVIEW.md` | how `/new-site` conducts the intake |
+| `.claude/skills/figma-stripe/SKILL.md` | building one stripe with fidelity from a Figma frame |
+| `figma-bundle.template.md` | what to pull out of Figma Dev Mode before running `/figma-stripe` |
 | `briefs/` | one filled brief per built site |
 | `docs/QA-CHECKLIST.md` | what to check in a browser |
 | `MANIFEST.md` | which files are which kind |
