@@ -1,0 +1,232 @@
+/* ==== N. hp-split-panel - a vertical stack of image|text panels, each a
+        genuine side-by-side FLEX split (not a grid): .cc-banner__body is a
+        normal-flow flex sibling of .cc-banner__img, not stacked on top of it
+        the way an overlaid banner is. With more than one CMS entry the image
+        side alternates down the stack - entry 1 takes one side, entry 2 the
+        other, entry 3 back again.
+
+        The stripe is count-agnostic: at bannerLimit="1" it renders as a
+        single split panel, and every additional entry extends the stack and
+        continues the alternation (band N). ==== */
+
+.hp-split-panel {
+    padding-block: var(--section-padding-sm);
+}
+
+/* the collection IS the stack - a single column, panels separated by
+   row-gap (Atlas's "Row gap" field on this stripe overrides this value
+   directly - see server/assemble.js's buildItemGapCss). minmax(0, 1fr)
+   rather than the implicit auto track a bare `display: grid` would give, so
+   a wide image can never push the column past the container measure. */
+.hp-split-panel > .cc-collection {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2rem;
+}
+
+/* each panel is a plain flex row, not a grid - image and body are ordinary
+   flex siblings sized by flex-basis (see the shape axis below), so there is
+   no auto-placement to fight. Base look = image right: .cc-banner__img is
+   always first in the real DOM (see server/data/mock/banner-item.html), so
+   row-reverse puts it on the right without placing either side explicitly. */
+.hp-split-panel > .cc-collection .cc-banner {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: stretch;
+}
+
+.hp-split-panel > .cc-collection .cc-banner__img,
+.hp-split-panel > .cc-collection .cc-banner__body {
+    min-width: 0;
+}
+
+.hp-split-panel > .cc-collection .cc-banner__img {
+    flex: 1 1 0;
+}
+
+.hp-split-panel > .cc-collection .cc-banner__img,
+.hp-split-panel > .cc-collection .cc-banner__img img {
+    aspect-ratio: 4 / 3;
+    height: 100%;
+}
+
+/* the body sits beside the image, not on top of it - static positioning and
+   a solid brand panel, never the gradient every overlaid banner uses */
+.hp-split-panel > .cc-collection .cc-banner__body {
+    flex: 1 1 0;
+    position: static;
+    inset: auto;
+    justify-content: flex-end;
+    align-items: flex-start;
+    text-align: left;
+    gap: var(--text-block-wrap);
+    padding: clamp(2rem, 4vw, 4rem);
+    background: var(--brand-dark);
+}
+
+.hp-split-panel > .cc-collection .cc-banner__title {
+    font-family: var(--font-display);
+    font-size: var(--fontSize-2xl);
+    line-height: 1.15;
+    letter-spacing: 0.015em;
+    color: var(--bannerText);
+    max-width: 20ch;
+}
+
+.hp-split-panel > .cc-collection .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.9;
+    max-width: 34ch;
+}
+
+/* PRIMARY CTA - ghost, white variant; the text panel is always the dark
+   side regardless of which side the image lands on */
+.hp-split-panel > .cc-collection .cc-banner__cta {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--text-inverse);
+    border-radius: var(--global-radius);
+    color: var(--text-inverse);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-split-panel > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: var(--text-inverse);
+    border-color: var(--text-inverse);
+    box-shadow: none;
+    color: var(--brand-dark);
+}
+
+/* ==== Styling axes: shape + imageSide + position + spacing ====
+   Base (no modifier class) = split-50-50 + image-right + bottomLeft +
+   comfortable, i.e. the rules above, untouched. ==== */
+
+/* shape - a fixed width ratio between the two flex halves, independent of
+   imageSide: which content ends up in the 30% vs 70% half depends on
+   whichever side the image modifier below puts it on, since flex-basis
+   doesn't care which visual side it renders. `split-50-50` restates the base
+   rule so picking it is never a silent no-op (same convention as
+   split-feature). */
+.hp-split-panel--split-50-50 > .cc-collection .cc-banner__img,
+.hp-split-panel--split-50-50 > .cc-collection .cc-banner__body {
+    flex: 1 1 0;
+}
+
+.hp-split-panel--split-30-70 > .cc-collection .cc-banner__img {
+    flex: 0 0 30%;
+}
+
+.hp-split-panel--split-30-70 > .cc-collection .cc-banner__body {
+    flex: 1 1 70%;
+}
+
+/* imageSide - sets the PHASE rather than a fixed side: it says which side
+   entry 1 takes, and `:nth-child(even)` alternates every entry after it.
+   Base (no modifier class) = image right (row-reverse, set above); `left`
+   flips entry 1's flex-direction to a normal row, putting the DOM-first
+   image on the left instead.
+
+   `:nth-child(even)` counts rendered banners, not DisplayOrder, which is
+   what we want: BannerCollectionDisplayGrid.ascx skips an entry with no
+   ImagePath entirely, so a gap in the collection shifts the alternation to
+   stay visually correct instead of inverting everything below it.
+
+   The image-left + nth-child(even) rule below deliberately compounds both
+   classes (0,5,0) against the plain nth-child(even) rule's (0,4,0) and the
+   plain image-left rule's (0,4,0) - it has to win over both regardless of
+   source order, the same reasoning split-panel's own `left` value has
+   always needed (see split-feature's own `left` value for the precedent). */
+.hp-split-panel--image-left > .cc-collection .cc-banner {
+    flex-direction: row;
+}
+
+.hp-split-panel > .cc-collection .cc-banner:nth-child(even) {
+    flex-direction: row;
+}
+
+.hp-split-panel.hp-split-panel--image-left > .cc-collection .cc-banner:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+/* position - title/desc/CTA orientation within the text panel, same 6
+   values and mechanism as hero-fade's own position axis: justify-content is
+   the vertical axis, align-items/text-align the horizontal one (.text-wrap
+   inherits align-items from .cc-banner__body, same as hero-fade's
+   .text-wrap). Base (no modifier class) = bottomLeft, the rule above. */
+.hp-split-panel--topLeft > .cc-collection .cc-banner__body {
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.hp-split-panel--centreLeft > .cc-collection .cc-banner__body {
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.hp-split-panel--centreCentre > .cc-collection .cc-banner__body {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.hp-split-panel--bottomCentre > .cc-collection .cc-banner__body {
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+}
+
+.hp-split-panel--bottomRight > .cc-collection .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: right;
+}
+
+/* spacing - the text panel's own padding only. Panel width is the shape
+   axis's job; the gap BETWEEN stacked panels is the "Row gap" field on
+   .cc-collection above, not this axis - split-panel can have both a padding
+   preference and a stack-gap preference at once. */
+.hp-split-panel--compact > .cc-collection .cc-banner__body {
+    padding: clamp(1.25rem, 2vw, 2rem);
+}
+
+.hp-split-panel--spacious > .cc-collection .cc-banner__body {
+    padding: clamp(2.25rem, 4vw, 4.5rem);
+}
+
+@media (max-width: 900px) {
+    /* every phase collapses to one column - image on top (it's always first
+       in the DOM), text underneath, regardless of which side it sat on at
+       desktop. Placed at the END of the file, after every axis rule above,
+       on purpose: the imageSide + nth-child(even) combination just above is
+       deliberately the most specific rule in this file (see that section's
+       own comment), so a reset declared BEFORE it would tie on specificity
+       and lose to it by source order, silently failing to stack on a phone
+       for every even-numbered panel. All four desktop selectors are repeated
+       verbatim here (rather than relying on one lower-specificity reset) so
+       each one ties with its own desktop counterpart and wins only by
+       coming later. */
+    .hp-split-panel > .cc-collection .cc-banner,
+    .hp-split-panel > .cc-collection .cc-banner:nth-child(even),
+    .hp-split-panel.hp-split-panel--image-left > .cc-collection .cc-banner,
+    .hp-split-panel.hp-split-panel--image-left > .cc-collection .cc-banner:nth-child(even) {
+        flex-direction: column;
+    }
+
+    .hp-split-panel > .cc-collection .cc-banner__img,
+    .hp-split-panel > .cc-collection .cc-banner__img img {
+        height: auto;
+    }
+}

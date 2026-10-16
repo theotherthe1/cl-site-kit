@@ -2,35 +2,32 @@
 
 /* Splide Tokens */
 :root {
-    --splideArrowSize: 2.75rem;
-    --splideArrowBg: transparent;
+    /* Default arrow: 39px disc on the page background, thin chevron in the
+       text colour, hover dims without a bounce. Set --splideArrowHoverScale
+       above 1 to bring the bounce back. */
+    --splideArrowSize: 39px;
+    --splideArrowBg: var(--background);
     --splideArrowColor: var(--text);
-    --splideArrowHoverBg: transparent;
+    --splideArrowHoverBg: var(--background);
+    --splideArrowHoverColor: var(--text);
+    --splideArrowHoverOpacity: 0.75;
+    --splideArrowHoverScale: 1;
 
-    /* Arrow hover personality. Set --splideArrowHoverScale to 1 for a house
-       style with no bounce; the arrow then only changes colour/opacity. */
-    --splideArrowHoverColor: var(--text-inverse);
-    --splideArrowHoverOpacity: 1;
-    --splideArrowHoverScale: 1.1;
+    /* Arrow shape and GLYPH. The disc is circular regardless of
+       --global-radius; set --splideArrowRadius: var(--global-radius) to have
+       arrows follow the site's corner decision instead.
 
-    /* Arrow shape and GLYPH. --splideArrowRadius defaults to the global radius so
-       arrows follow the site's corner decision; 50% makes them circular
-       independently of it.
-
-       The glyph is OPT-IN and off by default: --splideArrowGlyphContent stays
-       `none`, so no pseudo-element is generated and Splide's own SVG shows,
-       exactly as before this existed. To supply a custom arrow set all four -
-       the content token generates the box, the glyph masks it, the size scales
-       it, and the svg opacity retires Splide's own.
-
-       Masked rather than painted, so the glyph takes --splideArrowColor and
-       follows every hover state for free. ONE asset serves both directions:
-       --prev mirrors the same file. */
-    --splideArrowRadius: var(--global-radius);
-    --splideArrowGlyphContent: none;
-    --splideArrowGlyph: none;
-    --splideArrowGlyphSize: 45%;
-    --splideArrowSvgOpacity: 1;
+       The glyph is the arrow SVG written inline as a data URI: a referenced
+       .svg file does not display on iPhone, so keep any replacement inline
+       too. It is masked so it takes --splideArrowColor and follows every hover
+       state for free. ONE glyph serves both directions: --prev mirrors it. It
+       keeps its full 39 viewBox, hence 100%. To fall back to Splide's own SVG,
+       set --splideArrowGlyphContent: none and --splideArrowSvgOpacity: 1. */
+    --splideArrowRadius: 50%;
+    --splideArrowGlyphContent: "";
+    --splideArrowGlyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='39' height='39' viewBox='0 0 39 39' fill='none'%3E%3Cpath d='M14 19H25M19.8235 24L25 19L19.8235 14' stroke='%23000'/%3E%3C/svg%3E");
+    --splideArrowGlyphSize: 100%;
+    --splideArrowSvgOpacity: 0;
 
     /* Pagination marker SHAPE. The defaults are dots: a square-ish 8px marker
        that widens when active. Set width/height/radius to get dashes

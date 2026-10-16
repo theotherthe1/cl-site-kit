@@ -210,7 +210,7 @@ row. The relevant switches are `--searchMaxWidth`, `--searchHeight`,
 
 | # | Stripe | Back-office id | Entries | Notes |
 |---|---|---|---|---|
-| 1 | `hero-fade`, retuned | `bannerid="1"` **(unconfirmed)** | 3-5 | Split stage rather than full-bleed: copy mid-left on the black field, photo right inside an angled polygon crop. Same control and the same hooks, so the crop and the stage geometry are client chrome, not a new anatomy. Arrows sit at the outer edges; no pagination visible. |
+| 1 | `hero-fade`, retuned | `bannerid="1"` **(unconfirmed)** | 3-5 | Split stage rather than full-bleed: copy mid-left on the black field, photo right inside a **tyre-tread stamp** (an alpha-PNG mask, `layout/generalLyout/hero-mask.png`). Same control and the same hooks, so the mask and the stage geometry are client chrome, not a new anatomy. Arrows are a **pair at the bottom left**, inside the copy column; no pagination visible. **Below 900px the stage STACKS** - copy above, photo below, stamp retained. |
 | 2 | `statement` | none - reads `HomePageText` | - | Exact library match. |
 | 3 | **NEW** `hp-panel-rail` | `bannerid="2"` **and** `repeaterid="1"` **(both unconfirmed)** | 1 banner + 6 products | Composite, and the reason it is new: the left panel photo comes from a **1-entry banner collection**, while the panel copy and its CTA come from the **FAF repeater** (`repeaterTitle` / `repeaterDesc` / the view-more link), same as `product-rail`. The rail itself is `product-rail` retuned from a carousel to a 2-column by 3-row grid - that swap is free, both control variants emit identical hooks. |
 | 4 | `hp-cards-4` - `panels-3`, retuned | `bannerid="3"` **(unconfirmed)** | **5** - entry 1 is the "SERVICES" heading, entries 2-5 are the cards | Four cards in a 2x2 rather than a 3-up row, and card anatomy rather than full-bleed gradient panels: a landscape crop on a raised grey tile, title, one line of body, yellow pill CTA at the card's right. Count and anatomy only, so it is a retune, and it carries over Riverside's entry-1-is-the-heading device. **Renamed off `hp-panels-3`** because that name states a count this band no longer has. Entry 1 still needs a non-empty `ImagePath` or the heading renders nothing at all. |
@@ -232,9 +232,10 @@ Not in this design and therefore not used: `logo-strip`, `icon-strip`,
 
 | Decision | This client |
 |---|---|
-| Pagination markers | **none on the hero** - `"pagination": false` in the hero's `data-splide-opts` JSON, since the frame shows arrows at the outer edges and no markers at all. Options belong in markup, so this costs no stylesheet rule and the kit's marker geometry tokens stay on their defaults for any later carousel. |
-| Arrow hover | framework default (scale bounce). Not readable from a static frame. |
-| Arrow shape | circles at the outer left and right edges of the stage (`8005:1345`, `8005:1344`: 50x50 frames holding a 15x15 glyph) - geometry for the `hero-fade` retune rather than a switch. |
+| Pagination markers | **none on the hero** - `"pagination": false` in the hero's `data-splide-opts` JSON, since the frame shows arrows and no markers at all. Options belong in markup, so this costs no stylesheet rule and the kit's marker geometry tokens stay on their defaults for any later carousel. |
+| Arrow hover | framework default is a scale bounce; **overridden to hold geometry**, per the hover-reset law. 05's hover restates `transform` as `translateY(-50%) scale(...)`, which would re-apply the centring offset the bottom-left placement clears and make the pair jump. |
+| Arrow shape | circles (`8005:1345`, `8005:1344`: 50x50 frames holding a 15x15 glyph) - geometry for the `hero-fade` retune rather than a switch. |
+| Arrow placement | **a PAIR at the BOTTOM LEFT of the stage**, under the CTA, reading as the foot of the copy column. **CORRECTED 2026-09-17.** This line previously read "circles at the outer left and right edges of the stage", and the build followed it: `--prev` at `left`, `--next` at `right`, both `top: 50%`. That is wrong against the frame, which shows both circles side by side at the bottom left in every crop. Nothing had ever been rendered, so nothing caught it. `--prev` now shares the copy column's own inset clamp so the pair lines up under the text. |
 
 ---
 
@@ -346,13 +347,17 @@ happens:**
 
 1. **Button labels are Apfel Grotezk Mittel, not Work Sans SemiBold** - the face
    was not in the supplied pack. Affects every CTA label.
-2. **The hero's angled crop is an approximation**, a 7-vertex `polygon()` in
-   percentages of the stage rather than a trace of the design's vector. A
-   `path()` is in user units and would drift at every viewport width.
+2. ~~**The hero's angled crop is an approximation**, a 7-vertex `polygon()`.~~
+   **RETIRED 2026-09-17.** The polygon has been replaced by the design's actual
+   artwork as an alpha-PNG mask - see "The hero's tread stamp" below. A polygon
+   could never have closed this gap: the shape's detached flecks are islands,
+   and `polygon()` describes exactly one closed ring.
 3. **The hero photograph does not overhang into the white band below**, as it
    does in the frame. Reproducing that needs the hero to overflow the next
    stripe, which on a full-bleed carousel risks a horizontal scrollbar and
-   breaks the slide box.
+   breaks the slide box. **Still true after the mask went in** - and now cheaper
+   to revisit if wanted, since the photo box is a grid area with a stated bottom
+   inset rather than a vertex in a polygon.
 4. **Stripe 5 carries a soft veil under its copy**; the design has none. White
    copy set straight onto a photograph works for the image the mockup happens to
    show and fails for any lighter one the client uploads later.
@@ -370,11 +375,49 @@ e-Rides does), matching the compound selector, and sizing the empty anchor
 explicitly - our `03` overrides the platform's container width with `auto`, so
 the masked box could otherwise collapse. Full account in the site's `CLAUDE.md`.
 
+**The hero's tread stamp (added 2026-09-17, replacing the polygon).** The design
+masks the hero photograph with a tyre-tread frame - ragged on all four sides,
+with detached flecks well inside the edge. It ships as
+`layout/generalLyout/hero-mask.png`, 1800x1127, an alpha PNG.
+
+- **Why a raster.** `polygon()` cannot express islands, which are most of the
+  shape's character. Tracing grunge to SVG runs heavier than the raster and adds
+  error at every fleck. And an SVG is a *text* asset, so on this host it is
+  exposed to the stale gzip cache; a PNG is not.
+- **The supplied export needed processing.** It arrived 2384x1620 with the shape
+  in both luminance and alpha. It was cropped to its alpha bounding box, its RGB
+  channels flattened to white (they carried a duplicate of the grunge that
+  nothing reads), and its alpha quantised to five levels. 720KB -> 99KB, with the
+  `A=255` pixel count unchanged. Five levels is visually identical to 256 on an
+  edge the browser resamples anyway.
+- **Cropping to the bbox is the load-bearing trick.** The mask's edges are then
+  the photo box's edges, so there is no second set of inset numbers that can
+  drift from the artwork.
+- **The stage became a real grid** - two columns, three rows - which the previous
+  build explicitly warned against. That warning was correct *for a polygon*,
+  whose vertices were proportions of the whole stage; the stamp has no such
+  coupling. See the comment in `CC-Home.css`, which explains the reversal.
+- **`--skin-heroMaskLeft` is load-bearing twice**: the seam, and the cap on the
+  copy column. The polygon reached its leftmost vertex only at 53% of the stage
+  height; the stamp reaches its leftmost bound at *every* height, so CMS copy
+  that was previously safe could now run under the flecks.
+- **The three placement percentages are eyeballed off the frame**, not measured
+  from the Figma node - the MCP was rate-limited. They are the first thing to
+  retune if the composition looks off.
+
 **One promotion candidate, deliberately not promoted:** a `--logoColor` token in
 `03`, defaulting to `var(--navLinks-hover)`. This design needs a yellow wordmark
 against white nav links and one token cannot carry both inks, so it is a rule in
 `99` for now. Riverside and Jesse's both take the default, so this is the first
 occurrence and the kit promotes on the second.
+
+**A second promotion candidate, also not promoted:** the hero's **stacked mobile
+anatomy** - copy row above, photo row below, at fixed proportions rather than
+content-sized. The fixed proportions are the non-obvious part: the hero is a
+fade carousel whose copy comes from the CMS, so a content-sized copy row gives
+every slide a different photo height, and fade cross-dissolves in place, so you
+would watch the photograph resize on every rotation. That reasoning generalises
+to any stacked carousel stripe. First occurrence, so it stays in `CC-Home.css`.
 
 **Two new stripes, neither extracted:** `hp-panel-rail` and
 `hp-overlay-feature`. Nothing enters `stripes/` unproven, and neither has been
@@ -391,6 +434,6 @@ rendered.
   does not draw a footer, so nothing was invented. The token set for a dark
   footer is listed in `99`, including the social-icon filter that would need
   inverting.
-- **nothing has been rendered in a browser.** Lint cannot see whether the hero
-  clip, the `display: contents` composition in stripe 3, or the exposed-search
-  geometry behave as intended.
+- **stripes 2-5 have still never been rendered.** Lint cannot see whether the
+  `display: contents` composition in stripe 3 behaves as intended. **Stripe 1 and
+  the masthead HAVE now been rendered and measured** - see `CLAUDE.md`.

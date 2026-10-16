@@ -1,0 +1,170 @@
+/* ==== N. hp-panel-grid-carousel - full-bleed panel carousel, bottom-up
+        gradient, serif white title + ghost CTA bottom-left per panel (band 03
+        anatomy). Carousel sibling of panel-grid: same visual treatment,
+        Splide-driven instead of a fixed grid, so the total panel count and
+        the number visible at once on desktop (supportsCarouselPerView) can
+        differ and don't have to divide the viewport evenly - see
+        panels-carousel, which this mirrors. ==== */
+
+.hp-panel-grid-carousel {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-panel-grid-carousel > .cc-collection {
+    padding: 0; /* deliberate full-bleed, matches panel-grid */
+}
+
+/* Height chain, required - 04-CC-BannerCollections.css forces
+   `aspect-ratio: unset; height: 100%` on any .cc-banner__img img sitting
+   inside a Splide slide, so a panel here can't size itself off the image's
+   own aspect ratio; it inherits an explicit stage height instead, same
+   requirement as hero-fade/panels-carousel. --cardHeight (see panel-grid's
+   own --cardHeight comment) overrides this clamp with a fixed value when
+   set - unset falls back to the clamp itself, since var()'s fallback can be
+   any valid value for the property, clamp() included. */
+.hp-panel-grid-carousel .splide {
+    height: var(--cardHeight, clamp(20rem, 41vw, 34rem));
+}
+
+.hp-panel-grid-carousel .splide__track,
+.hp-panel-grid-carousel .splide__list,
+.hp-panel-grid-carousel .splide__slide {
+    height: 100%;
+}
+
+/* bottom-up gradient only where the text lives - the upper frame stays clean */
+.hp-panel-grid-carousel .splide__slide .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 2.8vw, 2.5rem);
+    background: linear-gradient(
+        to top,
+        var(--black-50) 0%,
+        transparent 45%
+    );
+    transition: background 0.6s ease;
+}
+
+.hp-panel-grid-carousel .splide__slide .cc-banner__title {
+    font-family: var(--font-display);
+    font-size: var(--fontSize-2xl);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    color: var(--bannerText);
+    max-width: 16ch;
+}
+
+.hp-panel-grid-carousel .splide__slide .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.9;
+    max-width: 34ch;
+}
+
+/* PRIMARY CTA - ghost, white variant (photo band) */
+.hp-panel-grid-carousel .splide__slide .cc-banner__cta {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--text-inverse);
+    border-radius: var(--global-radius);
+    color: var(--text-inverse);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-panel-grid-carousel .splide__slide .cc-banner:hover .cc-banner__cta {
+    background: var(--background);
+    border-color: var(--background);
+    box-shadow: none;
+    color: var(--text);
+}
+
+/* hover: overlay tint deepens + the platform's gentle image scale -
+   never the zoom alone */
+.hp-panel-grid-carousel .splide__slide .cc-banner:hover .cc-banner__body {
+    background: linear-gradient(
+        to top,
+        var(--black-80) 0%,
+        transparent 55%
+    );
+}
+
+/* chrome reconciliation: dashes sit inside the track's own bottom padding
+   rather than overlapping panel text (panels have no reserved gutter the way
+   hero-fade's single frame does), so pagination floats below the stage
+   instead of over it */
+.hp-panel-grid-carousel .splide__pagination {
+    position: static;
+    transform: none;
+    margin-top: 1rem;
+    justify-content: center;
+    width: auto;
+}
+
+/* ==== Styling axes: layout modifier ====
+   Base (no modifier class) = overlay, i.e. the gradient + white text laid
+   over the photo via the rules above, untouched. `below` moves title +
+   description + CTA into normal flow under the image - same intent as
+   panel-grid's own --below variant, but the slide's fixed height chain above
+   means the image can't just keep filling 100% of it: .cc-banner becomes a
+   flex column so the image and the text body genuinely share that fixed
+   height instead of the body overflowing past it. */
+
+.hp-panel-grid-carousel--below .splide__slide .cc-banner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.hp-panel-grid-carousel--below .splide__slide .cc-banner__img {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+}
+
+.hp-panel-grid-carousel--below .splide__slide .cc-banner__img img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.hp-panel-grid-carousel--below .splide__slide .cc-banner__body {
+    position: static;
+    inset: auto;
+    flex: 0 0 auto;
+    padding: 1rem clamp(1.5rem, 2.8vw, 2.5rem) 0;
+    background: none;
+}
+
+.hp-panel-grid-carousel--below .splide__slide .cc-banner__title {
+    color: var(--text);
+}
+
+.hp-panel-grid-carousel--below .splide__slide .cc-banner__desc {
+    color: var(--text-secondary);
+    opacity: 1;
+}
+
+.hp-panel-grid-carousel--below .splide__slide .cc-banner__cta {
+    background: transparent;
+    border-color: var(--brand-dark);
+    color: var(--text);
+}
+
+.hp-panel-grid-carousel--below .splide__slide .cc-banner:hover .cc-banner__cta {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    color: var(--text-inverse);
+}
+
+.hp-panel-grid-carousel--below .splide__slide .cc-banner:hover .cc-banner__body {
+    background: none;
+}

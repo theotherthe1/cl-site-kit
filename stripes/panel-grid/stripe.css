@@ -1,0 +1,175 @@
+/* ==== N. hp-panel-grid - configurable-column card grid, bottom-up gradient,
+        serif white title + ghost CTA bottom-left per card (band 03 anatomy).
+        Grid sibling of panels-3: same visual treatment, but column count,
+        row count, row/column gap and card height are real per-instance CSS
+        custom properties (--gridColumns/--gridRows/--gridRowGap/--gridColGap/
+        --cardHeight) rather than a fixed 3-column, fixed-aspect-ratio layout,
+        so the panel count doesn't have to be exactly 3 or divide the
+        viewport evenly - see atlas-site-builder's server/assemble.js.
+        --gridRows and --cardHeight have no default declared anywhere below -
+        left unset, var()'s reference is invalid at compute time, which
+        resolves grid-template-rows/height back to their own initial values
+        (auto rows; image height from aspect-ratio) - the "blank means auto"
+        convention, with no explicit default value to fall back to. ==== */
+
+.hp-panel-grid {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-panel-grid > .cc-collection {
+    --gridColumns: 3;
+    --gridRowGap: 1.5rem;
+    --gridColGap: 1.5rem;
+    display: grid;
+    grid-template-columns: repeat(var(--gridColumns), 1fr);
+    grid-template-rows: repeat(var(--gridRows), 1fr);
+    gap: var(--gridRowGap) var(--gridColGap);
+    padding: 0; /* deliberate full-bleed, matches panels-3 */
+}
+
+.hp-panel-grid > .cc-collection .cc-banner__img,
+.hp-panel-grid > .cc-collection .cc-banner__img img {
+    aspect-ratio: 4 / 5;
+    /* height stays auto (aspect-ratio governs it) unless --cardHeight is set,
+       in which case a definite height leaves aspect-ratio nothing left to
+       fill - object-fit: cover (04-CC-BannerCollections.css) crops the photo
+       to match regardless of its own aspect ratio. */
+    height: var(--cardHeight, auto);
+}
+
+/* bottom-up gradient only where the text lives - the upper frame stays clean */
+.hp-panel-grid > .cc-collection .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 2.8vw, 2.5rem);
+    background: linear-gradient(
+        to top,
+        var(--black-50) 0%,
+        transparent 45%
+    );
+    transition: background 0.6s ease;
+}
+
+.hp-panel-grid > .cc-collection .cc-banner__title {
+    font-family: var(--font-display);
+    font-size: var(--fontSize-2xl);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    color: var(--bannerText);
+    max-width: 16ch;
+}
+
+.hp-panel-grid > .cc-collection .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.9;
+    max-width: 34ch;
+}
+
+/* PRIMARY CTA - ghost, white variant (photo band) */
+.hp-panel-grid > .cc-collection .cc-banner__cta {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--text-inverse);
+    border-radius: var(--global-radius);
+    color: var(--text-inverse);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-panel-grid > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: var(--background);
+    border-color: var(--background);
+    box-shadow: none;
+    color: var(--text);
+}
+
+/* hover: overlay tint deepens + the platform's gentle image scale -
+   never the zoom alone */
+.hp-panel-grid > .cc-collection .cc-banner:hover .cc-banner__body {
+    background: linear-gradient(
+        to top,
+        var(--black-80) 0%,
+        transparent 55%
+    );
+}
+
+/* reveal: quiet fade/rise, uniform across every card regardless of count -
+   panels-3's per-card nth-child stagger doesn't generalize cleanly to an
+   arbitrary, CMS-driven card count */
+.hp-panel-grid > .cc-collection .cc-banner {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.hp-panel-grid.inView > .cc-collection .cc-banner {
+    opacity: 1;
+    transform: none;
+}
+
+/* tablet: cap at 2 explicit columns without discarding a narrower configured
+   value (e.g. a deliberate single column stays single column) */
+@media (max-width: 900px) {
+    .hp-panel-grid > .cc-collection {
+        grid-template-columns: repeat(min(var(--gridColumns), 2), 1fr);
+    }
+}
+
+/* mobile: always a single column */
+@media (max-width: 640px) {
+    .hp-panel-grid > .cc-collection {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ==== Styling axes: layout modifier ====
+   Base (no modifier class) = overlay, i.e. the gradient + white text laid
+   over the photo via the rules above, untouched. `below` moves the title +
+   description + CTA into normal document flow under the image instead - same
+   "static, ink-recolour" mechanism as panels-3's own --below variant. */
+
+.hp-panel-grid--below > .cc-collection .cc-banner {
+    overflow: visible;
+}
+
+.hp-panel-grid--below > .cc-collection .cc-banner__body {
+    position: static;
+    inset: auto;
+    padding: 1rem clamp(1.5rem, 2.8vw, 2.5rem) 0;
+    background: none;
+}
+
+.hp-panel-grid--below > .cc-collection .cc-banner__title {
+    color: var(--text);
+}
+
+.hp-panel-grid--below > .cc-collection .cc-banner__desc {
+    color: var(--text-secondary);
+    opacity: 1;
+}
+
+.hp-panel-grid--below > .cc-collection .cc-banner__cta {
+    background: transparent;
+    border-color: var(--brand-dark);
+    color: var(--text);
+}
+
+.hp-panel-grid--below > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    color: var(--text-inverse);
+}
+
+.hp-panel-grid--below > .cc-collection .cc-banner:hover .cc-banner__body {
+    background: none;
+}

@@ -1,5 +1,5 @@
 /* ==== 1. hp-hero-fade - full-bleed editorial fade hero; text bottom-left,
-        dash pagination bottom-right, minimal white arrows (band 01) ==== */
+        dash pagination bottom-right, disc arrows (band 01) ==== */
 
 .hp-hero-fade > .cc-collection {
     padding: 0; /* deliberate full-bleed - band 01 runs edge to edge */
@@ -131,19 +131,71 @@
     background: var(--text-inverse);
 }
 
-.hp-hero-fade .splide__arrow {
-    background: transparent;
-    border-color: transparent;
+
+/* ==== Styling axes: position + spacing modifiers ====
+   Base (no modifier class) = bottomLeft + comfortable, i.e. the rules above,
+   untouched - this is what makes an instance with no variant selected render
+   identically to today. Each modifier only overrides what that axis changes:
+   position swaps justify-content/align-items/text-align (and the veil
+   direction, so the darkened band still sits behind the text instead of
+   being wasted opposite it); spacing only touches padding/gap. */
+
+.hp-hero-fade--topLeft .cc-banner__body {
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    background: linear-gradient(
+        to bottom,
+        var(--black-50) 0%,
+        var(--black-10) 45%,
+        var(--black-10) 100%
+    );
 }
 
-.hp-hero-fade .splide__arrow svg {
-    fill: var(--text-inverse);
+.hp-hero-fade--centreLeft .cc-banner__body {
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    background: linear-gradient(
+        180deg,
+        var(--black-10) 0%,
+        var(--black-50) 50%,
+        var(--black-10) 100%
+    );
 }
 
-.hp-hero-fade .splide__arrow:hover {
-    background: var(--white-30);
-    border-color: var(--white-30);
-    opacity: 1;
+.hp-hero-fade--centreCentre .cc-banner__body {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(
+        180deg,
+        var(--black-10) 0%,
+        var(--black-50) 50%,
+        var(--black-10) 100%
+    );
+}
+
+.hp-hero-fade--bottomCentre .cc-banner__body {
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+}
+
+.hp-hero-fade--bottomRight .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-end;
+    text-align: right;
+}
+
+.hp-hero-fade--compact .cc-banner__body {
+    padding: clamp(1rem, 2vw, 2rem);
+    gap: calc(var(--text-block-wrap) * 0.6);
+}
+
+.hp-hero-fade--spacious .cc-banner__body {
+    padding: clamp(2rem, 3.5vw, 4rem);
+    gap: calc(var(--text-block-wrap) * 1.4);
 }
 
 @media (max-width: 640px) {

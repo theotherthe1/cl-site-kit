@@ -118,6 +118,45 @@
     transition-delay: 0.3s;
 }
 
+/* ==== Styling axes: shape + imageSide + spacing modifiers ====
+   Base (no modifier class) = split-50-50 + feature-panel-left + comfortable,
+   i.e. the rules above, untouched. `split-50-50` is still offered as an
+   explicit, selectable value (restating the same column ratio) so a picked
+   value is never silently a no-op from the properties panel's point of view. */
+
+.hp-split-feature--split-50-50 > .cc-collection {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.hp-split-feature--split-30-70 > .cc-collection {
+    grid-template-columns: 3fr 7fr;
+}
+
+/* moves the tall feature panel (and, via grid auto-placement, the stacked
+   pair) to the other column - whichever numeric ratio the shape modifier
+   above sets stays column-1/column-2, this just swaps which panel sits in
+   which column. */
+.hp-split-feature--image-right > .cc-collection .cc-banner:first-child {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+}
+
+.hp-split-feature--compact > .cc-collection {
+    gap: 6px;
+}
+
+.hp-split-feature--compact > .cc-collection .cc-banner__body {
+    padding: clamp(1.25rem, 2vw, 2rem);
+}
+
+.hp-split-feature--spacious > .cc-collection {
+    gap: 16px;
+}
+
+.hp-split-feature--spacious > .cc-collection .cc-banner__body {
+    padding: clamp(2.25rem, 4vw, 4.5rem);
+}
+
 @media (max-width: 900px) {
     /* the trio stacks - each panel keeps presence, none carries the split */
     .hp-split-feature > .cc-collection {

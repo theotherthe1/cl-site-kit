@@ -326,7 +326,8 @@
     /* --logo: url('/layout/generalLyout/logo.svg'); */
     /* --icon-bag: url('/layout/generalLyout/icons/bag.svg'); */
     /* --icon-account: url('/layout/generalLyout/icons/account.svg'); */
-    /* --icon-search: url('/layout/generalLyout/icons/search.svg'); */
+    /* --icon-search is inline SVG in 03. To replace it, paste the new SVG
+       inline as a data URI too: a referenced .svg does not display on iPhone. */
     /* --navIconSize: 22px; */
 
     /* COLOUR WORDMARK. 03 paints --logo as a mask filled with the bar's ink,
@@ -351,9 +352,8 @@
     /* --splidePaginationRadius: 0; */
     /* --splidePaginationWidthActive: 2.5rem; */
 
-    /* Quiet arrows with no bounce. Scale 1 disables the hover scale; the
-       hover colour matching the rest state makes hover a gentle dim. */
-    /* --splideArrowHoverColor: var(--splideArrowColor); */
-    /* --splideArrowHoverOpacity: 0.55; */
-    /* --splideArrowHoverScale: 1; */
+    /* Arrows default to a 39px disc with an inline SVG chevron. For a bare
+       chevron with no disc, uncomment both. */
+    /* --splideArrowBg: transparent; */
+    /* --splideArrowHoverBg: transparent; */
 }

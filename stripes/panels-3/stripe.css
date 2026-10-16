@@ -105,6 +105,83 @@
     transition-delay: 0.24s;
 }
 
+/* generalized for the count axis below - harmless no-ops at the default
+   3-panel count, since there's no 4th/5th .cc-banner to match */
+.hp-panels-3.inView > .cc-collection .cc-banner:nth-child(4) {
+    transition-delay: 0.36s;
+}
+
+.hp-panels-3.inView > .cc-collection .cc-banner:nth-child(5) {
+    transition-delay: 0.48s;
+}
+
+/* ==== Styling axes: spacing modifier ====
+   Base (no modifier class) = comfortable, i.e. the rules above, untouched. */
+
+.hp-panels-3--compact > .cc-collection {
+    gap: 6px;
+}
+
+.hp-panels-3--compact > .cc-collection .cc-banner__body {
+    padding: clamp(1rem, 2vw, 1.75rem);
+}
+
+.hp-panels-3--spacious > .cc-collection {
+    gap: 16px;
+}
+
+.hp-panels-3--spacious > .cc-collection .cc-banner__body {
+    padding: clamp(2rem, 3.5vw, 3.5rem);
+}
+
+/* ==== Styling axes: count modifier ====
+   Base (no modifier class) = "3", i.e. the repeat(3, 1fr) rule above,
+   untouched. Unlike the other axes, the count value also drives the real
+   bannerLimit the control fetches - see atlas-site-builder's
+   server/assemble.js (countToBannerLimit) and server/data/README.md. */
+
+.hp-panels-3--2 > .cc-collection {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.hp-panels-3--2 > .cc-collection .cc-banner__img,
+.hp-panels-3--2 > .cc-collection .cc-banner__img img {
+    aspect-ratio: 16 / 11;
+}
+
+.hp-panels-3--3 > .cc-collection {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.hp-panels-3--4 > .cc-collection {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.hp-panels-3--4 > .cc-collection .cc-banner__img,
+.hp-panels-3--4 > .cc-collection .cc-banner__img img {
+    aspect-ratio: 3 / 4;
+}
+
+/* with exactly 4 banners, 2 explicit columns wrap into 2 implicit rows on
+   their own via CSS Grid's auto-placement - no grid-template-rows needed */
+.hp-panels-3--4-2x2 > .cc-collection {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.hp-panels-3--4-2x2 > .cc-collection .cc-banner__img,
+.hp-panels-3--4-2x2 > .cc-collection .cc-banner__img img {
+    aspect-ratio: 1 / 1;
+}
+
+.hp-panels-3--5 > .cc-collection {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.hp-panels-3--5 > .cc-collection .cc-banner__img,
+.hp-panels-3--5 > .cc-collection .cc-banner__img img {
+    aspect-ratio: 3 / 4;
+}
+
 @media (max-width: 900px) {
     /* mobile: the triptych becomes a horizontal scroll-snap rail */
     .hp-panels-3 > .cc-collection {
@@ -118,4 +195,47 @@
         flex: 0 0 78%;
         scroll-snap-align: start;
     }
+}
+
+/* ==== Styling axes: layout modifier ====
+   Base (no modifier class) = overlay, i.e. the gradient + white text laid
+   over the photo via the rules above, untouched. `below` moves the title +
+   CTA into normal document flow under the image instead - same "static,
+   ink-recolour" mechanism as cta-close's photo-less variant, just with the
+   image still present and in-flow above the text rather than hidden. */
+
+.hp-panels-3--below > .cc-collection .cc-banner {
+    overflow: visible;
+}
+
+.hp-panels-3--below > .cc-collection .cc-banner__body {
+    position: static;
+    inset: auto;
+    padding: 1rem clamp(1.5rem, 2.8vw, 2.5rem) 0;
+    background: none;
+}
+
+.hp-panels-3--below > .cc-collection .cc-banner__title {
+    color: var(--text);
+}
+
+.hp-panels-3--below > .cc-collection .cc-banner__desc {
+    color: var(--text-secondary);
+    opacity: 1;
+}
+
+.hp-panels-3--below > .cc-collection .cc-banner__cta {
+    background: transparent;
+    border-color: var(--brand-dark);
+    color: var(--text);
+}
+
+.hp-panels-3--below > .cc-collection .cc-banner:hover .cc-banner__cta {
+    background: var(--brand-dark);
+    border-color: var(--brand-dark);
+    color: var(--text-inverse);
+}
+
+.hp-panels-3--below > .cc-collection .cc-banner:hover .cc-banner__body {
+    background: none;
 }

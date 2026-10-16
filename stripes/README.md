@@ -40,11 +40,67 @@ only what Templeton Jones happened to put there.
 | `hero-fade` | Full-bleed image carousel, text bottom-left, slow crossfade | `BannerCollectionSplide` | 1 banner collection, 3-5 entries with images |
 | `product-rail` | Text rail left, product cards right | `FafCustomRepeaterSplide` | 1 FAF repeater; **title, description and link all come from the repeater** |
 | `panels-3` | Full-bleed triptych, gradient overlay, title + CTA per panel | `BannerCollectionDisplay` | 1 collection, exactly 3 entries |
+| `panels-carousel` | Full-bleed panel carousel, gradient overlay, title + CTA per panel, drag/arrows/dots, no autoplay | `BannerCollectionSplide` | 1 collection, 2+ entries (no fixed cap) |
+| `panel-grid` | Configurable-column card grid, gradient overlay or text below, title + description + CTA per card | `BannerCollectionDisplay` | 1 collection, no fixed cap |
+| `panel-grid-carousel` | Full-bleed panel-grid carousel, gradient overlay or text below, title + description + CTA per panel, drag/arrows/dots, no autoplay | `BannerCollectionSplide` | 1 collection, 2+ entries (no fixed cap) |
 | `logo-strip` | Heading row above a drifting logo carousel | `BannerCollectionDisplay` + `BannerCollectionSplideBrands` | 1 collection: **entry 1 is the heading, entries 2.. are logos** |
 | `split-feature` | Tall panel left, two stacked right | `BannerCollectionDisplay` | 1 collection, exactly 3 entries |
+| `split-panel` | Image panel one side, text panel with CTA the other | `BannerCollectionDisplay` | 1 collection, 1 entry |
 | `icon-strip` | Three icons, one line of copy each | `BannerCollectionDisplay` | 1 collection, 3 entries; images are contained icons, not photos |
 | `statement` | Eyebrow + hairline + large declaration | none - reads `CitrusStoreConfiguration.HomePageText` | the Home Page Text field |
 | `cta-close` | Centred closing call to action, no image | `BannerCollectionDisplay` | 1 collection, 1 entry; its image is deliberately hidden |
+
+## Styling axes
+
+Some stripes optionally support a small set of **styling modifiers** - CSS-only
+variants that change layout/spacing but never the `markup.aspx` structure
+itself (same control, same `.hp-NAME` wrapper; only an extra `.hp-NAME--value`
+class gets added). Which stripes support which axes/values is tracked
+per-stripe in Atlas's `stripe-catalogue.json` (`axes` field) - this file is the
+canonical definition of the axes themselves:
+
+| Axis | Values | Applies to |
+|---|---|---|
+| `shape` | `split-50-50`, `split-30-70` | stripes built as a two-column split (e.g. `split-feature`, `split-panel`) |
+| `imageSide` | `left`, `right` | alongside `shape` - which column the dominant/image panel sits in |
+| `position` | `bottomLeft`, `centreLeft`, `topLeft`, `centreCentre`, `bottomRight`, `bottomCentre` | stripes with a single full-bleed image + one text overlay (e.g. `hero-fade`) |
+| `spacing` | `compact`, `comfortable`, `spacious` | any stripe; tightens/loosens internal gap and body padding |
+| `count` | `2`, `3`, `4`, `4-2x2`, `5` | stripes rendering a symmetric grid of equal, identically-treated panels (today, only `panels-3`) |
+| `layout` | `below` | stripes whose base look overlays text+CTA on the image; `below` moves them into normal flow underneath it instead (today, `panels-3`, `panel-grid`, `panel-grid-carousel`) |
+| `layout` | `stacked` | stripes whose base look is a two-column text+content split; `stacked` collapses them into a single column, text on top, content filling the width below (today, only `product-rail`) |
+| `align` | `center` | any stripe with a left-aligned text rail; centers its title/description/CTA instead (today, only `product-rail`) |
+
+**`count` is not purely cosmetic like the others.** Picking a value also
+determines the real `bannerLimit` the control fetches (Atlas's
+`server/assemble.js`, `countToBannerLimit` - the value's leading digit, so
+`4-2x2` still means 4), overriding the plain banner-limit field, which the
+Site Builder UI hides wherever this axis is present. A stripe only gets this
+axis if its anatomy is a genuinely symmetric grid (no single dominant panel -
+that's `split-feature`'s territory, which does not use `count`).
+
+**`product-rail`'s product quantity is not this axis.** Its own free-range
+"products to show" field (Site Builder only, `supportsItemCount` /
+`defaultItemCount` in `stripe-catalogue.json`) overrides `numberofitems` the
+same "replace the literal default" way `bannerLimit` works, but as a plain
+number field rather than a fixed-preset styling axis - see Atlas's
+`server/data/README.md`.
+
+**No axis has an explicit "default" value.** An instance with nothing selected
+gets no modifier class at all, which is exactly today's unmodified look
+(`comfortable` spacing, `bottomLeft`/`left`-side positioning where relevant) -
+this is what keeps every existing site non-breaking. A stripe that supports an
+axis still only needs modifier-class CSS for the values that actually change
+something versus the base rules; a value that's identical to the base (e.g.
+`split-50-50` on a stripe whose base is already an even split) can restate the
+base rule for clarity, or be left out of `axes` entirely if it would be a pure
+no-op.
+
+**Adding axis support to a stripe** means: decide which axis/values genuinely
+make sense for that stripe's shape (don't force `shape`/`imageSide` onto a
+stripe with more than two visual columns, don't force `position` onto a stripe
+with no single text overlay to reposition), add the matching
+`.hp-NAME--value` rules to its `stripe.css`, and add the matching `axes` entry
+to `stripe-catalogue.json` on the Atlas side - see `../docs/ADDING-A-STRIPE.md`.
 
 ## Things that will catch you out
 
@@ -74,8 +130,29 @@ config. To retune a carousel, edit the JSON.
 
 **Carousel height must be chained.** Splide's flex layout flows top-down, so a
 height set on `.splide` has to be passed down to `.splide__track`, `__list` and
-`__slide` explicitly. `hero-fade` does this; the content-height stripes
-(`product-rail`, `logo-strip`) deliberately do not.
+`__slide` explicitly. `hero-fade` and `panels-carousel` do this; the
+content-height stripes (`product-rail`, `logo-strip`) deliberately do not.
+
+**Any `BannerCollectionDisplay`-based stripe loses its image aspect ratio the
+moment it becomes a carousel.** `04-CC-BannerCollections.css` forces
+`aspect-ratio: unset; height: 100%` on `.splide__slide .cc-banner__img img` -
+a `.cc-banner` sizes itself off the image's own aspect only when it has no
+`.splide` ancestor. `panels-3`'s grid and `panels-carousel`'s Splide version
+share the same panel CSS otherwise, but only the carousel needs an explicit
+stage-height clamp for exactly this reason.
+
+**`panels-carousel`'s `fixedWidth` sets how many panels show at once**, not
+`perPage` - Splide ignores `perPage`/`perMove` whenever `fixedWidth` (or
+`autoWidth`) is set. A fractional panel count (e.g. showing 2.5 panels, with
+the next one peeking in) is a real percentage like `"41.67%"` - Splide has no
+literal fractional `perPage`.
+
+**`panel-grid-carousel`'s `below` layout can't just copy `panel-grid`'s.** The
+carousel's slide height is a fixed chain (see above), so simply un-absolutely-
+positioning `.cc-banner__body` the way `panel-grid`/`panels-3` do would push
+the body past the slide's fixed height instead of shrinking the image to make
+room. `.cc-banner` becomes a flex column instead, so the image and the text
+body genuinely divide the fixed height between them.
 
 **`hero-fade` can pair with a transparent nav, but does not need one.** Adding
 `class="cl-nav-over-hero"` to `<body>` floats the nav over the image and removes

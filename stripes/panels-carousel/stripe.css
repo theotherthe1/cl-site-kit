@@ -1,0 +1,113 @@
+/* ==== N. hp-panels-carousel - full-bleed panel carousel, 10px gaps, bottom-up
+        gradient, serif white title + ghost CTA bottom-left per panel (band 03
+        anatomy). Carousel sibling of panels-3: same visual treatment,
+        Splide-driven instead of a fixed grid, so the total panel count and
+        the number visible at once on desktop can differ and don't have to
+        divide the viewport evenly. ==== */
+
+.hp-panels-carousel {
+    padding-block: var(--section-padding-sm);
+}
+
+.hp-panels-carousel > .cc-collection {
+    padding: 0; /* deliberate full-bleed, matches panels-3 */
+}
+
+/* Height chain, required - NOT optional the way it is for panels-3's own
+   grid. 04-CC-BannerCollections.css forces `aspect-ratio: unset; height:
+   100%` on any .cc-banner__img img sitting inside a Splide slide, so a
+   panel here can no longer size itself off the image's own aspect ratio;
+   it has to inherit an explicit stage height instead, same requirement as
+   hero-fade. Clamp chosen to read close to panels-3's own ~4:5 panel at
+   this stripe's 3-per-view default (1440 canvas: ~473px wide panel ->
+   ~591px tall is ~41vw) - deliberately independent of the actual per-view
+   count, same as hero-fade's stage height is independent of its image. */
+.hp-panels-carousel .splide {
+    height: clamp(20rem, 41vw, 34rem);
+}
+
+.hp-panels-carousel .splide__track,
+.hp-panels-carousel .splide__list,
+.hp-panels-carousel .splide__slide {
+    height: 100%;
+}
+
+/* bottom-up gradient only where the text lives - the upper frame stays clean */
+.hp-panels-carousel .splide__slide .cc-banner__body {
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: clamp(1.5rem, 2.8vw, 2.5rem);
+    background: linear-gradient(
+        to top,
+        var(--black-50) 0%,
+        transparent 45%
+    );
+    transition: background 0.6s ease;
+}
+
+.hp-panels-carousel .splide__slide .cc-banner__title {
+    font-family: var(--font-display);
+    font-size: var(--fontSize-2xl);
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+    color: var(--bannerText);
+    max-width: 16ch;
+}
+
+/* desc kept quiet, body-copy role - the mockup panels carry title + CTA only,
+   but a CMS-filled desc must stay legible on the photo */
+.hp-panels-carousel .splide__slide .cc-banner__desc {
+    font-family: var(--bannerDescFontFamily);
+    font-size: var(--bannerDescSize);
+    line-height: var(--bannerDescLineHeight);
+    letter-spacing: var(--bannerDescLetterSpacing);
+    color: var(--bannerText);
+    opacity: 0.9;
+    max-width: 34ch;
+}
+
+/* PRIMARY CTA - ghost, white variant (photo band) */
+.hp-panels-carousel .splide__slide .cc-banner__cta {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--text-inverse);
+    border-radius: var(--global-radius);
+    color: var(--text-inverse);
+    font-family: var(--global-buttonFontFamily);
+    font-size: var(--global-buttonSize);
+    letter-spacing: var(--global-buttonLetterSpacing);
+    line-height: var(--global-buttonLineHeight);
+    text-transform: var(--global-buttonTextTransform);
+    padding: var(--global-buttonPadding);
+    box-shadow: none;
+    transition: var(--global-transition);
+}
+
+.hp-panels-carousel .splide__slide .cc-banner:hover .cc-banner__cta {
+    background: var(--background);
+    border-color: var(--background);
+    box-shadow: none;
+    color: var(--text);
+}
+
+/* hover: overlay tint deepens + the platform's gentle image scale -
+   never the zoom alone */
+.hp-panels-carousel .splide__slide .cc-banner:hover .cc-banner__body {
+    background: linear-gradient(
+        to top,
+        var(--black-80) 0%,
+        transparent 55%
+    );
+}
+
+/* chrome reconciliation: dashes sit inside the track's own bottom padding
+   rather than overlapping panel text (panels have no reserved gutter the
+   way hero-fade's single frame does), so pagination floats below the stage
+   instead of over it */
+.hp-panels-carousel .splide__pagination {
+    position: static;
+    transform: none;
+    margin-top: 1rem;
+    justify-content: center;
+    width: auto;
+}

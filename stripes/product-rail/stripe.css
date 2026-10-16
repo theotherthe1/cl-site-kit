@@ -230,3 +230,35 @@
         max-width: 44ch;
     }
 }
+
+/* ==== Styling axes: layout modifier ====
+   Base (no modifier class) = the asymmetric two-column rail: text column
+   left, product carousel right (this is already what the <1024px rule above
+   collapses to on narrow viewports). `stacked` forces that same single-column
+   arrangement at every width - the text rail becomes a full-width header
+   above the carousel, and the cards get the whole band to fill instead of
+   the narrower 3.2fr track. ==== */
+.hp-product-rail--stacked > .faf-product-carousel {
+    grid-template-columns: 1fr;
+}
+
+.hp-product-rail--stacked .faf-description {
+    max-width: 44ch;
+}
+
+/* ==== Styling axes: align modifier ====
+   Base (no modifier class) = flex-start, i.e. the rail's title, description
+   and CTA hug its left edge (or top edge once `stacked` is also set).
+   `center` centers all three within the header column instead - a flex
+   `align-items` change centers each child regardless of its own width, no
+   separate margin-centering needed for the description's own max-width. ==== */
+.hp-product-rail--center .faf-header {
+    align-items: center;
+    text-align: center;
+}
+
+/* "products to show" (Atlas Site Builder's free-range number field, not a
+   styling axis - see stripes/README.md) is purely a numberofitems attribute
+   substitution in server/assemble.js. It needs no CSS rule of its own: the
+   carousel still only ever shows perPage (3, per this stripe's own
+   data-splide-opts) at a time regardless of the total pool size. */

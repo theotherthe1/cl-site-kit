@@ -102,6 +102,13 @@ Then:
   ones already there - `logo-strip`'s `bannerLimit` = logos + 1, the non-empty
   `ImagePath` guard, why `data-splide-skip` must remove rather than hide - are
   each an hour someone else does not have to lose.
+- decide axis compatibility: does this stripe's shape genuinely fit any of the
+  shared styling axes in `stripes/README.md`'s "Styling axes" section (`shape`,
+  `imageSide`, `position`, `spacing`)? If so, add `.hp-<name>--value` modifier
+  rules to its `stripe.css` for the values that actually differ from the base
+  look, and add the matching `axes` entry to Atlas's `stripe-catalogue.json`
+  (see `server/data/README.md` there). If none apply, leave `axes` off
+  entirely - don't force an axis onto a shape it wasn't designed for.
 
 Finally, verify the split is lossless: the preamble plus `_shared` plus the
 stripe sections should reassemble into exactly the `CC-Home.css` you built. If it
