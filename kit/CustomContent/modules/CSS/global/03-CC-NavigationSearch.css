@@ -119,7 +119,8 @@
     --logo: url('/layout/generalLyout/logo.svg');
     --icon-bag: url('/layout/generalLyout/icons/bag.svg');
     --icon-account: url('/layout/generalLyout/icons/account.svg');
-    --icon-search: url('/layout/generalLyout/icons/search.svg');
+    /* Inline, not a file path: a referenced .svg does not display on iPhone. */
+    --icon-search: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.548 17.187C8.78753 17.1851 7.0997 16.485 5.85486 15.2401C4.61002 13.9953 3.90985 12.3075 3.908 10.547C3.91012 8.7867 4.6104 7.09913 5.85521 5.8545C7.10002 4.60988 8.7877 3.90985 10.548 3.908C12.3085 3.90985 13.9963 4.61002 15.2411 5.85486C16.486 7.0997 17.1861 8.78753 17.188 10.548C17.1861 12.3085 16.486 13.9963 15.2411 15.2411C13.9963 16.486 12.3085 17.1851 10.548 17.187ZM17.177 15.934C18.4186 14.4137 19.0962 12.5108 19.095 10.548C19.095 5.834 15.26 2 10.548 2C5.835 2 2 5.834 2 10.548C2 15.26 5.835 19.095 10.548 19.095C12.4585 19.0945 14.3132 18.4505 15.813 17.267L20.546 22L21.896 20.651L17.177 15.934Z' fill='white'/%3E%3C/svg%3E");
 
     /* Wordmark paint mode. These three defaults reproduce the mask exactly, so
        a site that never touches them is byte-identical in behaviour to before
@@ -775,7 +776,12 @@ body {
     padding-top: 115px !important;
 }
 
-/* Mobile */
+/* Mobile
+   Every rule down to the closing brace below is mobile-only. A stray `}`
+   after .menu-icons-header used to close this block early, so the next four
+   rules leaked to every width - most visibly the 103px body offset, which on
+   desktop sat 12px short of the 115px bar and tucked the first stripe (and
+   the platform CTA strip) under it. */
 @media screen and (max-width: 1024px) {
     .menu-icons-header {
         display: flex;
@@ -783,9 +789,6 @@ body {
         align-items: center;
         gap: var(--navIconsGap);
     }
-    }
-
-    
 
     .logoContainer {
         width: auto !important;
@@ -807,7 +810,7 @@ body {
     .ctrNavigation {
         top: 50px !important;
     }
-    
+}
 
 /* Desktop */
 @media screen and (min-width: 1024px) {
@@ -1205,6 +1208,20 @@ body.cl-nav-over-hero .wrapper.masthead.is-scrolled {
    its box, removing it from flow would collapse the wordmark entirely. */
 .logoContainer img {
     visibility: hidden;
+}
+
+/* The same platform can also paint a logo as a BACKGROUND on the .logo link
+   inside the container (`.logoContainer > .logo.navOption`), at some
+   breakpoints only - on mobile it showed as a second wordmark beside this
+   one. The link is kept, since it is the click target; only its paint goes.
+   This file owns the wordmark, so nothing the platform paints in the box is
+   ever wanted, in either mode.
+
+   (0,3,0) rather than (0,2,0): the platform's own rule is outside this tree
+   and its weight is unknown, so this matches the masthead scoping used
+   throughout the file instead of relying on load order. */
+.wrapper.masthead .logoContainer .logo {
+    background-image: none;
 }
 
 /* .logoContainer has no colour of its own -- the masthead only paints

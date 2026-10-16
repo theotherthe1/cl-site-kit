@@ -5,6 +5,81 @@ Sites record the kit commit they were built from, in their own `CLAUDE.md`.
 
 ---
 
+## Unreleased - 03: the mobile block no longer leaks to desktop
+
+A stray `}` after `.menu-icons-header` in `03`'s `@media (max-width: 1024px)`
+block closed it early, and nothing closed it where it was meant to end. The
+four rules after the brace applied at every width:
+
+- `body { padding-top: 103px !important }` - the visible one. It beat the
+  115px desktop offset, so on desktop the page started 12px under the fixed
+  115px bar, hiding the top of the first stripe and of the platform CTA strip.
+- `.logoContainer { width: auto !important }` - inert on desktop, since the
+  later `--logoWidth` rule wins at the same specificity.
+- `#search.srchCtr { max-width: 100% }` and `.ctrNavigation { top: 50px
+  !important }` - no desktop effect: `#navi` is not positioned there.
+
+The brace moved to the end of the block; nothing else changed.
+
+**What a site sees after updating:** desktop content moves down 12px and clears
+the bar. Mobile is unchanged.
+
+### Verified how
+
+| Claim | How it was checked |
+|---|---|
+| The leak was real | On MRGL (live render via headless Edge), computed `body` padding-top was 103px at 1440 against a 115px fixed masthead, and the CTA strip started at y=103 |
+| Braces balance after the fix | Comment- and string-stripped count: 129 `{`, 129 `}`, never negative |
+| Pure ASCII, no client name | `grep -P '[^\x00-\x7F]'` and lint |
+
+Found on MRGL. Any site whose `03` carries the stray brace has the same 12px
+overlap; their copies were not checked. Look for the `}` straight after
+`.menu-icons-header` in the mobile block before updating each one.
+
+---
+
+## Unreleased - HOVA's carousel arrows become the default
+
+`05` now ships HOVA's arrow as its token defaults: a 39px circular disc on
+`--background`, the masked arrow chevron in `--text` (SVG written inline as a data URI, since referenced .svg files do not display on iPhone), hover dims to 0.75
+with no scale bounce. `arrow.svg` was already in the kit, byte-identical to
+HOVA's. Before this the glyph was opt-in and Splide's own SVG showed.
+
+The hardcoded arrow blocks in `CC-Home.css` and `stripes/_shared/stripe.css`
+are gone; they sat at 05's specificity in another bundle and would have
+overridden the tokens depending on load order. `hero-fade` drops its
+transparent-arrow overrides so the hero takes the disc, as HOVA's does.
+
+A site that wants the old look sets `--splideArrowGlyphContent: none` and
+`--splideArrowSvgOpacity: 1` in `01`. Existing sites are unaffected until they
+pull a new `05`.
+
+---
+
+## Unreleased - 03: one wordmark only
+
+On mobile the masthead showed two logos. `03` paints the wordmark on
+`.logoContainer`, but the platform also paints a logo background on the `.logo`
+link inside it (`.logoContainer > .logo.navOption`) at some breakpoints. The
+existing `.logoContainer img { visibility: hidden }` only covered the `<img>`
+case. `03` now drops the link's background as well, keeping the link itself as
+the click target.
+
+### Verified how
+
+| Claim | How it was checked |
+|---|---|
+| The second logo came from the inner link's background | Reported in DevTools on a built site: the logo background image was set on both `col-1 logoContainer` and `logo navOption` |
+| The kit never styles `.logo` itself | `grep '\.logo\b'` over the kit's CSS returns only a commented-out rule, so the background can only be the platform's |
+| No site loses its wordmark | Every site gets its wordmark from `.logoContainer` (mask or image mode, both in `03`); nothing in the kit relies on the inner link's paint |
+| Pure ASCII, no client name | `grep -P '[^\x00-\x7F]'` and lint's client-name check over the changed files |
+
+**Not proven in a browser.** The platform rule's specificity is unknown; the
+new rule is `(0,3,0)`. If a second logo still shows, the platform rule is
+heavier and the selector needs raising to match it.
+
+---
+
 ## Unreleased - the kit becomes portable, and intake becomes an interview
 
 Two changes to process, no change to any rendered file.
