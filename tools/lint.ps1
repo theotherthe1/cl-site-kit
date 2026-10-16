@@ -171,6 +171,85 @@ foreach ($f in $mark) {
 }
 if ($missing -eq 0) { Write-Host "  ok    every referenced asset in this tree exists" -ForegroundColor Green }
 
+Write-Host ""
+Write-Host "svg must be inline" -ForegroundColor Cyan
+
+# 3b. A referenced .svg does not display on iPhone. Every SVG is written into
+#     the file that uses it, as a data URI. This was a comment beside one token
+#     in 03 for months while three of its neighbours pointed at .svg files, and
+#     every build's nav icons inherited the bug - so it is a FAIL, everywhere,
+#     framework files included, and no path we "own" is exempt.
+$svgFail = 0
+function Test-SvgTarget($u) {
+    $u = $u.Trim()
+    if ($u -match '^(?i)data:') { return $false }
+    return (($u -split '[?#]')[0] -match '(?i)\.svg$')
+}
+$urlRx  = "url\(\s*['""]?([^'"")]+)['""]?\s*\)"
+$attrRx = '(?i)(?:src|href|srcset|xlink:href|data-[\w-]+)\s*=\s*["'']([^"'']+)["'']'
+foreach ($f in $css) {
+    $i = 0
+    foreach ($l in Get-CodeLines $f.Full) {
+        $i++
+        foreach ($m in [regex]::Matches($l, $urlRx)) {
+            if (Test-SvgTarget $m.Groups[1].Value) {
+                Fail 'svg' "$($f.Rel):$i references an .svg file ($($m.Groups[1].Value.Trim())) - inline it as a data URI; a referenced .svg does not display on iPhone"; $svgFail++
+            }
+        }
+    }
+}
+$markup = $scanned | Where-Object { $_.Ext -in '.aspx', '.ascx', '.html', '.htm' }
+foreach ($f in $markup) {
+    $i = 0
+    foreach ($l in Get-CodeLines $f.Full) {
+        $i++
+        $targets = @([regex]::Matches($l, $attrRx) | ForEach-Object { $_.Groups[1].Value -split '\s*,\s*' | ForEach-Object { ($_ -split '\s+')[0] } })
+        $targets += @([regex]::Matches($l, $urlRx) | ForEach-Object { $_.Groups[1].Value })
+        foreach ($u in $targets) {
+            if ($u -and (Test-SvgTarget $u)) {
+                Fail 'svg' "$($f.Rel):$i references an .svg file ($u) - inline it, or for a favicon use the .png/.ico; a referenced .svg does not display on iPhone"; $svgFail++
+            }
+        }
+    }
+}
+
+# 3c. The brand tokens are where artwork lives now. Before this check the
+#     reskin method was "replace the file under /layout/", so a site built that
+#     way keeps its client's art in an .svg FILE that 03 no longer reads: after
+#     an update the bar silently shows the kit's glyphs, or a blank bar for the
+#     logo. A file with no token in 01 is that case.
+$brand = $css | Where-Object { $_.Rel -like '*01-CC-Brand.css' } | Select-Object -First 1
+$set = @{}
+if ($brand) {
+    foreach ($l in Get-CodeLines $brand.Full) {
+        if ($l -match '^\s*(--logo|--icon-bag|--icon-account|--icon-search)\s*:') { $set[$Matches[1]] = $true }
+    }
+}
+if (-not $set['--logo']) {
+    Fail 'svg' "01-CC-Brand.css does not set --logo - the header shows 03's blank placeholder bar. Set it to the wordmark as an inline data URI (or a .png path)"; $svgFail++
+}
+$art = [ordered]@{
+    'layout\generalLyout\logo.svg'          = '--logo'
+    'layout\generalLyout\icons\bag.svg'     = '--icon-bag'
+    'layout\generalLyout\icons\account.svg' = '--icon-account'
+    'layout\generalLyout\icons\search.svg'  = '--icon-search'
+}
+$known = @()
+foreach ($rel in $art.Keys) {
+    $known += $rel
+    if (-not (Test-Path (Join-Path $Path $rel))) { continue }
+    $tok = $art[$rel]
+    if ($set[$tok]) {
+        Warn 'svg' "$rel is not used ($tok is set in 01) - delete it, so nothing is ever pointed at it"
+    } else {
+        Fail 'svg' "$rel exists but 01 does not set $tok - this artwork is NOT shown (03 no longer reads files). Inline it in 01 as a data URI, then delete the file"; $svgFail++
+    }
+}
+foreach ($f in ($scanned | Where-Object { $_.Ext -eq '.svg' -and $known -notcontains $_.Rel })) {
+    Warn 'svg' "$($f.Rel) is an .svg file - nothing may reference it (iPhone will not display it); inline its contents where it is used, or delete it"
+}
+if ($svgFail -eq 0) { Write-Host "  ok    no referenced .svg files; --logo is set in 01" -ForegroundColor Green }
+
 # 4. font slots
 $fontDir = Join-Path $Path 'font'
 foreach ($slot in @('body', 'bold')) {

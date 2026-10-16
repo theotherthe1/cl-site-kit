@@ -89,15 +89,17 @@ woff2 preferred, ttf accepted, both ideal. Supplying only ttf costs one cheap
 
 ## 4. Assets - **required**
 
-Replace the files; the paths are fixed kit vocabulary.
+Every SVG is written **inline into `01-CC-Brand.css` as a data URI**, never
+referenced as a file: a referenced `.svg` does not display on iPhone, and lint
+fails on one. Record the source artwork here.
 
-| Path | Supplied |
+| Token in 01 | Supplied |
 |---|---|
-| `layout/generalLyout/logo.svg` | (single-colour silhouette - it is painted as a **mask** filled with `currentColor`, so it must not carry its own colours) |
-| `layout/generalLyout/icons/bag.svg` | |
-| `layout/generalLyout/icons/account.svg` | |
-| `layout/generalLyout/icons/search.svg` | |
-| `favicon.ico`, `favicon.svg`, `favicon-96x96.png`, `apple-touch-icon.png` | at the site root, outside this tree |
+| `--logo` | **required** (single-colour silhouette - it is painted as a **mask** filled with `currentColor`, so it must not carry its own colours). SVG inline, or a transparent `.png` under `layout/generalLyout/` |
+| `--icon-bag` | inline SVG, or blank for the kit's glyph |
+| `--icon-account` | inline SVG, or blank for the kit's glyph |
+| `--icon-search` | inline SVG, or blank for the kit's glyph |
+| `favicon.ico`, `favicon-96x96.png`, `apple-touch-icon.png` | at the site root, outside this tree. No `favicon.svg`: an SVG favicon is a referenced SVG |
 
 ---
 

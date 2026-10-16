@@ -71,11 +71,18 @@ Deleting it is still the better answer and costs nothing. It is easily confused
 with the LIVE `assets/splide/js/splide-config.js`, which is the real Splide
 manager, is loaded site-wide from `TopSubBanner.ascx`, and must not be touched.
 
-**`font/**` and `layout/**` are CLIENT** - they are the client's typefaces,
-wordmark and icons. The kit ships a working set so a fresh xcopy renders rather
-than half-failing, but every one of these files is meant to be replaced.
+**`font/**` and `layout/**` are CLIENT** - they are the client's typefaces and
+raster images. The kit ships working fonts so a fresh xcopy renders rather than
+half-failing, but every one of these files is meant to be replaced.
 `font/body.*` and `font/bold.*` must always exist: ~186 platform declarations
 outside this tree name `citrfontreg` and `citrfontbold` literally.
+
+**`layout/` holds no `.svg` files.** The wordmark and nav icons are inline data
+URIs on the `--logo` / `--icon-*` tokens (defaults in `03`, the client's in
+`01`), because a referenced `.svg` does not display on iPhone. The kit's old
+`logo.svg` (the Citrus Lime mark) and `icons/*.svg` were removed for that reason;
+sites built before then still carry their own copies, and lint and
+`update-site.ps1` both catch a site whose artwork is still only in those files.
 
 **`layout/generalLyout/` is misspelled** and is deliberately left that way. It is
 the established folder name across existing sites and is baked into asset URLs

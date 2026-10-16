@@ -136,15 +136,18 @@ Default is as typed by the CMS author, normal tracking.
 
 ### Round 4 - assets (blocking)
 
-**Q12. Logo and the three nav icons, in one answer.** Paths to `logo.svg`,
-`bag.svg`, `account.svg`, `search.svg`. State the constraint before they answer,
-not after: the logo is painted as a **mask** filled with `currentColor`, so it
-must be a flat single-colour silhouette. A colour SVG with white knockouts goes
-solid under a mask - if that is what they have, the answer is a transparent PNG
-cutout, and it needs `--logo` repointed.
+**Q12. Logo and the three nav icons, in one answer.** Where the artwork is - a
+logo, and bag / account / search icons if they are not the kit's. State the
+constraints before they answer, not after: the logo is painted as a **mask**
+filled with `currentColor`, so it must be a flat single-colour silhouette. A
+colour SVG with white knockouts goes solid under a mask - if that is what they
+have, the answer is a transparent PNG cutout. Every SVG is then **written into
+`01-CC-Brand.css` as a data URI** (`--logo`, `--icon-*`), never copied in as a
+file: a referenced `.svg` does not display on iPhone, and lint fails on one.
 
 **Q13. Favicons.** They sit at the site root, outside this tree, so you cannot
-place them. One turn to confirm someone will.
+place them. One turn to confirm someone will. `.ico` and `.png` only - no
+`favicon.svg`, which is a referenced SVG.
 
 ### Round 5 - everything that has a default
 

@@ -53,6 +53,13 @@ there is lost work.
 **5. Pure ASCII everywhere**, including comments. No em dashes, en dashes, arrows,
 ellipses or box-drawing. The whole repo is audited for this.
 
+**5b. Every SVG is written into the file, never referenced.** A `url(...)`,
+`src` or `href` pointing at an `.svg` does not display on iPhone. Inline it as
+`url("data:image/svg+xml,...")` - in `01` for brand art (`--logo`, `--icon-*`),
+in the owning component for a framework glyph. No `.svg` files in the tree, no
+`favicon.svg`. Lint fails on a referenced `.svg` and on an unset `--logo`;
+`update-site.ps1` refuses to push `03` to a site whose artwork is still in files.
+
 **6. `pages/`, `feed/`, `ReturnsPDFs/` are untouchable** and byte-identical across
 sites. They contain two deliberately-preserved rough edges. Do not "fix" them, do
 not normalise them, do not lint them.

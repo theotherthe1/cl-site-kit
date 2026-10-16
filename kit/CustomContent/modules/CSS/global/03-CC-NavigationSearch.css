@@ -104,22 +104,28 @@
     --searchTop: calc(-90px + 1.5rem);
 
     /* Masked brand assets -- see the Brand Assets section at the foot of this
-       file. These are PATHS, deliberately defaulted rather than left unset: a
-       reskin replaces the FILES at these paths, exactly as it does with the
-       fonts. Override a URL here only if a client's asset layout differs.
+       file. Every SVG here is INLINE, as a data URI, never a file path: a
+       referenced .svg does not display on iPhone. lint.ps1 fails on any
+       url(...) or src/href that points at an .svg file, anywhere in the tree.
+
+       A client sets its own in 01-CC-Brand.css, as data URIs (or, for a
+       raster wordmark, a .png path). Replacing a FILE under /layout/ does
+       nothing: these used to be file paths, and on sites built before the
+       change the client's art lives in those files - update-site.ps1 refuses
+       to push this file to such a site until the art is inlined in its 01.
+
+       The icon defaults are the kit's own glyphs. The logo default is a
+       deliberately blank-looking bar, never another company's mark: 01 must
+       set --logo, and lint fails until it does.
 
        They must not be left to fall back, because the failure mode is silent
        and bad: an unset var() in mask-image computes to `none`, while the
        companion `content: ""` has already blanked the platform icon-font
-       glyph -- so the icons would disappear rather than degrade.
-
-       (`generalLyout` is misspelled. It is the established folder name on
-       every existing site and is baked into asset URLs; left as found.) */
+       glyph -- so the icons would disappear rather than degrade. */
     --navIconSize: 22px;
-    --logo: url('/layout/generalLyout/logo.svg');
-    --icon-bag: url('/layout/generalLyout/icons/bag.svg');
-    --icon-account: url('/layout/generalLyout/icons/account.svg');
-    /* Inline, not a file path: a referenced .svg does not display on iPhone. */
+    --logo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32' viewBox='0 0 160 32'%3E%3Crect y='12' width='160' height='8' fill='white'/%3E%3C/svg%3E");
+    --icon-bag: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M16.979 5.978C16.7747 4.86263 16.1863 3.85403 15.3158 3.12734C14.4454 2.40065 13.3479 2.00178 12.214 2C11.0803 2.00202 9.98302 2.40099 9.11277 3.12766C8.24252 3.85433 7.65422 4.8628 7.45 5.978H3V22H21.328V5.978H16.979ZM4.739 20.262H19.589V7.716H4.74L4.739 20.262ZM12.214 3.739C13.624 3.739 14.804 4.689 15.184 5.978H9.244C9.43066 5.33391 9.82088 4.76759 10.3563 4.36379C10.8917 3.96 11.5434 3.74045 12.214 3.738V3.739Z' fill='white'/%3E%3C/svg%3E");
+    --icon-account: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12.4021 3.897C13.3911 3.89806 14.3392 4.29138 15.0385 4.99066C15.7378 5.68994 16.1311 6.63807 16.1321 7.627C16.1311 8.61593 15.7378 9.56406 15.0385 10.2633C14.3392 10.9626 13.3911 11.3559 12.4021 11.357C11.4131 11.3559 10.4649 10.9627 9.76544 10.2634C9.066 9.56415 8.67246 8.61602 8.67113 7.627C8.67245 6.63815 9.06586 5.69018 9.76508 4.99095C10.4643 4.29173 11.4123 3.89832 12.4011 3.897M20.4311 14.032C19.2781 12.867 17.7801 12.182 15.9751 11.97C16.617 11.4428 17.1341 10.7799 17.489 10.0289C17.844 9.27795 18.0281 8.45764 18.0281 7.627C18.0263 6.13537 17.433 4.70535 16.3783 3.65051C15.3237 2.59567 13.8938 2.00212 12.4021 2C10.9102 2.00159 9.47972 2.59491 8.42464 3.6498C7.36956 4.7047 6.77599 6.13502 6.77413 7.627C6.77413 9.374 7.57413 10.937 8.82813 11.97C7.02313 12.182 5.52313 12.867 4.37013 14.032C1.99013 16.439 1.99813 21.842 2.00013 21.992L3.89713 21.973C3.89713 21.945 3.90313 17.191 5.72913 15.356C6.76413 14.316 8.21813 13.789 10.0521 13.789H14.7511C16.5841 13.789 18.0391 14.316 19.0731 15.356C20.8991 17.19 20.9061 21.954 20.9061 21.983L22.8021 22C22.8041 21.851 22.8131 16.439 20.4311 14.032Z' fill='white'/%3E%3C/svg%3E");
     --icon-search: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M10.548 17.187C8.78753 17.1851 7.0997 16.485 5.85486 15.2401C4.61002 13.9953 3.90985 12.3075 3.908 10.547C3.91012 8.7867 4.6104 7.09913 5.85521 5.8545C7.10002 4.60988 8.7877 3.90985 10.548 3.908C12.3085 3.90985 13.9963 4.61002 15.2411 5.85486C16.486 7.0997 17.1861 8.78753 17.188 10.548C17.1861 12.3085 16.486 13.9963 15.2411 15.2411C13.9963 16.486 12.3085 17.1851 10.548 17.187ZM17.177 15.934C18.4186 14.4137 19.0962 12.5108 19.095 10.548C19.095 5.834 15.26 2 10.548 2C5.835 2 2 5.834 2 10.548C2 15.26 5.835 19.095 10.548 19.095C12.4585 19.0945 14.3132 18.4505 15.813 17.267L20.546 22L21.896 20.651L17.177 15.934Z' fill='white'/%3E%3C/svg%3E");
 
     /* Wordmark paint mode. These three defaults reproduce the mask exactly, so
@@ -1156,15 +1162,15 @@ body.cl-nav-over-hero .wrapper.masthead.is-scrolled {
    BRAND ASSETS -- wordmark and nav icons as CSS MASKS
    ---------------------------------------------------------------------------
    Promoted out of the client layer: this is mechanism every client needs and
-   only the asset FILES differ. The technique is a mask filled with
+   only the artwork differs. The technique is a mask filled with
    currentColor, so an asset inherits whatever ink the bar is painting and
    follows a reskin, a scroll state and a transparent-over-hero state with no
-   second copy of the file and no edit here.
+   second copy of the artwork and no edit here.
 
-   To reskin: replace the files under /layout/generalLyout/. The URLs are
-   tokens (--logo, --icon-bag, --icon-account, --icon-search) declared at the
-   top of this file, so a client with a different asset layout can repoint
-   them from 01-CC-Brand.css instead.
+   To reskin: set the tokens (--logo, --icon-bag, --icon-account,
+   --icon-search) in 01-CC-Brand.css. An SVG goes in INLINE, as a data URI -
+   a referenced .svg does not display on iPhone, and lint fails on one. A
+   raster wordmark may be a .png path under /layout/generalLyout/.
    =========================================================================== */
 
 /* --- Wordmark ---

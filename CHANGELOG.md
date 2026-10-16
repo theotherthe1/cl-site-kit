@@ -5,6 +5,65 @@ Sites record the kit commit they were built from, in their own `CLAUDE.md`.
 
 ---
 
+## Unreleased - nav assets are inline SVG
+
+A referenced `.svg` does not display on iPhone. `03` said so in a comment beside
+`--icon-search`, which was inline, while its neighbours `--logo`, `--icon-bag`
+and `--icon-account` pointed at `.svg` files under `/layout/generalLyout/` -
+and the documented reskin method was "replace those files". So every build's
+bag and account icons, and every SVG wordmark, were missing on iPhone.
+
+- **`03`**: `--icon-bag` and `--icon-account` default to the kit's own glyphs
+  as data URIs (the same artwork as the old files). `--logo` defaults to an
+  inline blank bar - never another company's mark; the old `logo.svg` default
+  was the Citrus Lime logo.
+- **`01` template**: `--logo` is now a live `<<< SET THIS` line; the icon lines
+  show data-URI form. The brand-assets comment says every SVG goes in inline.
+- **`layout/`**: `logo.svg` and `icons/{bag,account,search,arrow}.svg` deleted,
+  so there is nothing to point at.
+- **`default.aspx` template** (and the Templeton Jones example): the
+  `favicon.svg` link is gone - an SVG favicon is a referenced SVG. `.ico` and
+  `.png` cover every browser.
+- **`lint.ps1`**: new "svg must be inline" section. FAIL on any `url(...)` in
+  CSS, or `src` / `href` / `srcset` / `data-*` / `url()` in `.aspx` / `.ascx` /
+  `.html`, that targets an `.svg` (query strings included, `data:` exempt),
+  framework files included. FAIL when `01` does not set `--logo`. FAIL when
+  `layout/generalLyout/logo.svg` or `icons/{bag,account,search}.svg` exists but
+  `01` does not set the matching token - that artwork is no longer shown. WARN on
+  any other `.svg` file in the tree.
+- **`update-site.ps1`**: before pushing `03`, refuses (exit 3) if the site's
+  `01` does not set `--logo`, or keeps `icons/bag.svg` / `icons/account.svg`
+  without setting `--icon-bag` / `--icon-account`. It never edits CLIENT files;
+  inlining the art is a build task.
+- **Docs**: `CLAUDE.md` rule 5b, `BUILD.md` step 3, `START-HERE.md`,
+  `brand-brief.template.md` section 4, `/new-site` Q12-Q13, `MANIFEST.md`.
+
+**What a site sees after updating:** nothing, if its `01` already sets the
+tokens. Otherwise `update-site.ps1` refuses until it does. **Every site built
+before this change needs its `01` edited first** - in each, inline the site's
+`layout/generalLyout/logo.svg` (or point at its `.png`) and
+`icons/bag.svg` / `account.svg` as data URIs, delete the files, and drop any
+`favicon.svg` link from `default.aspx`. YEST is done; MRGL is being done in
+parallel; TEMP, RVCL, JESR, WILLCL, BREM and HOVA were not checked.
+
+### Verified how
+
+| Claim | How it was checked |
+|---|---|
+| The new 03 defaults render | Headless Edge, a CSS-mask test page reading `03`'s `--icon-bag`, `--icon-account`, `--icon-search`, `--logo`: bag, person and magnifier glyphs, and a blank bar |
+| Lint catches it | A scratch copy of `kit/CustomContent` with an `.svg` `url()` in `99` (with `?v2`), an `<img src=".svg">` in `default.aspx`, and an `icons/bag.svg` with no `--icon-bag`: three FAILs, plus WARNs for the stray files |
+| update-site refuses an unready site | `-DryRun` against YEST before its `01` was fixed: exit 3, naming `icons/bag.svg` and `icons/account.svg` |
+| The kit's own copy is still only a blank template | `lint.ps1` on `kit/CustomContent`: 8 `[placeholder]` fails (was 7; `--logo` is the new one), nothing else; `bootstrap.ps1 -Check` OK |
+| YEST is clean | `lint.ps1` on YEST after the fix: 0 errors |
+| Pure ASCII | `grep -P '[^\x00-\x7F]'` over every changed file |
+
+**Not fixed here, found on the way:** `update-site.ps1 -DryRun` on YEST would
+ADD `google54a34bbb51446c1b.html` - the kit's VERBATIM `google*.html` is
+another site's Search Console verification file, and the update model pushes it
+to every site. That deserves its own change.
+
+---
+
 ## Unreleased - 03: the mobile block no longer leaks to desktop
 
 A stray `}` after `.menu-icons-header` in `03`'s `@media (max-width: 1024px)`

@@ -32,9 +32,13 @@ what makes builds slow.
       Everything else is worked out from those automatically.
 - [ ] **Three font files.** A body face, a bold face, a display face for big
       headings. If the client only has two faces, supply the text one twice.
-- [ ] **A logo, as a flat single-colour SVG.** No colours inside it. It gets
-      recoloured automatically so one file works on a white bar and a dark one.
-- [ ] **Three icon SVGs:** bag, account, search.
+- [ ] **A logo, as a flat single-colour SVG** (or a transparent PNG cutout). No
+      colours inside it. It gets recoloured automatically so one artwork works
+      on a white bar and a dark one.
+- [ ] **Three icon SVGs, if not the kit's:** bag, account, search.
+
+Every SVG ends up **written into `01-CC-Brand.css` as a data URI**, never as a
+file the CSS points at: a referenced `.svg` does not display on iPhone.
 - [ ] **A list of homepage sections, in order.** Pick from `stripes/README.md`.
 - [ ] **Back-office data.** Banner collections with real images, and a product
       repeater if you want a product row. Nothing appears without this.
@@ -89,10 +93,12 @@ robocopy kit\CustomContent <site>\SiteSpecific\CustomContent /E
 | `font/body.ttf` | the body face. **Required.** |
 | `font/bold.ttf` | the bold face. **Required** even if it is the same file as body. |
 | `font/display.ttf` | the big-headings face |
-| `layout/generalLyout/logo.svg` | flat single-colour logo |
-| `layout/generalLyout/icons/bag.svg` | |
-| `layout/generalLyout/icons/account.svg` | |
-| `layout/generalLyout/icons/search.svg` | |
+| `layout/generalLyout/logo.png` | only if the logo is a PNG cutout |
+
+The logo and icons are **not** files you drop in. Paste each SVG into
+`01-CC-Brand.css` as a data URI on `--logo`, `--icon-bag`, `--icon-account`,
+`--icon-search` (see `BUILD.md` step 3). A referenced `.svg` does not display on
+iPhone, and lint fails on one.
 
 Keep the filenames exactly as shown. The CSS looks for those names.
 

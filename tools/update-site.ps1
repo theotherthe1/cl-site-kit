@@ -113,6 +113,43 @@ if ($unclassified.Count -gt 0) {
     exit 2
 }
 
+# ------------------------------------------------------- inline-svg preflight --
+# 03 used to point --logo / --icon-bag / --icon-account at .svg FILES under
+# /layout/generalLyout/, and the reskin method was to replace those files. A
+# referenced .svg does not display on iPhone, so 03 now carries inline defaults
+# and the artwork belongs in the site's 01 as data URIs. Pushing the new 03 to a
+# site still built the old way would silently swap the client's icons for the
+# kit's and its logo for a blank bar - so refuse until the site's 01 carries
+# its own artwork. CLIENT files are never edited here; that is a build task.
+$navFile = 'modules\CSS\global\03-CC-NavigationSearch.css'
+if ($changed -contains $navFile -or $added -contains $navFile) {
+    $brandFile = Join-Path $Site 'modules\CSS\global\01-CC-Brand.css'
+    $set = @{}
+    if (Test-Path $brandFile) {
+        $code = [regex]::Replace((Get-Content $brandFile -Raw), '(?s)/\*.*?\*/', '')
+        foreach ($l in ($code -split "`n")) {
+            if ($l -match '^\s*(--logo|--icon-bag|--icon-account|--icon-search)\s*:') { $set[$Matches[1]] = $true }
+        }
+    }
+    $problems = @()
+    if (-not $set['--logo']) { $problems += "01 does not set --logo (the new 03 default is a blank bar)" }
+    $art = [ordered]@{ 'layout\generalLyout\icons\bag.svg' = '--icon-bag'; 'layout\generalLyout\icons\account.svg' = '--icon-account' }
+    foreach ($rel in $art.Keys) {
+        if ((Test-Path (Join-Path $Site $rel)) -and -not $set[$art[$rel]]) {
+            $problems += "$rel is the site's artwork but 01 does not set $($art[$rel]) (it would be replaced by the kit's glyph)"
+        }
+    }
+    if ($problems.Count -gt 0) {
+        Write-Host ""
+        Write-Host "INLINE-SVG PREFLIGHT FAILED - refusing to push ${navFile}:" -ForegroundColor Red
+        $problems | ForEach-Object { Write-Host "  ! $_" -ForegroundColor Red }
+        Write-Host "  In the site's 01-CC-Brand.css, set each token to the artwork as an inline"
+        Write-Host "  data URI (url(""data:image/svg+xml,...""), or a .png path for a raster logo),"
+        Write-Host "  then re-run. See CHANGELOG: 'nav assets are inline SVG'."
+        exit 3
+    }
+}
+
 if ($DryRun) {
     Write-Host ""
     Write-Host "Dry run complete. Nothing written." -ForegroundColor Yellow

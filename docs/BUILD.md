@@ -47,16 +47,23 @@ robocopy kit\CustomContent <site>\SiteSpecific\CustomContent /E
 | `font/bold.woff2` + `.ttf` | bold face - **required**, even if it duplicates body |
 | `font/display.woff2` + `.ttf` | editorial face |
 | `font/accent.*` | optional |
-| `layout/generalLyout/logo.svg` | single-colour silhouette - it is painted as a **mask** |
-| `layout/generalLyout/icons/{bag,account,search}.svg` | |
+| `01-CC-Brand.css`: `--logo` | **required** - single-colour silhouette, painted as a **mask**. An SVG goes in **inline as a data URI**; a raster wordmark may be a `.png` under `layout/generalLyout/` |
+| `01-CC-Brand.css`: `--icon-bag`, `--icon-account`, `--icon-search` | optional - inline data URIs. Unset, they are the kit's own glyphs |
 
 `body` and `bold` are not optional: around 186 platform declarations outside this
 tree name `citrfontreg` and `citrfontbold` literally, and we cannot repoint them.
 A client with one text face ships it twice.
 
+**Every SVG is written into the file that uses it, never referenced.** A
+`url('/x.svg')`, `src="x.svg"` or `href="x.svg"` does not display on iPhone.
+Encode it as `url("data:image/svg+xml,...")` - single quotes inside, `%3C %3E %23`
+for `< > #`. Lint fails on any referenced `.svg`, and on an unset `--logo`. Do not
+put `.svg` files in `layout/` at all: nothing reads them, and a file that exists
+gets pointed at.
+
 The logo must be a flat silhouette. It is used as a CSS mask filled with
 `currentColor`, so any colour inside the SVG is discarded - which is exactly what
-lets one file work over a photo, a white bar and a dark bar.
+lets one artwork work over a photo, a white bar and a dark bar.
 
 ## 4. Fill `01-CC-Brand.css`
 

@@ -75,10 +75,10 @@ ink 7.01:1. **Fails:** gold on white 2.48:1 - never use gold text on light.
 
 | Path | Supplied |
 |---|---|
-| `layout/generalLyout/logo.svg` | not used: `yester-wordmark-ink.png` (1119x365, transparent, single colour) copied as `logo.png`, `--logo` repointed (decided 2026-10-16) |
-| `layout/generalLyout/icons/bag.svg` | from `reference/homepage.html` inline SVG (24 box, 1.4 stroke) |
-| `layout/generalLyout/icons/account.svg` | from `reference/homepage.html` inline SVG |
-| `layout/generalLyout/icons/search.svg` | from `reference/homepage.html` inline SVG. Wishlist icon: no kit slot, not added |
+| `--logo` (01) | `yester-wordmark-ink.png` (1119x365, transparent, single colour) copied as `logo.png`, `--logo` repointed (decided 2026-10-16) |
+| `--icon-bag` (01) | from `reference/homepage.html` inline SVG (24 box, 1.4 stroke), written into 01 as a data URI |
+| `--icon-account` (01) | from `reference/homepage.html`, data URI in 01 |
+| `--icon-search` (01) | from `reference/homepage.html`, data URI in 01. Wishlist icon: no kit slot, not added |
 | favicons (site root) | generated from `yester-stacked-gold.png` into the scratchpad at build time, for someone to place at the site root (decided 2026-10-16) |
 
 Footer logo per pack: `yester-horizontal-gold.png` on ink, 220px.
@@ -166,10 +166,10 @@ None of this exists yet (2026-10-16). The build cannot create it.
   Cormorant Garamond 500, Cormorant Garamond 500 italic), checked for no
   `fvar`/`gvar` tables. The default modern-UA response is a VARIABLE Jost
   (one file for 400 and 500), which 02's weight-normal slots would flatten.
-- Assets: `logo.png` (pack ink wordmark, mask), `logo.svg` (wraps the same
-  PNG so 03's default path resolves), `logo-footer.png` (gold horizontal,
+- Assets: `logo.png` (pack ink wordmark, mask), `logo-footer.png` (gold horizontal,
   660px), `crest-gold.png` (stacked, 288px, for banner 7), icons from the
-  reference page's inline SVGs. Favicons generated from the crest on an Ink
+  reference page's inline SVGs, inlined in 01 (no .svg files: a referenced
+  .svg does not display on iPhone; fixed the same day with the kit change). Favicons generated from the crest on an Ink
   tile, NOT placed (site root is outside the tree) - see Open items.
 - Lint: PASSED, 0 errors, 2 warnings, both in kit framework files
   (`CC-faf.css:138`, `08-CC-MiniBasket.css:34`).

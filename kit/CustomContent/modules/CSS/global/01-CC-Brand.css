@@ -320,14 +320,19 @@
     /* --searchRight: calc(var(--navIconsWidth) + 1.5rem); */
     /* --searchWidth: 20rem; */
 
-    /* Brand assets are PATHS, defaulted in 03. A reskin normally just replaces
-       the files under /layout/generalLyout/. Repoint only if the client's asset
-       layout differs. */
-    /* --logo: url('/layout/generalLyout/logo.svg'); */
-    /* --icon-bag: url('/layout/generalLyout/icons/bag.svg'); */
-    /* --icon-account: url('/layout/generalLyout/icons/account.svg'); */
-    /* --icon-search is inline SVG in 03. To replace it, paste the new SVG
-       inline as a data URI too: a referenced .svg does not display on iPhone. */
+    /* Brand assets. EVERY SVG GOES IN INLINE, as a data URI in this file -
+       never a path to an .svg: a referenced .svg does not display on iPhone,
+       and lint fails on one. Encode with single quotes inside, and %3C %3E %23
+       for < > #. A raster wordmark may be a .png path instead.
+
+       --logo is REQUIRED. 03's default is a blank bar, not a logo, and lint
+       fails while this line is unset or still marked.
+       The icons default to the kit's own glyphs in 03; set them only for the
+       client's artwork. */
+    --logo: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='32' viewBox='0 0 160 32'%3E%3Crect y='12' width='160' height='8' fill='white'/%3E%3C/svg%3E");   /* <<< SET THIS */
+    /* --icon-bag: url("data:image/svg+xml,..."); */
+    /* --icon-account: url("data:image/svg+xml,..."); */
+    /* --icon-search: url("data:image/svg+xml,..."); */
     /* --navIconSize: 22px; */
 
     /* COLOUR WORDMARK. 03 paints --logo as a mask filled with the bar's ink,
