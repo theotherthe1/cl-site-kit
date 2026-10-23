@@ -147,7 +147,7 @@ No shadows anywhere.
 | Solid-state bar | light / dark | **light**: White bar, graphite links/icons, 1px Ash-border bottom (design). **Changed 2026-10-16** - the 10-12 brief let it default to graphite |
 | Accent seam under the bar | keep / none | none - replaced by the 1px Ash-border hairline |
 | Underline-draw hover on nav links | keep / none | none - hover is Olive colour (design) |
-| Platform CTA strip above the bar | show / hide | **show** - it is the design's Graphite announcement bar. Rendered sitewide by the framework `TopSubBanner.ascx` from **`bannerid=3`** (hardcoded there), so the homepage skips id 3 |
+| Platform CTA strip above the bar | show / hide | **show** - **changed 2026-10-23 to a USP bar** (kit `9d22270`, first used on YEST): icon + uppercase Mono 600 title + Grey line per entry, White under a 2px Neon rule; it replaced the design's Graphite one-line announcement bar. Rendered sitewide by the framework `TopSubBanner.ascx` from **`bannerid=3`** (hardcoded there), so the homepage skips id 3 |
 
 Desktop layout: logo left, links centred, icons right (3-column). Mobile: menu
 left, logo centred, search + cart right.
