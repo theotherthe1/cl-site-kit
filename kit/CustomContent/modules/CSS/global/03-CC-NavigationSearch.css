@@ -194,11 +194,22 @@
     --mobileNavOverlay: var(--black-50);
     --mobileNavBlur: blur(3px);
 
-    /* CTA Bar */
-    --ctaBackground: var(--brand-dark);
-    --ctaColor: var(--text-inverse);
+    /* CTA Bar - the USP strip; see the CTA Bar block for the anatomy.
+       --ctaColor inks the entry title, --ctaDescColor the line under it, and
+       --ctaFontSize sizes that line. --ctaDivider is a rule between entries
+       (none by default; e.g. 1px solid var(--black-10)). */
+    --ctaBackground: var(--background-raised);
+    --ctaBorderTop: 2px solid var(--brand-accent);
+    --ctaBorderBottom: 0;
+    --ctaColor: var(--text);
+    --ctaDescColor: var(--black-80);
+    --ctaTitleFontFamily: var(--font-bold);
+    --ctaTitleFontSize: var(--fontSize-md);
     --ctaFontSize: var(--fontSize-xs);
-    --ctaDivider: 1px solid var(--white-30);
+    --ctaIconSize: 1.5rem;
+    --ctaIconGap: .875rem;
+    --ctaPaddingBlock: .75rem;
+    --ctaDivider: none;
 
     /* Outlet Nav Button */
     --outletBorder: var(--text-inverse);
@@ -909,13 +920,31 @@ body {
 
 /* ==================== CTA Bar ==================== */
 
-/* Ctas */
+/* The platform CTA strip (TopSubBanner.ascx, banner collection 3), drawn as
+   a USP bar: one row of entries in equal columns, each an icon beside a title
+   and a one-line description. Per entry: ImagePath = the icon, Title = the
+   bold line, Description = the line under it, NavigateLink = where it goes.
+   NavigateLinkText is not shown.
+
+   The icon is the entry's back-office image, painted as uploaded - so upload
+   it in the colour the bar wants (a transparent PNG, ~48px square). The
+   control drops any entry without an ImagePath, so every entry needs one.
+
+   The control is the maintained BannerCollectionDisplayGrid, so the markup is
+   cc-banner__*. These rules are scoped under .ctaContainer to out-rank 04's
+   foundation (absolute body, cover image, gradient), which would otherwise
+   draw each entry as a photo banner.
+
+   Under 640px the row keeps its anatomy and swipes sideways, one entry per
+   snap, with the next one peeking. */
 
 .ctaContainer {display: flex;justify-content: flex-start;top: 0; background: transparent;}
 
 .wrapper:has(.ctaContainer) {
     display: var(--ctaStrip-display);
     background: var(--ctaBackground);
+    border-top: var(--ctaBorderTop);
+    border-bottom: var(--ctaBorderBottom);
 }
 
 div[id*="CTA_bannerCollectionPanel"] {
@@ -926,83 +955,88 @@ div[id*="CTA_bannerCollectionPanel"] {
     gap: 0 !important;
     width: 100%;
     justify-content: flex-start;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
 }
 
-div[id*="CTA_bannerCollectionPanel"] .bannerTxtCtr {
-    position: static;
-    padding: 0 !important;
-    grid-gap: 5px !important;
-    justify-content: center !important;
-    align-items: center !important;
-    background: none !important;
-    flex-flow: column;
-}
-
-div[id*="CTA_bannerCollectionPanel"] .bannerTxtCtr > span {
-    font-size: var(--ctaFontSize) !important;
-    width: auto;
-    order: 0;
-    text-align: center !important;
-    color: var(--ctaColor) !important;
-    background: none !important;
-    padding: 0 !important;
-    text-transform: none !important;
-}
-
-div[id*="CTA_bannerCollectionPanel"] .bannerTxtCtr > span.bannerTitle {
-
-}
-
-div[id*="CTA_bannerCollectionPanel"] .bannerTxtCtr > span.bannerView {
+div[id*="CTA_bannerCollectionPanel"]::-webkit-scrollbar {
     display: none;
 }
 
-div[id*="CTA_bannerCollectionPanel"] .photo {
-    display: none;
-}
-
-div[id*="CTA_bannerCollectionPanel"] .photo:after{
-    width: 0 !important;
-}
-
-div[id*="CTA_bannerCollectionPanel"] .bannerDesc:before {
-    display: none;
-}
-
-div[id*="CTA_bannerCollectionPanel"] a:hover .bannerTxtCtr {
-    background: none;
-}
-
-div[id*="CTA_bannerCollectionPanel"] a {
-    min-width: fit-content;
+/* Equal columns while the row fits; min-width stops an entry wrapping, so a
+   row that does not fit scrolls from its start instead of squeezing. */
+.ctaContainer .cc-banner {
+    flex: 1 1 0;
+    min-width: max-content;
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-block: .5rem;
+    justify-content: center;
+    gap: var(--ctaIconGap);
+    padding: var(--ctaPaddingBlock) 1rem;
     border-left: var(--ctaDivider);
     border-radius: 0;
-    gap: 1rem;
+    overflow: visible;
+    scroll-snap-align: start;
 }
 
-
-div[id*="CTA_bannerCollectionPanel"] a:nth-child(1) {
+.ctaContainer .cc-banner:first-child {
     border-left: none;
 }
 
-div[id*="CTA_bannerCollectionPanel"] a:last-child {
-    border-right: none;
+.ctaContainer .cc-banner__img {
+    flex: 0 0 var(--ctaIconSize);
+    width: var(--ctaIconSize);
+    height: var(--ctaIconSize);
 }
 
-div[id*="CTA_bannerCollectionPanel"] .bannerDesc{
+.ctaContainer .cc-banner__img img {
+    object-fit: contain;
+    transition: none;
+}
+
+.ctaContainer .cc-banner__body {
+    position: static;
+    inset: auto;
+    padding: 0;
+    gap: 0;
+    background: none;
+    justify-content: center;
+}
+
+.ctaContainer .text-wrap {
+    gap: .125rem;
+    align-items: flex-start;
+}
+
+.ctaContainer .cc-banner__title {
+    font-family: var(--ctaTitleFontFamily);
+    font-size: var(--ctaTitleFontSize);
+    line-height: 1.2;
+    color: var(--ctaColor);
+    text-underline-offset: .2em;
+}
+
+.ctaContainer .cc-banner__desc {
+    font-size: var(--ctaFontSize);
+    line-height: 1.3;
+    color: var(--ctaDescColor);
+    opacity: 1;
+}
+
+.ctaContainer .cc-banner__cta {
     display: none;
 }
 
-div[id*="CTA_bannerCollectionPanel"] a .bannerTxtCtr,
-div[id*="CTA_bannerCollectionPanel"] a{
-    max-width: fit-content !important;
-    min-width: fit-content;
-    padding-inline: 1rem;
-    height: fit-content !important;
+.ctaContainer .cc-banner:hover .cc-banner__title {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 639px) {
+    .ctaContainer .cc-banner {
+        flex: 0 0 80%;
+        min-width: 0;
+        justify-content: flex-start;
+    }
 }
 
 /* ==================== Outlet Nav Button ==================== */

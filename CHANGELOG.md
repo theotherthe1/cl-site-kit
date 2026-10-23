@@ -5,6 +5,35 @@ Sites record the kit commit they were built from, in their own `CLAUDE.md`.
 
 ---
 
+## Unreleased - the CTA strip is a USP bar
+
+The platform CTA strip (`TopSubBanner.ascx`, banner 3) is now drawn as a USP
+bar by default: one row of equal columns, each an icon (the entry's
+`ImagePath`) beside a bold Title and a one-line Description, on
+`--background-raised` under a 2px `--brand-accent` rule. Under 640px the row
+swipes sideways with scroll-snap. First used on Yester (YEST).
+
+- **The old CTA rules were dead.** They targeted the legacy `.bannerTxtCtr` /
+  `.photo` markup, but the strip has rendered the maintained control's
+  `cc-banner__*` markup since its registration was repointed. Only the panel's
+  flex row and the wrapper's background still applied; each entry fell through
+  to 04's photo-banner foundation. The block is rewritten against `cc-banner__*`,
+  scoped under `.ctaContainer` to out-rank 04.
+- **`03` tokens**: new `--ctaBorderTop`, `--ctaBorderBottom`, `--ctaDescColor`,
+  `--ctaTitleFontFamily`, `--ctaTitleFontSize`, `--ctaIconSize`, `--ctaIconGap`,
+  `--ctaPaddingBlock`. **Changed defaults:** `--ctaBackground` `--brand-dark` ->
+  `--background-raised`, `--ctaColor` `--text-inverse` -> `--text`,
+  `--ctaDivider` `1px solid var(--white-30)` -> `none`. `--ctaFontSize` now
+  sizes the description only.
+- **Every entry needs an image.** `BannerCollectionDisplayGrid.ascx` drops an
+  entry with no `ImagePath`; that was already true, it now matters. Icons are
+  painted as uploaded (no recolouring), so upload them in the bar's colour.
+- **`01` template**: commented `--cta*` retune lines beside `--ctaStrip-display`.
+  **`99` template**: the "what does not belong here" index names `--cta*`.
+- **Sites showing the strip will change look on their next update.** A site
+  that wants the old dark text-only bar sets `--ctaBackground`, `--ctaColor`,
+  `--ctaBorderTop: 0` in its `01`; there is no text-only mode.
+
 ## Unreleased - nav assets are inline SVG
 
 A referenced `.svg` does not display on iPhone. `03` said so in a comment beside

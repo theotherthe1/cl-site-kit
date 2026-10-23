@@ -302,6 +302,16 @@
     /* Hide the platform CTA strip above the bar (TopSubBanner.ascx). */
     /* --ctaStrip-display: none; */
 
+    /* Or retune it. It is a USP bar (icon, title, one line per entry of
+       banner 3) on --background-raised under a 2px --brand-accent rule. The
+       icons are the entries' images, painted as uploaded. */
+    /* --ctaBackground: var(--background-raised); */
+    /* --ctaBorderTop: 2px solid var(--brand-accent); */
+    /* --ctaColor: var(--text); */
+    /* --ctaDescColor: var(--black-80); */
+    /* --ctaTitleFontFamily: var(--font-bold); */
+    /* --ctaIconSize: 1.5rem; */
+
     /* Expose the search input inline in the bar instead of behind the
        magnifier toggle. The MODE is a body class, not a token: add
        class="cl-search-exposed" to <body> in default.aspx. 03's "Search Bar

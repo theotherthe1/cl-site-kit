@@ -104,7 +104,7 @@ Footer logo per pack: `yester-horizontal-gold.png` on ink, 220px.
 | Solid-state bar | light / dark | light: white, ink type, `--line` bottom border (confirmed) |
 | Accent seam under the bar | keep / none | none (confirmed) |
 | Underline-draw hover on nav links | keep / none | none - colour shift to gold-deep instead (confirmed) |
-| Platform CTA strip above the bar | show / hide | show - the Paddock announcement bar, banner 3 |
+| Platform CTA strip above the bar | show / hide | show - a USP bar (icon + title + line per entry), banner 3; Ivory, Saddle rule. Replaced the Paddock announcement bar on request 2026-10-23 |
 
 ---
 
@@ -149,7 +149,7 @@ New stripes are built in this site, proven in a browser at 375/1024/1440 per
 None of this exists yet (2026-10-16). The build cannot create it.
 
 - [ ] banner collections 1, 2, 4-8, with images, entry counts as section 7
-- [ ] banner collection 3: announcement bar messages (read by TopSubBanner, bannerLimit 12)
+- [ ] banner collection 3: USP bar entries (read by TopSubBanner, bannerLimit 12) - each needs Title, Description, NavigateLink and an ImagePath icon (transparent PNG ~48px, Saddle #8C6B3E); entries without an image are dropped
 - [ ] FAF repeaters 1-2, with title / description / link
 - [ ] Delivery, Returns, Privacy, opening times, address, phone, email
 

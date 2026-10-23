@@ -18,7 +18,7 @@
      nav bar seam / link case / link tracking .. 03, --navBorderBottom,
                                                  --navItems*
      nav underline hover device ................ 03, --navUnderline-display
-     platform CTA strip visibility ............. 03, --ctaStrip-display
+     platform CTA strip visibility and look .... 03, --ctaStrip-display, --cta*
      carousel pagination shape and arrow feel .. 05, --splidePagination*,
                                                  --splideArrowHover*
      every word the CSS writes ................. 01, --copy-*
