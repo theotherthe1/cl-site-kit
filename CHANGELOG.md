@@ -5,6 +5,39 @@ Sites record the kit commit they were built from, in their own `CLAUDE.md`.
 
 ---
 
+## Unreleased - nav dropdown hangs from the bar, and closes on click-off
+
+Two desktop nav bugs in `03`, both found on Yester and both kit-wide.
+
+- **The dropdown opened over the links.** It is `position: absolute` and its
+  containing block is `.navIcons`, which sits at the top of the masthead - the
+  platform does not position `#navi` (Dever's `position: fixed; top: 73px` on
+  `#navi` is Dever's own CSS, not the platform's). So `top: 42px` opened it
+  42px down a 115px bar, across any links centred in it. New token
+  `--navBarHeight` (115px): the masthead height, the body offset and the
+  dropdown `top` all read it, so the dropdown opens at the bar's bottom edge.
+  `cl-nav-2row` re-points it at `--nav2RowHeight`. The dropdown's max-height
+  is now `100vh` minus the bar.
+- **Clicking off an open dropdown did nothing.** The platform closes every
+  dropdown and panel from a click on `#body-wrapper-overlay`
+  (`citr-home.js`: `$('.closeAll, #body-wrapper-overlay').click(clearAll)`),
+  and `03` had it `display: none`. It now renders, invisible by default; new
+  tokens `--navOverlayBackground` / `--navOverlayBlur` restyle it. It sits at
+  z-index 9 under the z-index 100 masthead, so menu taps on mobile still reach
+  their links.
+- **Checked in a mock**: a live Citrus Lime site's real masthead markup, the
+  platform's own CSS (site CSS stripped) and its jQuery nav handlers verbatim,
+  with Yester's CSS on top, in headless Edge at 1440 and 800. Before: dropdown
+  at 42px, click-off lands on the page, menu stays open. After: dropdown at
+  115px, click-off lands on the overlay, menu closes. Not yet seen on a real
+  kit site.
+- **Sites with a different bar height** (a 99 that changes the masthead's
+  desktop height) must set `--navBarHeight` to match, or the dropdown will
+  hang from the wrong edge. YEST and MRGL keep 115px. BREM's local `03`
+  edits make its bar 20px taller - set `--navBarHeight` when promoting them.
+- `.wrapper.masthead.active` (height 75px) is dead: the platform never adds
+  `.active` to the masthead. Left in place for now.
+
 ## Unreleased - the CTA strip is a USP bar
 
 The platform CTA strip (`TopSubBanner.ascx`, banner 3) is now drawn as a USP

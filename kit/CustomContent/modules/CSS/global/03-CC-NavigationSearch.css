@@ -91,6 +91,22 @@
        per brand, same convention as --heroHeight. */
     --nav2RowHeight: 132px;
 
+    /* Desktop bar height. The masthead's height, the page's top offset and
+       the top of an open nav dropdown all read this, so the dropdown always
+       hangs from the bar's bottom edge. It is measured from the top of the
+       bar: the dropdown's containing block is .navIcons, which is fixed at
+       top 0 inside the (transformed) masthead. cl-nav-2row re-points it at
+       --nav2RowHeight. Mobile keeps its own offsets. */
+    --navBarHeight: 115px;
+
+    /* The platform's click-off layer (#body-wrapper-overlay) behind an open
+       dropdown or account/search/basket panel. A click on it closes them
+       all, so it must render; these only set how it looks. Defaults keep it
+       invisible. A dim, e.g. var(--black-50) and blur(2px), is the
+       platform's own look. */
+    --navOverlayBackground: transparent;
+    --navOverlayBlur: none;
+
     /* Space between the icons in that cluster. Defaults to 0, which is what a
        flex row does anyway, so spacing stays whatever the platform gives its
        icons until a site says otherwise. */
@@ -249,9 +265,9 @@
 
    On the triggers themselves:
      open-slide-menu  mobile hamburger panel. Stamped in two places by the
-                      platform - #body-wrapper-overlay (see the rule below,
-                      which display:none's it, so it CANNOT be a nav
-                      ancestor) and a page wrapper, almost certainly <body>.
+                      platform - #body-wrapper-overlay (a fixed full-page
+                      sibling of the page, see the rule below, so it CANNOT
+                      be a nav ancestor) and html + body.
                       The markup is not on this share to check, so both
                       halves are covered: the class on body itself, and
                       :has() for anywhere else. :has() never matches its own
@@ -289,9 +305,16 @@ body.cl-nav-over-hero:has(#search.srchCtr:focus-within) {
     --mobileHamburgerColor: var(--navSolid-icons);
 }
 
-/* ==================== Navigation Fix ==================== */
+/* ==================== Click-off Overlay ==================== */
+
+/* The platform shows #body-wrapper-overlay (fixed, full page, z-index 9,
+   under the z-index 100 masthead) whenever a dropdown or panel opens, and
+   its click handler is what closes them (citr-home.js: clearAll). This was
+   display:none, which left an open dropdown with no way to close it except
+   clicking its own link again. Restyle it; never hide it. */
 #body-wrapper-overlay.open-slide-menu {
-    display: none;
+    background: var(--navOverlayBackground);
+    backdrop-filter: var(--navOverlayBlur);
 }
 
 /* ==================== Navigation Styles ==================== */
@@ -410,6 +433,12 @@ body.cl-nav-over-hero:has(#search.srchCtr:focus-within) {
     border: 2px solid var(--brand-link-light);
     border-top: 0;
     max-height: 80vh;
+}
+
+@media screen and (min-width: 1024px) {
+    .wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active {
+        max-height: calc(100vh - var(--navBarHeight));
+    }
 }
 
 /* Dropdown Areas */
@@ -782,6 +811,8 @@ body.cl-search-exposed .srchCtr.tbcnt .searchBoxForm:focus {
 
     body.cl-nav-2row {
         padding-top: var(--nav2RowHeight) !important;
+        /* so the dropdown hangs from the taller bar too */
+        --navBarHeight: var(--nav2RowHeight);
     }
 }
 
@@ -790,7 +821,7 @@ body.cl-search-exposed .srchCtr.tbcnt .searchBoxForm:focus {
 /* ==================== Layout & Responsive ==================== */
 
 body {
-    padding-top: 115px !important;
+    padding-top: var(--navBarHeight) !important;
 }
 
 /* Mobile
@@ -848,7 +879,7 @@ body {
     }
 
     .wrapper.masthead {
-        height: 115px;
+        height: var(--navBarHeight);
     }
 
     .menu-icons-header {
@@ -876,8 +907,11 @@ body {
         justify-content: flex-start;
     }
 
+    /* From the top of the bar (see --navBarHeight), so it opens at the bar's
+       bottom edge. It was a literal 42px, which on a 115px bar opened over
+       the links themselves. */
     .wrapper.masthead .NodeLevel0 > .CSSFacetNavModules.active {
-        top: 42px;
+        top: var(--navBarHeight);
     }
 
     /* NB unscoped - .zflex-s is a platform flex utility used site-wide (e.g.
