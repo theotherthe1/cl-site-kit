@@ -5,6 +5,16 @@ Sites record the kit commit they were built from, in their own `CLAUDE.md`.
 
 ---
 
+## Unreleased - minibasket list no longer capped at 25vh
+
+- **The product list stopped a quarter of the way down the drawer.** The
+  MiniBasketDelMessage asset CSS sets `div[data-boxcontext*="minibasket"]
+  { max-height: 25vh !important; }` and loads after the kit, so `08`'s
+  equal-specificity `max-height: 100% !important` lost. The list scrolled
+  inside itself with empty drawer below it. `08` now targets
+  `#basket div[data-boxcontext*="minibasket"]` with `max-height: none`, so
+  the list takes its full height and the drawer (`overflow-y: auto`) scrolls.
+
 ## Unreleased - nav dropdown hangs from the bar, and closes on click-off
 
 Two desktop nav bugs in `03`, both found on Yester and both kit-wide.
