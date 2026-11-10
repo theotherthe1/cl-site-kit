@@ -117,7 +117,7 @@ No shadows anywhere.
 | `layout/generalLyout/icons/account.svg` | extracted from the reference HTML |
 | `layout/generalLyout/icons/search.svg` | extracted from the reference HTML |
 | backgrounds, badges, bike illustrations | pack `assets/` - topo maps and illustrations are **content** (banner images uploaded in the back office), not tree assets |
-| `favicon.ico`, `favicon.svg`, `favicon-96x96.png`, `apple-touch-icon.png` | from `badges/badge-circle-neon.svg`; site root, outside this tree - **someone else places these** |
+| `favicon.ico`, `favicon-96x96.png`, `apple-touch-icon.png` | from `badges/badge-circle-neon.svg`; **placed 2026-11-06** in the CustomContent root (no `favicon.svg`). Touch icon is the badge on a Neon square |
 
 ---
 

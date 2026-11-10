@@ -19,9 +19,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/sitespecific/customcontent/favicon-96x96.png" sizes="96x96" />
+    <link rel="shortcut icon" href="/sitespecific/customcontent/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/sitespecific/customcontent/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="<%= CitrusStore.SystemBase.CitrusStoreConfiguration.StoreName() %>" />
 </HEAD>
 <body runat="server" class="cl-nav-over-hero">

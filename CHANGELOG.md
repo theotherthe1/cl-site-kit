@@ -5,6 +5,26 @@ Sites record the kit commit they were built from, in their own `CLAUDE.md`.
 
 ---
 
+## Unreleased - favicons are placed by the build, in CustomContent
+
+- **The kit said favicons sit "at the site root, outside this tree".** Wrong:
+  the platform serves `SiteSpecific/CustomContent/` at
+  `/sitespecific/customcontent/`, and a production domain also maps
+  `/favicon.ico` etc. to that folder's root (www.2wheels.ie's `/favicon.ico`
+  is byte-identical to its CustomContent copy). A launchpad host does not
+  (mrgl.citruslime-launchpad.com 404s on `/favicon.ico`).
+- **`default.aspx` template** (and the Templeton Jones example) now links
+  `/sitespecific/customcontent/favicon*.{png,ico}` and
+  `apple-touch-icon.png`, which resolves on both. Existing sites keep the root
+  links until their `default.aspx` (a CLIENT file) is edited; they show no
+  favicon on a launchpad host and fall back to the root mapping on production.
+- **`new-site` Q13 and `brand-brief.template.md`**: the build makes and places
+  the three files; touch icon on an opaque background.
+- Pages other than the homepage have no icon `<link>` (their head is the
+  platform's), so they rely on the browser's `/favicon.ico` request and show
+  the favicon only on a production domain.
+- MRGL done 2026-11-06.
+
 ## Unreleased - minibasket list no longer capped at 25vh
 
 - **The product list stopped a quarter of the way down the drawer.** The

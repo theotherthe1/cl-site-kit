@@ -99,7 +99,7 @@ fails on one. Record the source artwork here.
 | `--icon-bag` | inline SVG, or blank for the kit's glyph |
 | `--icon-account` | inline SVG, or blank for the kit's glyph |
 | `--icon-search` | inline SVG, or blank for the kit's glyph |
-| `favicon.ico`, `favicon-96x96.png`, `apple-touch-icon.png` | at the site root, outside this tree. No `favicon.svg`: an SVG favicon is a referenced SVG |
+| `favicon.ico`, `favicon-96x96.png`, `apple-touch-icon.png` | in the root of `CustomContent` (the build places them; `default.aspx` links them at `/sitespecific/customcontent/...`). Touch icon on an opaque background. No `favicon.svg`: an SVG favicon is a referenced SVG |
 
 ---
 

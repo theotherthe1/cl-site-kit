@@ -21,9 +21,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <%-- Favicons sit in the CustomContent root. Linked by their full path: a
+         production domain also maps /favicon.ico there, a launchpad/dev host does not. --%>
+    <link rel="icon" type="image/png" href="/sitespecific/customcontent/favicon-96x96.png" sizes="96x96" />
+    <link rel="shortcut icon" href="/sitespecific/customcontent/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/sitespecific/customcontent/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="<%= CitrusStore.SystemBase.CitrusStoreConfiguration.StoreName() %>" />
 </HEAD>
 <!-- OPT-IN: add class="cl-nav-over-hero" to float the nav transparent over the

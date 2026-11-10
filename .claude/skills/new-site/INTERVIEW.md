@@ -145,9 +145,13 @@ have, the answer is a transparent PNG cutout. Every SVG is then **written into
 `01-CC-Brand.css` as a data URI** (`--logo`, `--icon-*`), never copied in as a
 file: a referenced `.svg` does not display on iPhone, and lint fails on one.
 
-**Q13. Favicons.** They sit at the site root, outside this tree, so you cannot
-place them. One turn to confirm someone will. `.ico` and `.png` only - no
-`favicon.svg`, which is a referenced SVG.
+**Q13. Favicons.** Ask for the square mark (or the badge) to build them from.
+They go in the **root of `CustomContent`** - `favicon.ico`, `favicon-96x96.png`,
+`apple-touch-icon.png` - and the build places them. `default.aspx` links them at
+`/sitespecific/customcontent/...`; a production domain also maps `/favicon.ico`
+there, a launchpad/dev host does not. Give the touch icon an opaque background
+(iOS paints transparency black). `.ico` and `.png` only - no `favicon.svg`,
+which is a referenced SVG.
 
 ### Round 5 - everything that has a default
 
